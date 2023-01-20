@@ -3,7 +3,7 @@ Function:
 co-run training and infering
 profiler recoding data when train and infer
 
-use Pipe , after training ending,  train.py send message to profiller.py and infer.py to stop.
+use Pipe , after training ending,  cnn_train.py send message to profiller.py and cnn_infer.py to stop.
 
 note: multiprocessing_exception.py is process cascade exception from children process to parent process
         https://stackoverflow.com/questions/19924104/python-multiprocessing-handling-child-errors-in-parent
@@ -11,18 +11,25 @@ note: multiprocessing_exception.py is process cascade exception from children pr
 
 inference latency prediction when co-run.
 
+e.g. cnn config:
+[{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}, {'arch': 'mobilenet_v2', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}, {'arch': 'resnet152', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}]
+
 '''
 
 import json
-
 import multiprocessing as mp
 import pandas as pd
 import time
 import multiprocessing_exception as mp_new  # procss.py is process cascade exception from children process to parent process
 import traceback
 import profiler
-import train
-import infer
+import sys
+sys.path.append('../models')
+sys.path.append('../datasets')
+import cnn_infer, cnn_train, deeplab_v3, yolo_v5
+import warnings
+warnings.filterwarnings("ignore")
+
 
 def main():
 
@@ -33,6 +40,7 @@ def main():
     i=0
     profile_log = pd.DataFrame(columns = ['time_frame', 'train_configure', 'infer_configure','status', 'result'], index=None)
 
+    profiling_num = 500
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
@@ -40,8 +48,10 @@ def main():
             print('======== round ', i, ': ==========')
             i += 1
             config, config_tr, config_inf = '', '', ''  #used as the configuration content and file name
-            con_a, con_b = mp.Pipe()  # con_b in tain send message to con_a in profiler
-            con_1, con_2 = mp.Pipe()  # for control infer process, train process inform infer proess stop after training finish
+            con_prf_a, con_prf_b = mp.Pipe()  # con_b in profiler message to main when complete task
+            con_inf_a, con_inf_b = mp.Pipe()
+            # con_prf_a.close()
+            # con_inf_b.close()  # don't close it , otherwise pipe will break
             trn_queue = mp.Queue()
             inf_queue = mp.Queue()
 
@@ -50,20 +60,49 @@ def main():
                 for key, value in infer_config.items(): config_inf += (' ' + key + '_'+str(value))
                 config = 'Train'+config_tr +' + '+ 'Infer'+ config_inf
                 print(config)
-                p1 = mp.Process(target= profiler.record, args = (config, (con_a,con_b),))
-                p2 = mp_new.Process(target= train.work, args= (train_config,(con_a,con_b,con_1, con_2),), kwargs=(dict(queue=trn_queue)))
-                p3 = mp_new.Process(target = infer.work, args = (infer_config,(con_1, con_2),), kwargs=(dict(queue=inf_queue)))
+                p1 = mp.Process(target= profiler.profile, args = (config, profiling_num, (con_prf_a,con_prf_b),))
+
+                if train_config['arch'] == 'deeplab_v3':
+                    p2 = mp_new.Process(target=deeplab_v3.work_train, args=(train_config,),
+                                        kwargs=(dict(queue=trn_queue)))
+                else:
+                    p2 = mp_new.Process(target= cnn_train.work, args= (train_config,), kwargs=(dict(queue=trn_queue)))
+
+                if infer_config['arch'] == 'yolo_v5':
+                    p3 = mp_new.Process(target = yolo_v5.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
+                else:
+                    p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
+
+                # p5 = mp_new.Process(target=yolo_v5, args=(infer_config,), )
+
                 p_list=[p1, p2, p3]
                 infer_info = 'na'
 
                 for p in p_list: p.start()
 
-                ######## below codes for receiving exception from subprocesser #########
                 while p2.is_alive() or p3.is_alive():
-                    if not inf_queue.empty():
-                        # print('Infer queue has data. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
-                        infer_info = inf_queue.get()
 
+                    # below to break when profiler complete job
+                    if con_prf_b.poll():
+                        msg= con_prf_b.recv()
+                        con_prf_b.close()
+                        if msg == 'done':
+                            print('Main: get "done" notice from profiler! ')
+                            con_inf_a.send('stop')  # notice infer to stop
+                            con_inf_a.close()
+
+                            while not inf_queue.empty():  # take the last queue data (latency)
+                                inf_queue.get()  # take the rest until last one
+                            infer_info = inf_queue.get()
+                            print('Main: Get data from infer:', infer_info)
+
+                        print('Main: Terminate training and inference', '\n'*5)
+
+                        p2.terminate()
+                        p3.terminate()
+                        break
+
+                    ######## below codes for receiving exception from subprocesser #########
                     if p2.exception:
                         print('Terminate all processes due to train process exception. ')
                         error, trc_back = p2.exception

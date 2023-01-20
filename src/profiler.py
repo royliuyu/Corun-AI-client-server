@@ -76,16 +76,14 @@ def save_log(data,config):
     if not os.path.exists(log_dir): os.mkdir(log_dir)
     log_file = config + '_'+ dt + tm
     data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
-    # data.to_json(os.path.join(log_dir, log_file) + '.json')(orient='index') #default: column
 
-def record(config, pipe):
-    con_a, con_b = pipe
-    con_b.close()  ##  only receive message from train, 关闭出去端
+def profile(config, profiling_num, pipe):
+    con_prf_a, con_prf_b = pipe
+    # con_prf_b.close()  ##  only send message to main, 关闭收到端
     gpu_col = ['time_stamp', 'gpu_power', 'gpu_freq', 'gpu_mem_freq', 'gpu_temp', 'gpu_util%', 'gpu_mem_util%', 'gpu_name']
     gpu_dict = grab_gpu_data(gpu_col)
     cpu_usg_dict = cpu_usage()
     cpu_freq_dict = cpu_freq()
-    # print(cpu_usg_dict, cpu_freq_dict, gpu_dict)
 
     cpu_col = ['timestamp'] + list(cpu_usage().keys()) + list(cpu_freq().keys())  # create the cpu, gpu's columns of dataframe
     cpu = pd.DataFrame(columns=cpu_col, index=None)
@@ -97,7 +95,12 @@ def record(config, pipe):
     start = time.time()
     i = 0
 
-    while True:
+    # while True:
+    print('profiling_num:', profiling_num)
+    delay, duration,  interval_target =0, 0, 1 # profile every 1 sec
+    time_prev = time.time()
+    for i in range(profiling_num):
+
         try:
             # cpu data collection
             cpu_usg_dict = cpu_usage()
@@ -109,44 +112,34 @@ def record(config, pipe):
             val = list(grab_gpu_data(gpu_col).values())
             gpu.loc[i, gpu_col] = val
 
-            i += 1
-            time.sleep(0.418)
+            ##### Below codes to creat and delay to meet target profiling interval, e.g. 1 sec. #########
+            time_now = time.time()
+            duration = time_now - time_prev
+            if delay + (interval_target-duration) > 0.01 :  # only change delay when need , make sure delay won't be negative value
+                delay= delay + (interval_target-duration)
+            time.sleep(delay)
+            time_prev = time_now
+            # print(time.time())
+            ######## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^########
 
+            i += 1
             print('\r', i, ' instances.', end='')
         except:  # press stop to break
             print()
-            print('Profile collecting done!')
+            print('Profiler: Collecting done!')
             data = gpu.join(cpu)
             save_log(data, config)
             # print(cpu_usg_dict)
             break
 
-
-        if time.time() - start >= 172800:  # >48 hours, then end. time.time() is in second
-            data = gpu.join(cpu)
-            save_log(data, config)
-            print('Profile collecting stop due to time over 48 hours')
-            print()
-            break  # record 10 sec.
-
-        try:  # if train end, then profiling end
-            if con_a.poll():  # Roy: use poll to solve con_a.recr blocking issue
-                msg = con_a.recv()
-                if msg =='end':  # signal from training process to end, ROy added on 12092022
-                    data = gpu.join(cpu)
-                    # save_log(data, config)
-                    print()
-                    print('Profile collecting done!')
-                    con_a.close()
-                break
-
-        # except EOFError as e:
-        except Exception as e:
-            print(e)
-            break
-
-    print('Time elapsed: ', time.time() - start, 'sec.')
+    time.sleep(60) # sleep 60 seconds
+    data = gpu.join(cpu)
+    save_log(data, config)
+    print('Profiler: Profiling is ending, notice to main!')
+    con_prf_a.send('done')
+    print('Profiler: Time elapsed: ', time.time() - start, 'sec.')
     print()
+    return 0
 
 if __name__ == '__main__':
-    record('na')
+    profile('na')

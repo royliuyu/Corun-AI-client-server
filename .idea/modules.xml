@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/HW_util_optm.iml" filepath="$PROJECT_DIR$/.idea/HW_util_optm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/profile_training_inference_cowork.iml" filepath="$PROJECT_DIR$/.idea/profile_training_inference_cowork.iml" />
     </modules>
   </component>
 </project>

@@ -79,3 +79,50 @@ _model_tests_values = {
     },
 }
 '''
+
+##Summary of models and dataset in Mobile AI
+ - in https://ai-benchmark.com/tests.html
+
+Recognition task:
+- MobileNet - V2, 224x224, Imagenet + MS COCO
+    train Imagenet, detection: MS COCO (with a modified version of the Single Shot Detector (SSD))
+- Inception -V3, 346x346, ILSVRC 2012, inference: recognition
+- MobileNet - V3,  512 x 512,
+    classification: Imagenet, MobilenetNet V3
+    detection: . detection: MS COCO (replacement for the backbone feature extractor in SSDLite)
+    Semantic Segmentation: Cityscapes, R-ASPP and Lite R-ASPP as head
+- EfficientNet-B4, 380 x 380 ,  CIFAR-10, subset of the CamSDD datase
+- Inception -V3, 346x346, NA
+
+Object Detection:
+ - YOLOv4-Tiny, 416 x 416,
+    dataset： train with imagenet, detect with: MS COCO
+
+ - CRNN / Bi-LSTM , 64 x 200
+    train: synthetic dataset (Synth) released by Jaderberg et al. [20]
+    test: ICDAR 2003 (IC03), ICDAR 2013 (IC13), IIIT 5k-word (IIIT5k), and Street View Text (SVT).
+
+Semantic Segmentation:
+ -  DeepLab-V3+ , 1024 x 1024,
+    dataset:
+        employ ImageNet-1k [74] pretrained ResNet-101 [25] or modified aligned Xception [26,31] to extract dense feature maps
+        test: PASCAL VOC 2012 and Cityscapes datasets
+            backbone: {ResNet-101:513 x 513, xception: 299 x 299}
+
+Super resolution:
+ - ESRGAN, 512 x512,
+    dataset:
+        train: DIV2K dataset (PIRM2018-SR Challenge), Flickr2K,  OutdoorSceneTraining (OST)
+        evaluate: Set5 [42], Set14 [43], BSD100 [44], Urban100
+ - SRGAN, 1024 x 1024
+    dataset:
+        train: a random sample of 350 thousand images from the ImageNet database
+        evaluate: Set5 [3], Set14 [69] and BSD100
+
+Video Super-Resolution:
+ - XLSR, 1080 x 1920
+    dataset:
+        train:Div2K
+        evaluate: Div2K 100 test images,  Set5, Set14, BSD100, Manga109, Urban100
+ - VSR, 2160 x 3840, dataset:  {train and test: DIV2K}
+

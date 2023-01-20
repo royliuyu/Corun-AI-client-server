@@ -1,10 +1,27 @@
 {
   "train": [
     {
-      "arch": "alexnet",
+      "arch": "deeplab_v3",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
+      "image_size": 224,
+      "device": "cuda"
+    },
+
+    {
+      "arch": "deeplab_v3",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "deeplab_v3",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -12,7 +29,7 @@
       "arch": "alexnet",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -20,7 +37,7 @@
       "arch": "alexnet",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -28,7 +45,7 @@
       "arch": "alexnet",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -36,7 +53,23 @@
       "arch": "alexnet",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 8,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "alexnet",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "alexnet",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -44,7 +77,7 @@
       "arch": "densenet201",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -52,7 +85,7 @@
       "arch": "densenet201",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -60,7 +93,7 @@
       "arch": "densenet201",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -68,7 +101,7 @@
       "arch": "densenet201",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 8,
       "image_size": 224,
       "device": "cuda"
     },
@@ -76,7 +109,15 @@
       "arch": "densenet201",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "densenet201",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -84,7 +125,7 @@
       "arch": "mobilenet_v2",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -92,7 +133,7 @@
       "arch": "mobilenet_v2",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -100,7 +141,7 @@
       "arch": "mobilenet_v2",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -108,7 +149,7 @@
       "arch": "mobilenet_v2",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 8,
       "image_size": 224,
       "device": "cuda"
     },
@@ -116,7 +157,15 @@
       "arch": "mobilenet_v2",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "mobilenet_v2",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -124,7 +173,7 @@
       "arch": "resnet152",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -132,7 +181,7 @@
       "arch": "resnet152",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -140,7 +189,7 @@
       "arch": "resnet152",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -148,7 +197,7 @@
       "arch": "resnet152",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 8,
       "image_size": 224,
       "device": "cuda"
     },
@@ -156,7 +205,15 @@
       "arch": "resnet152",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "resnet152",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -164,7 +221,7 @@
       "arch": "shufflenet_v2_x1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -172,7 +229,7 @@
       "arch": "shufflenet_v2_x1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -180,7 +237,7 @@
       "arch": "shufflenet_v2_x1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -188,7 +245,7 @@
       "arch": "shufflenet_v2_x1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 8,
       "image_size": 224,
       "device": "cuda"
     },
@@ -196,7 +253,15 @@
       "arch": "shufflenet_v2_x1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "shufflenet_v2_x1_0",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -204,7 +269,7 @@
       "arch": "squeezenet1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -212,7 +277,7 @@
       "arch": "squeezenet1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -220,7 +285,7 @@
       "arch": "squeezenet1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -228,7 +293,7 @@
       "arch": "squeezenet1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 8,
       "image_size": 224,
       "device": "cuda"
     },
@@ -236,7 +301,15 @@
       "arch": "squeezenet1_0",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "squeezenet1_0",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     },
@@ -244,7 +317,7 @@
       "arch": "vgg16",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 64,
+      "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
     },
@@ -252,7 +325,7 @@
       "arch": "vgg16",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 128,
+      "batch_size": 2,
       "image_size": 224,
       "device": "cuda"
     },
@@ -260,7 +333,7 @@
       "arch": "vgg16",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 256,
+      "batch_size": 4,
       "image_size": 224,
       "device": "cuda"
     },
@@ -268,7 +341,7 @@
       "arch": "vgg16",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 512,
+      "batch_size": 8,
       "image_size": 224,
       "device": "cuda"
     },
@@ -276,14 +349,36 @@
       "arch": "vgg16",
       "workers": 1,
       "epochs": 3,
-      "batch_size": 1024,
+      "batch_size": 16,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "vgg16",
+      "workers": 1,
+      "epochs": 3,
+      "batch_size": 32,
       "image_size": 224,
       "device": "cuda"
     }
   ],
   "infer": [
     {
+      "arch": "yolo_v5",
+      "workers": 1,
+      "batch_size": 1,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
       "arch": "alexnet",
+      "workers": 1,
+      "batch_size": 1,
+      "image_size": 224,
+      "device": "cuda"
+    },
+    {
+      "arch": "densenet201",
       "workers": 1,
       "batch_size": 1,
       "image_size": 224,
@@ -312,9 +407,3 @@
     }
   ]
 }
-
-
-
-
-
-
