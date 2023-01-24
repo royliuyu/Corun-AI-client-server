@@ -1,2 +1,0 @@
-,time_stamp,gpu_power,gpu_freq,gpu_mem_freq,gpu_temp,gpu_util%,gpu_mem_util%,gpu_name,timestamp,us,sy,ni,id,wa,hi,si,st,cpu0_freq,cpu1_freq,cpu2_freq,cpu3_freq,cpu4_freq,cpu5_freq,cpu6_freq,cpu7_freq,cpu8_freq,cpu9_freq,cpu10_freq,cpu11_freq,cpu12_freq,cpu13_freq,cpu14_freq,cpu15_freq
-0,1673300560.62, 110.66, 1710, 9251, 50, 8, 0, NVIDIA GeForce RTX 3080 Ti,1673300560.5895026,4.8,0.9,0.0,94.1,0.1,0.0,0.1,0.0,1867092,4000904,3973503,1957119,1482555,3407853,3521647,3999999,3653195,3951821,2345183,1382099,1739764,2632733,2881841,4000002

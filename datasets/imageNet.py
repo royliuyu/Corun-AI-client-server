@@ -63,12 +63,12 @@ def normalize_transform():
                                 std=[0.229, 0.224, 0.225])
 
 
-def train_dataset(data_dir):
+def train_dataset(data_dir, image_size):
     # train_dir = os.path.join(data_dir, 'ILSVRC2012_img_train_t3')
     train_dir = os.path.join(data_dir, 'ILSVRC2012_img_train')
 
     train_transforms = transforms.Compose([
-        transforms.RandomResizedCrop(224),
+        transforms.RandomResizedCrop(image_size),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         normalize_transform()
@@ -82,11 +82,11 @@ def train_dataset(data_dir):
     return train_dataset
 
 
-def val_dataset(data_dir):
+def val_dataset(data_dir, image_size):
     val_dir = os.path.join(data_dir, 'ILSVRC2012_img_val')
 
     val_transforms = transforms.Compose([
-        transforms.RandomResizedCrop(224),
+        transforms.RandomResizedCrop(image_size),
         transforms.ToTensor(),
         normalize_transform()
     ])
@@ -98,11 +98,11 @@ def val_dataset(data_dir):
 
     return val_dataset
 
-def data_loader(batch_size=256, workers=2, pin_memory=True):
+def data_loader(batch_size=256, workers=2, pin_memory=True, image_size=(224,224)):
     args = parser.parse_args()
     data_dir = args.root
-    train_ds = train_dataset(data_dir)
-    val_ds = val_dataset(data_dir)
+    train_ds = train_dataset(data_dir, image_size)
+    val_ds = val_dataset(data_dir, image_size)
 
 
     train_loader = torch.utils.data.DataLoader(
@@ -125,16 +125,17 @@ def data_loader(batch_size=256, workers=2, pin_memory=True):
     return train_loader, val_loader
 
 class test_dataset(Dataset):
-    def __init__(self, data_dir):
+    def __init__(self, data_dir,image_size=(224,224)):
         # self.test_dir= os.path.join(data_dir, 'test')
         self.test_dir = os.path.join(data_dir, 'ILSVRC2012_img_test_v10102019')
         self.images = []
+        self.image_size = image_size
         for file_name in os.listdir(self.test_dir):
             self.images.append(os.path.join(self.test_dir, file_name))
 
     def _transform(self, image):
         transform =transforms.Compose([
-        transforms.RandomResizedCrop(224),
+        transforms.RandomResizedCrop(self.image_size),
         transforms.ToTensor(),
         normalize_transform()
          ])
@@ -149,10 +150,10 @@ class test_dataset(Dataset):
     def __len__(self):
         return len(self.images)
 
-def test_loader(batch_size=16, workers=1, pin_memory=True):
+def test_loader(batch_size=16, workers=1, pin_memory=True, image_size=(224,224)):
     args = parser.parse_args()
     data_dir = args.root
-    test_ds = test_dataset(data_dir)
+    test_ds = test_dataset(data_dir, image_size)
     test_loader = torch.utils.data.DataLoader(
         test_ds,
         batch_size=batch_size,
@@ -167,8 +168,9 @@ if __name__ =='__main__':
 
     batch_size= 32
     workers =2
-    train_loader, val_loader =  data_loader(batch_size =  batch_size, workers = workers)
-    dataload_test = test_loader(batch_size =  batch_size, workers = workers)
+    image_size = 224
+    train_loader, val_loader =  data_loader(batch_size =  batch_size, workers = workers, image_size = image_size)
+    dataload_test = test_loader(batch_size =  batch_size, workers = workers, image_size=image_size)
     print('Train folders:', len(train_loader))
     # test_ds = test_dataset( '/data/datasets/imagenet')
     # print(test_ds[0])

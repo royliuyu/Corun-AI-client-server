@@ -38,16 +38,16 @@ def work(config, pipe, queue):
         config['verbose'] = None  ## this program is avoked by main_.py
 
     transform = {
-        "train": transforms.Compose([transforms.RandomResizedCrop(img_size),  #224
+        "train": transforms.Compose([transforms.RandomResizedCrop((img_size,img_size)),  #224
                                      transforms.RandomHorizontalFlip(),
                                      transforms.ToTensor(),
                                      transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),
-        "val": transforms.Compose([transforms.Resize(img_size+32), #256
-                                   transforms.CenterCrop(img_size),
+        "val": transforms.Compose([transforms.Resize((img_size+32,img_size+32)), #256
+                                   transforms.CenterCrop((img_size,img_size)),
                                    transforms.ToTensor(),
                                    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),
-        "test": transforms.Compose([transforms.Resize(img_size+32),
-                                    transforms.CenterCrop(img_size),
+        "test": transforms.Compose([transforms.Resize((img_size+32,img_size+32)),
+                                    transforms.CenterCrop((img_size,img_size)),
                                     transforms.ToTensor(),
                                     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     }
@@ -59,7 +59,7 @@ def work(config, pipe, queue):
         data_test = MiniImageNet(root, 'test', transform)
         dataload_test = DataLoader(data_test, batch_size= batch_size, shuffle=True, num_workers=num_workers)
     elif dataset == 'imagenet':
-        dataload_test = imageNet.test_loader(batch_size=batch_size, workers=num_workers)
+        dataload_test = imageNet.test_loader(batch_size=batch_size, workers=num_workers, image_size = (img_size,img_size))
 
     model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
     assert not ((not torch.cuda.is_available()) and (device =='cuda')), 'set device of cuda, while it is not available'
@@ -77,7 +77,6 @@ def work(config, pipe, queue):
 
             # time.sleep(10)  # sleep 50 waiting for trainin
             for data, label in dataload_test:
-                # print(label)
                 if device == 'cpu':
                     start = time.time()
                 else: #cuda
@@ -136,10 +135,10 @@ def work(config, pipe, queue):
 if __name__ == '__main__':
 
     config ={'arch': 'resnet50','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
-    # pipe3, pipe4 = mp.Pipe()
+    pipe3, pipe4 = mp.Pipe()
     queue = mp.Queue()
-    # pipe =(pipe3, pipe4)
+    pipe =(pipe3, pipe4)
     ## note:  loop of inference start from here is infinete since no cnn_train.py stop it
     ## set verbose true here, otherwise Pipe will make the infer only take once (of course, I can add one more variable to control, but I didn't want).
-    work(config, queue)
+    work(config, pipe, queue)
 

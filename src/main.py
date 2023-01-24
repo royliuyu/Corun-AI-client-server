@@ -17,6 +17,7 @@ e.g. cnn config:
 '''
 
 import json
+import os
 import multiprocessing as mp
 import pandas as pd
 import time
@@ -30,10 +31,19 @@ import cnn_infer, cnn_train, deeplab_v3, yolo_v5
 import warnings
 warnings.filterwarnings("ignore")
 
+def date_time():
+    s_l = time.localtime(time.time())
+    dt = time.strftime("%Y%m%d", s_l)
+    tm = time.strftime("%H%M%S", s_l)
+    # print(date, tm )
+    return dt, tm
 
 def main():
 
     file = './config.json'
+    dt, tm = date_time()
+    log_file_name = 'profiler_log_' + dt + tm + '.csv'
+
     with open(file) as f:
         config = json.load(f)
     train_config_list, infer_config_list= config['train'],  config['infer']  #length: train: 36, infer: 12
@@ -68,12 +78,10 @@ def main():
                 else:
                     p2 = mp_new.Process(target= cnn_train.work, args= (train_config,), kwargs=(dict(queue=trn_queue)))
 
-                if infer_config['arch'] == 'yolo_v5':
+                if infer_config['arch'] == 'yolo_v5s':
                     p3 = mp_new.Process(target = yolo_v5.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
                 else:
                     p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
-
-                # p5 = mp_new.Process(target=yolo_v5, args=(infer_config,), )
 
                 p_list=[p1, p2, p3]
                 infer_info = 'na'
@@ -97,7 +105,8 @@ def main():
                             print('Main: Get data from infer:', infer_info)
 
                         print('Main: Terminate training and inference', '\n'*5)
-
+                        profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
+                        print('log file saved in:', os.path.join('../result/log', log_file_name))
                         p2.terminate()
                         p3.terminate()
                         break
@@ -110,7 +119,8 @@ def main():
                         p2.terminate()
                         p1.terminate()
                         raise ChildProcessError(trc_back)
-                        profile_log.to_csv('../result/log/profiler_log.csv', index_label=None, mode='w')
+                        profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
+                        print('log file saved in:', os.path.join('../result/log', log_file_name))
                         break
                     if p3.exception:
                         print('Terminate all processes, due to infer process exception.')
@@ -119,7 +129,8 @@ def main():
                         p2.terminate()
                         p1.terminate()
                         raise ChildProcessError(trc_back)
-                        profile_log.to_csv('../result/log/profiler_log.csv', index_label=None, mode='w')
+                        profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
+                        print('log file saved in:', os.path.join('../result/log', log_file_name))
                         break
 
                 for p in p_list:
@@ -129,12 +140,12 @@ def main():
                     p.terminate()
 
                 profile_log.loc[i]= [time.time(), train_config, infer_config, 'Sucess',infer_info]  # add one row of data
-                profile_log.to_csv('../result/log/profiler_log.csv',index_label=None, mode='w')
+                profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
 
             except Exception:
                 print('traceback:', traceback.format_exc())
                 profile_log.loc[i] = [time.time(), train_config, infer_config, 'Fail', trc_back]
-                profile_log.to_csv('../result/log/profiler_log.csv',index_label=None, mode='w')
+                profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
 
 if __name__ == '__main__':
     main()

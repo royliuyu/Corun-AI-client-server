@@ -49,17 +49,23 @@ parser.add_argument('--split', metavar='split', default='train', help='"train" o
 class DataGenerator(Cityscapes):  ## varible names in Cityscapes Class are: images, targets, split...
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, target_type="semantic")
+        self.image_size = (448,228)  ## Roy: 图片尺寸改这里
         self.semantic_target_type_index = [i for i, t in enumerate(self.target_type) if t == "semantic"][0]
         self.colormap = self._generate_colormap()
+
+
         # self.transform = self._transform()
 
     def _transform(self, image, mask):
         transform_img = transforms.Compose([
-                                transforms.Resize((256, 512)),
+                                # transforms.Resize((256, 512)),
+                                transforms.Resize(self.image_size),
                                 transforms.ToTensor(),
                                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
         transform_mask = transforms.Compose([
-                                transforms.Resize((256, 512))])
+                                # transforms.Resize((256, 512))])
+                                transforms.Resize(self.image_size)])
+
         return transform_img(image), transform_mask(mask)
 
 
@@ -79,12 +85,7 @@ class DataGenerator(Cityscapes):  ## varible names in Cityscapes Class are: imag
         return segmentation_mask
 
     def __getitem__(self, index):
-        # image = cv2.imread(self.images[index])
-        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # still in cv2 format
-        # image = image.transpose(2,0,1)  # now in shape of channel,h,w & RGB
-        # image = torch.from_numpy(image) # convert to torch tensor
         image = Image.open(self.images[index])
-
         mask = cv2.imread(self.targets[index][self.semantic_target_type_index], cv2.IMREAD_UNCHANGED)
         mask = self._convert_to_segmentation_mask(mask)
         mask = mask.transpose(2, 0, 1)  # transfer shape to class#, h, w
@@ -98,28 +99,25 @@ def cv2_to_pil(img_cv): # convert cv2 to PIL format
     return img_pil
 
 class CityTransform:  # to transform image and mask
-    def __call__(self, image, mask):
+    def __call__(self, image, mask, image_size=(256,512)):
         # image = cv_to_pil(image)  # to satisefy transforms.RandomResizedCrop's input requirement in shape of (...,h,w)
         transform_img = transforms.Compose([
-                                transforms.RandomResizedCrop((256, 512)),
+                                # transforms.RandomResizedCrop((256, 512)),
+                                transforms.RandomResizedCrop(image_size),
                                 # transforms.RandomHorizontalFlip(),
                                 transforms.ToTensor(),
                                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
         transform_mask = transforms.Compose([
-                                transforms.RandomResizedCrop((256, 512))])
+                                # transforms.RandomResizedCrop((256, 512))])
+                                transforms.RandomResizedCrop(image_size)])
         return transform_img(image), transform_mask(mask)
-
-# def show_array(img_array):
-#     img_array = img_array.transpose(1, 2, 0)  # change back to c,h,w
-#     img_pil = Image.fromarray(img_array, 'RGB')
-#     img_pil.show()
 
 if __name__=='__main__':
 
     args = parser.parse_args()
     assert os.path.exists(args.root), 'Root of dataset is incorrect or miss.'
 
-    dataset_train = DataGenerator(args.root, split = 'train') # default: mode='fine', target_type= 'sementic, split: train, test or val if mode=”fine” otherwise train, train_extra or val
+    dataset_train = DataGenerator( args.root,  split = 'train') # default: mode='fine', target_type= 'sementic, split: train, test or val if mode=”fine” otherwise train, train_extra or val
     img_tensor, sgm = dataset_train[0]
     print(img_tensor.shape, sgm.shape)
     # print(img_tensor)

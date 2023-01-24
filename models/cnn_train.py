@@ -282,23 +282,22 @@ def main_worker(gpu, ngpus_per_node, args):
         # Roy added for mini-imagenet
         img_size = int(args.image_size)  # e.g. 224
         transform = {
-            "train": transforms.Compose([transforms.RandomResizedCrop(img_size),
+            "train": transforms.Compose([transforms.RandomResizedCrop((img_size,img_size)),
                                          transforms.RandomHorizontalFlip(),
                                          transforms.ToTensor(),
                                          transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),
-            "val": transforms.Compose([transforms.Resize(32 + img_size),
-                                       transforms.CenterCrop(img_size),
+            "val": transforms.Compose([transforms.Resize((32 + img_size,32 + img_size)),
+                                       transforms.CenterCrop((img_size,img_size)),
                                        transforms.ToTensor(),
                                        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])]),
-            "test": transforms.Compose([transforms.Resize(32 + img_size),
-                                        transforms.CenterCrop(img_size),
+            "test": transforms.Compose([transforms.Resize((32 + img_size,32 + img_size)),
+                                        transforms.CenterCrop((img_size,img_size)),
                                         transforms.ToTensor(),
                                         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
         }
 
         if args.dataset == 'imagenet':  #imagenet
-            train_loader, val_loader  = imageNet.data_loader(batch_size =  args.batch_size, workers = args.workers)
-
+            train_loader, val_loader  = imageNet.data_loader(batch_size =  args.batch_size, workers = args.workers, image_size=(img_size,img_size))
         else: # args.dataset == 'MiniImageNet':
             train_dataset = MiniImageNet(args.data, 'train', transform)
             val_dataset = MiniImageNet(args.data, 'val', transform)

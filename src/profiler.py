@@ -97,7 +97,7 @@ def profile(config, profiling_num, pipe):
 
     # while True:
     print('profiling_num:', profiling_num)
-    delay, duration,  interval_target =0, 0, 1 # profile every 1 sec
+    delay, duration,  interval_target =0.0, 0.9, 1 # profile every 1 sec
     time_prev = time.time()
     for i in range(profiling_num):
 
@@ -112,12 +112,15 @@ def profile(config, profiling_num, pipe):
             val = list(grab_gpu_data(gpu_col).values())
             gpu.loc[i, gpu_col] = val
 
-            ##### Below codes to creat and delay to meet target profiling interval, e.g. 1 sec. #########
+            ##### Below codes to creat a delay to meet target profiling interval, e.g. 1 sec. #########
             time_now = time.time()
             duration = time_now - time_prev
-            if delay + (interval_target-duration) > 0.01 :  # only change delay when need , make sure delay won't be negative value
+            diff = delay+ interval_target-duration
+            if diff > 0.01:  # only change delay when need , make sure delay won't be negative value
                 delay= delay + (interval_target-duration)
-            time.sleep(delay)
+            elif interval_target-duration < 0:
+                delay = 0
+            if delay > 0: time.sleep(delay)
             time_prev = time_now
             # print(time.time())
             ######## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^########
@@ -131,14 +134,13 @@ def profile(config, profiling_num, pipe):
             save_log(data, config)
             # print(cpu_usg_dict)
             break
-
-    time.sleep(60) # sleep 60 seconds
     data = gpu.join(cpu)
     save_log(data, config)
     print('Profiler: Profiling is ending, notice to main!')
     con_prf_a.send('done')
     print('Profiler: Time elapsed: ', time.time() - start, 'sec.')
     print()
+    time.sleep(60) # sleep 60 seconds
     return 0
 
 if __name__ == '__main__':

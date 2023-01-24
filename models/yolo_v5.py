@@ -35,17 +35,23 @@ import coco
 import cv2
 import numpy as np
 import time
+import multiprocessing as mp
+from PIL import Image
 
 def work_infer(config, pipe, queue):
-    queue.put(dict(process= 'yolo_v5'))  # for queue exception of this process
+    queue.put(dict(process= 'yolo_v5s'))  # for queue exception of this process
     con_yolo_a,con_yolo_b = pipe
     con_yolo_a.close()
-    test_loader = DataLoader(coco.test_dataset(), batch_size= 1, num_workers= 1, shuffle=False)
+    test_loader = DataLoader(coco.test_dataset((config['image_size'],config['image_size'])),\
+                             batch_size= 1, num_workers= 1, shuffle=False)
 
     device = 0 if config['device'] == 'cuda' else 'cpu' #'cuda':0. or 'cpu'
     batch_size =  config['batch_size']
-
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, device = device)  # yolov5n - yolov5x6 or custom
+    assert  config['arch'] in ['yolo_v5s', 'yolov_5x'], 'only sypport "yolo_v5s" or "yolov_5x" !'
+    if config['arch'] == 'yolo_v5s':
+        model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, device = device)  # yolov5n - yolov5x6 or custom
+    else:
+        model = torch.hub.load('ultralytics/yolov5', 'yolov5x', pretrained=True, device=device)
     model.conf = 0.6  # confidence threshold (0-1) 0.52
     model.iou = 0.5  # NMS IoU threshold (0-1). 0.45
 
@@ -55,6 +61,7 @@ def work_infer(config, pipe, queue):
     latency_list = []
     quit_while = False
 
+    print("Infering starts:", config)
     while True:
         # for i, (batches) in enumerate(tqdm(test_loader)):
         for i, (batches) in enumerate(test_loader):
@@ -64,8 +71,13 @@ def work_infer(config, pipe, queue):
                 else:
                     starter.record()  # for gpu time counting
 
+                image = (image*255).numpy().astype(np.uint8)[[2, 1, 0], :,:]  # change tensor(created in coco.py/DataLoad) to ndarray, which is recognized by yolo
                 results = model(image)
 
+                ### show result
+                # frame = np.squeeze(results.render())
+                # cv2.imshow('Window_', frame)
+                # if cv2.waitKey(800) & 0xFF >=0: break
 
                 if device == 'cpu':
                     t_cpu = (time.time() - start) *1000  # in ms, for cpu exe time counting
@@ -115,4 +127,10 @@ def work_infer(config, pipe, queue):
             # print(latency)
 
 if __name__ == '__main__':
-    work_infer()
+    config ={'arch': 'yolo_v5s','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
+    pipe3, pipe4 = mp.Pipe()
+    queue = mp.Queue()
+    pipe =(pipe3, pipe4)
+    ## note:  loop of inference start from here is infinete since no cnn_train.py stop it
+    ## set verbose true here, otherwise Pipe will make the infer only take once (of course, I can add one more variable to control, but I didn't want).
+    work_infer(config, pipe, queue)
