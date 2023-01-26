@@ -710,28 +710,14 @@
       "arch": "yolo_v5s",
       "workers": 1,
       "batch_size": 1,
-      "image_size": 448,
+      "image_size": 224,
       "device": "cuda"
     },
     {
       "arch": "alexnet",
       "workers": 1,
       "batch_size": 1,
-      "image_size": 448,
-      "device": "cuda"
-    },
-    {
-      "arch": "densenet201",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 448,
-      "device": "cuda"
-    },
-    {
-      "arch": "mobilenet_v2",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 448,
+      "image_size": 224,
       "device": "cuda"
     }
   ]
