@@ -428,3 +428,1772 @@ torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU
 35,1674697371.2201765,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.22807341003205}
 36,1674697932.782272,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.196905427708064}
 37,1674698494.292907,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.172640710236486}
+38,1674699056.0555265,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.665377803263688}
+39,1674699617.865279,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.663812541357338}
+40,1674699628.163165,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 174, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 166, in _forward_impl
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 62, in forward
+    return x + self.conv(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 56.00 MiB (GPU 0; 11.77 GiB total capacity; 8.31 GiB already allocated; 49.31 MiB free; 8.41 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+41,1674699628.437531,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 209, in main_worker
+    model = torch.nn.DataParallel(model).cuda()
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 148, in __init__
+    self.module.to(self.src_device_obj)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 989, in to
+    return self._apply(convert)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 664, in _apply
+    param_applied = fn(param)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+"
+42,1674699643.9023523,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 174, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 166, in _forward_impl
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 64, in forward
+    return self.conv(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.30 GiB (GPU 0; 11.77 GiB total capacity; 7.96 GiB already allocated; 501.31 MiB free; 7.97 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+43,1674699666.9136896,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 174, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 166, in _forward_impl
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 64, in forward
+    return self.conv(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/activation.py"", line 234, in forward
+    return F.hardtanh(input, self.min_val, self.max_val, self.inplace)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 1506, in hardtanh
+    result = torch._C._nn.hardtanh_(input, min_val, max_val)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 8.24 GiB already allocated; 202.00 MiB free; 8.26 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+44,1674700228.6329055,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 21.563531173620767}
+45,1674700790.794139,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 21.574834205993035}
+46,1674701352.4763339,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 21.67362443522713}
+47,1674701914.3361444,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 22.11694172766957}
+48,1674702475.6609898,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 23.781727173059302}
+49,1674703037.4236963,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 25.996717557490715}
+50,1674703048.5594656,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 275, in _forward_impl
+    x = self.layer3(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 151, in forward
+    out = self.bn2(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 14.00 MiB (GPU 0; 11.77 GiB total capacity; 8.31 GiB already allocated; 21.00 MiB free; 8.44 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+51,1674703060.829281,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 274, in _forward_impl
+    x = self.layer2(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 154, in forward
+    out = self.conv3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 196.00 MiB (GPU 0; 11.77 GiB total capacity; 8.15 GiB already allocated; 117.00 MiB free; 8.35 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+52,1674703073.9777808,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 273, in _forward_impl
+    x = self.layer1(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 151, in forward
+    out = self.bn2(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 196.00 MiB (GPU 0; 11.77 GiB total capacity; 8.41 GiB already allocated; 35.00 MiB free; 8.43 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+53,1674703089.5559065,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 273, in _forward_impl
+    x = self.layer1(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 155, in forward
+    out = self.bn3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.79 GiB already allocated; 279.69 MiB free; 8.18 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+54,1674703112.9462357,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 271, in _forward_impl
+    x = self.maxpool(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/pooling.py"", line 166, in forward
+    return F.max_pool2d(input, self.kernel_size, self.stride,
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/_jit_internal.py"", line 485, in fn
+    return if_false(*args, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 782, in _max_pool2d
+    return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.69 GiB already allocated; 772.69 MiB free; 7.70 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+55,1674703675.0838022,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 21.116957748186177}
+56,1674704236.800273,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.782424252230186}
+57,1674704798.3283389,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.601393698823784}
+58,1674705359.8215601,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.554844477190414}
+59,1674705921.6204562,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.51479113312276}
+60,1674706483.274276,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.121031525608537}
+61,1674707044.8701994,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.281804055781876}
+62,1674707606.451302,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.866406988048233}
+63,1674708168.2359304,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.19443677125147}
+64,1674708182.1528962,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 166, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 158, in _forward_impl
+    x = self.stage3(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 99, in forward
+    out = channel_shuffle(out, 2)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 35, in channel_shuffle
+    x = torch.transpose(x, 1, 2).contiguous()
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 90.00 MiB (GPU 0; 11.77 GiB total capacity; 8.28 GiB already allocated; 67.12 MiB free; 8.38 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+65,1674708182.345709,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 209, in main_worker
+    model = torch.nn.DataParallel(model).cuda()
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 148, in __init__
+    self.module.to(self.src_device_obj)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 989, in to
+    return self._apply(convert)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 664, in _apply
+    param_applied = fn(param)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+"
+66,1674708744.0955617,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.991587005846796}
+67,1674709305.6350253,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 19.77125233905648}
+68,1674709867.143249,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.115796991396294}
+69,1674710428.536038,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 19.556304995241558}
+70,1674710990.1589339,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.413894182592507}
+71,1674711551.540065,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.033976906345913}
+72,1674712113.1214895,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.482694799168733}
+73,1674712674.8570461,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.52663518244778}
+74,1674712686.7002215,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 96, in forward
+    x = self.classifier(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/dropout.py"", line 59, in forward
+    return F.dropout(input, self.p, self.training, self.inplace)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 1252, in dropout
+    return _VF.dropout_(input, p, training) if inplace else _VF.dropout(input, p, training)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 86.00 MiB (GPU 0; 11.77 GiB total capacity; 8.32 GiB already allocated; 79.62 MiB free; 8.40 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+75,1674712702.591624,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 95, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 32, in forward
+    [self.expand1x1_activation(self.expand1x1(x)), self.expand3x3_activation(self.expand3x3(x))], 1
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 730.00 MiB (GPU 0; 11.77 GiB total capacity; 7.99 GiB already allocated; 471.62 MiB free; 8.02 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+76,1674712725.166197,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 95, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 32, in forward
+    [self.expand1x1_activation(self.expand1x1(x)), self.expand3x3_activation(self.expand3x3(x))], 1
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 730.00 MiB (GPU 0; 11.77 GiB total capacity; 8.31 GiB already allocated; 148.62 MiB free; 8.33 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+77,1674713286.9033854,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 20.89286539786955}
+78,1674713848.3841777,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 25.22590111580487}
+79,1674714409.8806765,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 25.4103844667955}
+80,1674714971.4826043,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 25.75356885958049}
+81,1674715533.0329313,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 25.557937857480326}
+82,1674716094.5045636,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 25.821687600181026}
+83,1674716655.8774998,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 26.16742387187789}
+84,1674716669.2718048,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 196.00 MiB (GPU 0; 11.77 GiB total capacity; 8.34 GiB already allocated; 33.12 MiB free; 8.45 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+85,1674716682.8920646,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/pooling.py"", line 166, in forward
+    return F.max_pool2d(input, self.kernel_size, self.stride,
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/_jit_internal.py"", line 485, in fn
+    return if_false(*args, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 782, in _max_pool2d
+    return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.55 GiB already allocated; 947.12 MiB free; 7.56 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+86,1674716700.6555228,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 6.12 GiB (GPU 0; 11.77 GiB total capacity; 6.93 GiB already allocated; 1.55 GiB free; 6.93 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+87,1674716723.1544454,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 12.25 GiB (GPU 0; 11.77 GiB total capacity; 1.09 GiB already allocated; 7.98 GiB free; 1.10 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+88,1674717284.705823,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 34.35967849634265}
+89,1674717846.083429,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.7552707976939383}
+90,1674718407.2492678,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.688907361034194}
+91,1674718968.5217621,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.652844594815649}
+92,1674718983.9255507,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 147, in forward
+    out = self.bn1(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 26.00 MiB (GPU 0; 11.77 GiB total capacity; 8.40 GiB already allocated; 18.44 MiB free; 8.51 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+93,1674719006.4770198,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 150, in forward
+    out = self.conv2(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 52.00 MiB (GPU 0; 11.77 GiB total capacity; 8.30 GiB already allocated; 53.12 MiB free; 8.47 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+94,1674719041.6104465,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 154, in forward
+    out = self.conv3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 204.00 MiB (GPU 0; 11.77 GiB total capacity; 8.22 GiB already allocated; 60.12 MiB free; 8.47 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+95,1674719104.352084,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 155, in forward
+    out = self.bn3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 798.00 MiB (GPU 0; 11.77 GiB total capacity; 8.12 GiB already allocated; 198.69 MiB free; 8.33 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+96,1674719217.267661,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 154, in forward
+    out = self.conv3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.56 GiB (GPU 0; 11.77 GiB total capacity; 8.22 GiB already allocated; 300.19 MiB free; 8.23 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+97,1674719433.8881204,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.12 GiB (GPU 0; 11.77 GiB total capacity; 7.62 GiB already allocated; 938.31 MiB free; 7.65 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+98,1674719854.9099133,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/deeplab_v3.py"", line 48, in work_train
+    train(model, train_loader, val_loader, epoch, device, batch_size)
+  File ""../models/deeplab_v3.py"", line 77, in train
+    outputs = model(inputs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/segmentation/_utils.py"", line 23, in forward
+    features = self.backbone(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/_utils.py"", line 69, in forward
+    x = module(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 6.23 GiB (GPU 0; 11.77 GiB total capacity; 8.80 GiB already allocated; 352.00 MiB free; 8.81 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+99,1674720416.2143657,"{'arch': 'deeplab_v3', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.646029392424121}
+100,1674720977.5069966,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.704775633471248}
+101,1674721538.8346078,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.678614622087576}
+102,1674722100.099568,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.672940620629407}
+103,1674722661.4414787,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6169183233761166}
+104,1674723222.7507286,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.599992776173707}
+105,1674723784.1086094,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.592264458014016}
+106,1674724345.3964045,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5669539399638746}
+107,1674724906.724294,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.555071490664889}
+108,1674725468.0653608,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5444442764997137}
+109,1674726029.3676436,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.549956348812837}
+110,1674726590.669683,"{'arch': 'alexnet', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.9701769270534863}
+111,1674727151.9981973,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.491061340636763}
+112,1674727713.2621896,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.563925665228099}
+113,1674728274.521384,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5815390532162423}
+114,1674728835.7120605,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.7483025867862145}
+115,1674729397.0031548,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.992208699022671}
+116,1674729405.7545002,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 214, in forward
+    features = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 123, in forward
+    new_features = layer(features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 89, in forward
+    bottleneck_output = self.bn_function(prev_features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 49, in bn_function
+    concated_features = torch.cat(inputs, 1)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 60.00 MiB (GPU 0; 11.77 GiB total capacity; 8.28 GiB already allocated; 67.00 MiB free; 8.47 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+117,1674729414.5687132,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 214, in forward
+    features = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 123, in forward
+    new_features = layer(features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 89, in forward
+    bottleneck_output = self.bn_function(prev_features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 49, in bn_function
+    concated_features = torch.cat(inputs, 1)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 112.00 MiB (GPU 0; 11.77 GiB total capacity; 8.26 GiB already allocated; 85.00 MiB free; 8.45 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+118,1674729425.711722,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 214, in forward
+    features = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 123, in forward
+    new_features = layer(features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 89, in forward
+    bottleneck_output = self.bn_function(prev_features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 49, in bn_function
+    concated_features = torch.cat(inputs, 1)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 588.00 MiB (GPU 0; 11.77 GiB total capacity; 8.45 GiB already allocated; 65.69 MiB free; 8.46 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+119,1674729438.4108212,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 214, in forward
+    features = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 123, in forward
+    new_features = layer(features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 89, in forward
+    bottleneck_output = self.bn_function(prev_features)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 50, in bn_function
+    bottleneck_output = self.conv1(self.relu1(self.norm1(concated_features)))  # noqa: T484
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 588.00 MiB (GPU 0; 11.77 GiB total capacity; 7.64 GiB already allocated; 511.69 MiB free; 8.03 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+120,1674729456.863309,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/densenet.py"", line 214, in forward
+    features = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/pooling.py"", line 166, in forward
+    return F.max_pool2d(input, self.kernel_size, self.stride,
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/_jit_internal.py"", line 485, in fn
+    return if_false(*args, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 782, in _max_pool2d
+    return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.54 GiB already allocated; 1004.69 MiB free; 7.55 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+121,1674730018.1494966,"{'arch': 'densenet201', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.4938703471003825}
+122,1674730579.501843,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6378238480045644}
+123,1674731140.8729577,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5375886595083608}
+124,1674731702.12298,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5910807789390615}
+125,1674732263.4259899,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6204848184003326}
+126,1674732824.7832031,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.675410586579158}
+127,1674733386.1420777,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.674205062856191}
+128,1674733395.0029602,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 174, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 166, in _forward_impl
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 62, in forward
+    return x + self.conv(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 56.00 MiB (GPU 0; 11.77 GiB total capacity; 8.36 GiB already allocated; 53.38 MiB free; 8.47 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+129,1674733395.236478,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 209, in main_worker
+    model = torch.nn.DataParallel(model).cuda()
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 148, in __init__
+    self.module.to(self.src_device_obj)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 989, in to
+    return self._apply(convert)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 664, in _apply
+    param_applied = fn(param)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+"
+130,1674733407.8303928,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 174, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 166, in _forward_impl
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 64, in forward
+    return self.conv(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.30 GiB (GPU 0; 11.77 GiB total capacity; 7.96 GiB already allocated; 561.38 MiB free; 7.97 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+131,1674733426.5323868,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 174, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 166, in _forward_impl
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/mobilenetv2.py"", line 64, in forward
+    return self.conv(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/activation.py"", line 234, in forward
+    return F.hardtanh(input, self.min_val, self.max_val, self.inplace)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 1506, in hardtanh
+    result = torch._C._nn.hardtanh_(input, min_val, max_val)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 8.24 GiB already allocated; 268.38 MiB free; 8.26 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+132,1674733987.768522,"{'arch': 'mobilenet_v2', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.4850460372561147}
+133,1674734549.0863297,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.539556603922574}
+134,1674735110.3867588,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5648600410947635}
+135,1674735671.6584976,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.711928257337834}
+136,1674736232.9839683,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.018535665763441}
+137,1674736794.1477637,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.1598562401413735}
+138,1674736803.446384,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 275, in _forward_impl
+    x = self.layer3(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 155, in forward
+    out = self.bn3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 50.00 MiB (GPU 0; 11.77 GiB total capacity; 8.37 GiB already allocated; 17.56 MiB free; 8.51 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+139,1674736812.9536793,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 274, in _forward_impl
+    x = self.layer2(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 154, in forward
+    out = self.conv3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 196.00 MiB (GPU 0; 11.77 GiB total capacity; 8.15 GiB already allocated; 188.19 MiB free; 8.35 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+140,1674736824.2748055,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 273, in _forward_impl
+    x = self.layer1(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 151, in forward
+    out = self.bn2(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 196.00 MiB (GPU 0; 11.77 GiB total capacity; 8.41 GiB already allocated; 106.19 MiB free; 8.43 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+141,1674736837.2009335,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 273, in _forward_impl
+    x = self.layer1(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 155, in forward
+    out = self.bn3(out)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py"", line 171, in forward
+    return F.batch_norm(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 2450, in batch_norm
+    return torch.batch_norm(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.79 GiB already allocated; 355.19 MiB free; 8.18 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+142,1674736856.005537,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 285, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/resnet.py"", line 271, in _forward_impl
+    x = self.maxpool(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/pooling.py"", line 166, in forward
+    return F.max_pool2d(input, self.kernel_size, self.stride,
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/_jit_internal.py"", line 485, in fn
+    return if_false(*args, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 782, in _max_pool2d
+    return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.69 GiB already allocated; 845.19 MiB free; 7.70 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+143,1674737417.2571442,"{'arch': 'resnet152', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.4845304677131246}
+144,1674737978.5307853,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6314176625520327}
+145,1674738539.87378,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.4987717361768453}
+146,1674739101.2708187,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5105902748488567}
+147,1674739662.6324995,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5706591529894296}
+148,1674740223.9567995,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5407552955881143}
+149,1674740785.2560227,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5622613115057464}
+150,1674741346.5651362,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.571362862915027}
+151,1674741907.9193075,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.5643351634184723}
+152,1674741920.807823,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 166, in forward
+    return self._forward_impl(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 158, in _forward_impl
+    x = self.stage3(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/shufflenetv2.py"", line 95, in forward
+    out = torch.cat((x1, self.branch2(x2)), dim=1)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 46.00 MiB (GPU 0; 11.77 GiB total capacity; 8.37 GiB already allocated; 52.00 MiB free; 8.47 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+153,1674741920.9825592,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 209, in main_worker
+    model = torch.nn.DataParallel(model).cuda()
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 148, in __init__
+    self.module.to(self.src_device_obj)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 989, in to
+    return self._apply(convert)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 664, in _apply
+    param_applied = fn(param)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+"
+154,1674742482.2027776,"{'arch': 'shufflenet_v2_x1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.4432356234821815}
+155,1674743043.577624,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6306962556486964}
+156,1674743604.8672137,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.571232831600725}
+157,1674744166.162932,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.601623556722338}
+158,1674744727.5304053,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6227778435276865}
+159,1674745288.8730175,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.6451710331921476}
+160,1674745850.082375,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.637878414470918}
+161,1674746411.391703,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.618541500063575}
+162,1674746422.315341,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 96, in forward
+    x = self.classifier(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 166.00 MiB (GPU 0; 11.77 GiB total capacity; 8.40 GiB already allocated; 74.31 MiB free; 8.48 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+163,1674746434.8951664,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 95, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 32, in forward
+    [self.expand1x1_activation(self.expand1x1(x)), self.expand3x3_activation(self.expand3x3(x))], 1
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 730.00 MiB (GPU 0; 11.77 GiB total capacity; 7.99 GiB already allocated; 555.31 MiB free; 8.02 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+164,1674746453.2742002,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 95, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/squeezenet.py"", line 32, in forward
+    [self.expand1x1_activation(self.expand1x1(x)), self.expand3x3_activation(self.expand3x3(x))], 1
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 730.00 MiB (GPU 0; 11.77 GiB total capacity; 8.31 GiB already allocated; 229.31 MiB free; 8.33 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+165,1674746453.4853323,"{'arch': 'squeezenet1_0', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 209, in main_worker
+    model = torch.nn.DataParallel(model).cuda()
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 148, in __init__
+    self.module.to(self.src_device_obj)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 989, in to
+    return self._apply(convert)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 641, in _apply
+    module._apply(fn)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 664, in _apply
+    param_applied = fn(param)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+"
+166,1674747014.73755,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 2, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 2.9226449932044525}
+167,1674747576.0702188,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 4, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.086955101797312}
+168,1674748137.3945575,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 8, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.1382978645403714}
+169,1674748698.7160819,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.1189457892584684}
+170,1674749260.1031194,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.1310068832427818}
+171,1674749821.322043,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.1229742435420764}
+172,1674749831.6430387,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 128, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 196.00 MiB (GPU 0; 11.77 GiB total capacity; 8.34 GiB already allocated; 99.44 MiB free; 8.45 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+173,1674749844.3977425,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 256, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/pooling.py"", line 166, in forward
+    return F.max_pool2d(input, self.kernel_size, self.stride,
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/_jit_internal.py"", line 485, in fn
+    return if_false(*args, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/functional.py"", line 782, in _max_pool2d
+    return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.53 GiB (GPU 0; 11.77 GiB total capacity; 7.55 GiB already allocated; 1013.44 MiB free; 7.56 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+174,1674749858.6164124,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 512, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 6.12 GiB (GPU 0; 11.77 GiB total capacity; 6.93 GiB already allocated; 1.62 GiB free; 6.93 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+175,1674749878.5258677,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 329, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""../models/cnn_train.py"", line 377, in train
+    output = model(images)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torchvision/models/vgg.py"", line 66, in forward
+    x = self.features(x)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py"", line 169, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/container.py"", line 204, in forward
+    input = module(input)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/module.py"", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/site-packages/torch/nn/modules/conv.py"", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 12.25 GiB (GPU 0; 11.77 GiB total capacity; 1.09 GiB already allocated; 8.05 GiB free; 1.10 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"
+176,1674750439.7835898,"{'arch': 'vgg16', 'workers': 1, 'epochs': 3, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}","{'arch': 'alexnet', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 3.211177268931806}
