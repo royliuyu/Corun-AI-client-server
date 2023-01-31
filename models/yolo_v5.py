@@ -106,7 +106,7 @@ def work_infer(config, pipe, queue):
                         con_yolo_b.close()
                         latency = np.mean(latency_list[3:])  # take off GPU warmup
                         print('Infer: Quiting..., average latency is %0.5f ms. Total %d instances are infered.'% (latency,count*batch_size))
-                        queue.put(dict(latency=latency))  # queue.put(dict(process = 'infer')), {'latency': latency}
+                        queue.put(dict(latency_ms=latency))  # queue.put(dict(process = 'infer')), {'latency': latency}
                         quit_while = True   # so, it will quit both for loop and while loop
 
                         break

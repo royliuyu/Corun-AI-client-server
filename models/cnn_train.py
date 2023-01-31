@@ -96,9 +96,9 @@ best_acc1 = 0
 
 
 def work(config, queue):
-    queue.put(dict(process = 'cnn_train'))  # for queue exception of this process
+    # queue.put(dict(process = 'cnn_train'))  # for queue exception of this process
     args = parser.parse_args()
-
+    start = time.time()
     # update argparse' args with the new_args from parent process (main)
     for key, value in config.items():
         vars(args)[key] = value  # update args
@@ -146,7 +146,10 @@ def work(config, queue):
         #     con3_b.close()
         # except Exception as e:
         #     print(e)
-
+    print('Training Done')
+    dur = time.time()-start
+    print('Traingin duration: ', dur, ' sec.')
+    queue.put(dict(duration_sec = dur))
 
 def main_worker(gpu, ngpus_per_node, args):
     global best_acc1
@@ -339,14 +342,15 @@ def main_worker(gpu, ngpus_per_node, args):
 
         if not args.multiprocessing_distributed or (args.multiprocessing_distributed
                                                     and args.rank % ngpus_per_node == 0):
-            save_checkpoint({
-                'epoch': epoch + 1,
-                'arch': args.arch,
-                'state_dict': model.state_dict(),
-                'best_acc1': best_acc1,
-                'optimizer': optimizer.state_dict(),
-                'scheduler': scheduler.state_dict()
-            }, is_best)
+            pass
+            # save_checkpoint({  # to be debug: FileNotFoundError: [Errno 2] No such file or directory: 'checkpoint.pth.tar'
+            #     'epoch': epoch + 1,
+            #     'arch': args.arch,
+            #     'state_dict': model.state_dict(),
+            #     'best_acc1': best_acc1,
+            #     'optimizer': optimizer.state_dict(),
+            #     'scheduler': scheduler.state_dict()
+            # }, is_best)
     print('Train done!  Configure: ', args)
 
 
@@ -457,7 +461,7 @@ def validate(val_loader, model, criterion, args):
 
 
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
-    # torch.save(state, filename)  ###Roy
+    # torch.save(state, filename)  ###Roy  ## need to avoid FileNotFoundError: [Errno 2] No such file or directory: 'checkpoint.pth.tar'
     if is_best:
         shutil.copyfile(filename, 'model_best.pth.tar')
 

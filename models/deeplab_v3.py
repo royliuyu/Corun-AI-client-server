@@ -21,8 +21,9 @@ args = parser.parse_args()
 
 def work_train(config, queue):
     ## initialize the arguments
-    queue.put(dict(process='deeplabv3_train'))  # for queue exception of this process
+    # queue.put(dict(process='deeplabv3_train'))  # for queue exception of this process
     args = parser.parse_args()
+    start = time.time()
     model_func = 'torchvision.models.'+args.arch # load parser_args's arch value before overiding by config
     # update argparse' args with the new_args from parent process (main)
     for key, value in config.items():
@@ -46,6 +47,10 @@ def work_train(config, queue):
                                              batch_size= batch_size, num_workers= num_workers)
 
     train(model, train_loader, val_loader, epoch, device, batch_size)
+    print('Training Done')
+    dur = time.time()-start
+    print('Traingin duration: ', dur, ' sec.')
+    queue.put(dict(duration_sec = dur))
 
 def train(model, train_loader, val_loader, num_epochs, device, batch_size):
     model.to(device)

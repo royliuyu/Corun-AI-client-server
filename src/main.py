@@ -27,7 +27,7 @@ import profiler
 import sys
 sys.path.append('../models')
 sys.path.append('../datasets')
-import cnn_infer, cnn_train, deeplab_v3, yolo_v5
+import cnn_infer, cnn_train, deeplab_v3, yolo_v5, do_nothing
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -47,14 +47,16 @@ def main():
     with open(file) as f:
         config = json.load(f)
     train_config_list, infer_config_list= config['train'],  config['infer']  #length: train: 36, infer: 12
+    if not infer_config_list: infer_config_list = [{'arch': 'None'}]
     i=0
     profile_log = pd.DataFrame(columns = ['time_frame', 'train_configure', 'infer_configure','status', 'result'], index=None)
 
-    profiling_num = 500
+    profiling_num = 9000000  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
-
+            time.sleep(60)  # sleep 60 seconds among every combination experiment
+            print('\n' * 5)
             print('======== round ', i, ': ==========')
             i += 1
             config, config_tr, config_inf = '', '', ''  #used as the configuration content and file name
@@ -80,11 +82,15 @@ def main():
 
                 if infer_config['arch'] == 'yolo_v5s':
                     p3 = mp_new.Process(target = yolo_v5.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
+
+                elif infer_config['arch'] == 'None': # no inference
+                    p3 = mp_new.Process(target=do_nothing.work, args=(infer_config, (con_inf_a, con_inf_b),),
+                                        kwargs=(dict(queue=inf_queue)))
                 else:
                     p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
 
                 p_list=[p1, p2, p3]
-                infer_info = 'na'
+                res = 'na'
 
                 for p in p_list: p.start()
 
@@ -101,8 +107,8 @@ def main():
 
                             while not inf_queue.empty():  # take the last queue data (latency)
                                 inf_queue.get()  # take the rest until last one
-                            infer_info = inf_queue.get()
-                            print('Main: Get data from infer:', infer_info)
+                            res = inf_queue.get()
+                            print('Main: Get data from infer:', res)
 
                         print('Main: Terminate training and inference', '\n'*5)
                         profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
@@ -110,6 +116,25 @@ def main():
                         p2.terminate()
                         p3.terminate()
                         break
+
+                    ## to break when train complete
+                    if not trn_queue.empty():   ## training complete with setting epochs
+                        res = trn_queue.get()  # achive training complete notice
+                        if res['duration_sec'] >0 :  ## training time elapse
+                            print('Main: get train done notice! ')
+                            con_inf_a.send('stop')  # notice infer to stop
+                            con_inf_a.close()
+                            con_prf_a.send('stop')
+                            con_prf_a.close()
+
+                            print('Main: Terminate profiling, training and inference')
+                            # profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
+                            # print('log file saved in:', os.path.join('../result/log', log_file_name))
+                            # p1.terminate()
+                            # p2.terminate()
+                            p3.terminate()
+
+                            break
 
                     ######## below codes for receiving exception from subprocesser #########
                     if p2.exception:
@@ -139,7 +164,7 @@ def main():
                 for p in p_list:
                     p.terminate()
 
-                profile_log.loc[i]= [time.time(), train_config, infer_config, 'Sucess',infer_info]  # add one row of data
+                profile_log.loc[i]= [time.time(), train_config, infer_config, 'Sucess',res]  # add one row of data
                 profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
 
             except Exception:

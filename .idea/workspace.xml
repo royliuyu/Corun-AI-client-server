@@ -5,9 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e6969df-2db6-4e83-8e48-855d87a567ec" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/result/log/profiler_log_20230125164937.csv" beforeDir="false" afterPath="$PROJECT_DIR$/result/log/profiler_log_20230125164937.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/do_nothing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/cnn_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_infer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/cnn_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/deeplab_v3.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/deeplab_v3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo_v5.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo_v5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/.ipynb_checkpoints/configuration_process_record-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/.ipynb_checkpoints/configuration_process_record-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/configuration_process_record.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/configuration_process_record.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/data/.~lock.train_data.csv#" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/script/data_analysis_prediction.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/data_analysis_prediction.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/nn_model.h5" beforeDir="false" afterPath="$PROJECT_DIR$/script/nn_model.h5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/profiler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profiler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,27 +160,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="coco" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="profile_training_inference_cowork" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datasets" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datasets/coco.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="deeplab_v3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="profile_training_inference_cowork" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -226,6 +215,27 @@
       <option name="ADD_CONTENT_ROOTS" value="false" />
       <option name="ADD_SOURCE_ROOTS" value="false" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main_v1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="profile_training_inference_cowork" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main_v1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -400,18 +410,18 @@
       <item itemvalue="Python.main" />
       <item itemvalue="Python.temp" />
       <item itemvalue="Python.imageNet" />
-      <item itemvalue="Python.coco" />
       <item itemvalue="Python.mini_imageNet" />
       <item itemvalue="Python.deeplab_v3" />
       <item itemvalue="Python.yolo_v5" />
+      <item itemvalue="Python.main_v1" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_v1" />
         <item itemvalue="Python.yolo_v5" />
         <item itemvalue="Python.deeplab_v3" />
         <item itemvalue="Python.mini_imageNet" />
         <item itemvalue="Python.imageNet" />
-        <item itemvalue="Python.coco" />
       </list>
     </recent_temporary>
   </component>
@@ -436,5 +446,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

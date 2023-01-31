@@ -127,6 +127,7 @@ def profile(config, profiling_num, pipe):
 
             i += 1
             print('\r', i, ' instances.', end='')
+
         except:  # press stop to break
             print()
             print('Profiler: Collecting done!')
@@ -134,13 +135,24 @@ def profile(config, profiling_num, pipe):
             save_log(data, config)
             # print(cpu_usg_dict)
             break
+
+        if con_prf_b.poll():
+            msg = con_prf_b.recv()
+            con_prf_b.close()
+            if msg == 'stop':
+                print()
+                print('Profiler: get notice from main to stop!')
+                data = gpu.join(cpu)
+                save_log(data, config)
+
+                # print(cpu_usg_dict)
+                break
+
     data = gpu.join(cpu)
     save_log(data, config)
     print('Profiler: Profiling is ending, notice to main!')
     con_prf_a.send('done')
     print('Profiler: Time elapsed: ', time.time() - start, 'sec.')
-    print()
-    time.sleep(60) # sleep 60 seconds
     return 0
 
 if __name__ == '__main__':
