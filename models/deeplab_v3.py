@@ -115,7 +115,7 @@ def train(model, train_loader, val_loader, num_epochs, device, batch_size):
 
 if __name__ == '__main__':
     queue = mp.Queue()
-    config = {"arch": "deeplab_v3", "workers": 1, "epochs": 3, "batch_size":4,  "image_size": 224,  "device": "cuda"}
+    config = {"arch": "deeplab_v3", "workers": 1, "epochs": 5, "batch_size":4,  "image_size": 224,  "device": "cuda"}
     work_train(config, queue)
 
 

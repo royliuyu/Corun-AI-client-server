@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e6969df-2db6-4e83-8e48-855d87a567ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/models/do_nothing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cnn_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_infer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cnn_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/deeplab_v3.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/deeplab_v3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo_v5.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo_v5.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/.ipynb_checkpoints/configuration_process_record-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/.ipynb_checkpoints/configuration_process_record-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/configuration_process_record.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/configuration_process_record.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/data/.~lock.train_data.csv#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/data_analysis_prediction.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/data_analysis_prediction.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profiler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profiler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,10 +41,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RobustVideoMatting" />
-    <property name="settings.editor.selected.configurable" value="reference.idesettings.debugger.python" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "/home/royliu/Documents/training_inference_cowork",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="profile_training_inference_cowork" is-module-sdk="true">
@@ -75,7 +66,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.deeplab_v3">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="profile traing inference co-work" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -409,11 +400,11 @@
       <item itemvalue="Python.cnn_train" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.temp" />
-      <item itemvalue="Python.imageNet" />
-      <item itemvalue="Python.mini_imageNet" />
       <item itemvalue="Python.deeplab_v3" />
-      <item itemvalue="Python.yolo_v5" />
+      <item itemvalue="Python.imageNet" />
       <item itemvalue="Python.main_v1" />
+      <item itemvalue="Python.mini_imageNet" />
+      <item itemvalue="Python.yolo_v5" />
     </list>
     <recent_temporary>
       <list>
@@ -446,6 +437,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
