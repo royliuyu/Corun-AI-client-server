@@ -14,7 +14,7 @@ import argparse
 
 parser =  argparse.ArgumentParser()
 parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents/datasets')
-parser.add_argument('--dataset', metavar = 'data_dir', default= 'imagenet', help =' to choose "MiniImageNet" or "imagenet" ')
+parser.add_argument('--dataset', metavar = 'data_dir', default= 'MiniImageNet', help =' to choose "MiniImageNet" or "imagenet" ')
 parser.add_argument('--arch', metavar = 'arch', default = 'alexnet', help ='e.g. resnet50, alexnet')
 
 

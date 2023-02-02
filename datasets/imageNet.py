@@ -6,7 +6,9 @@ download:
 ILSVRC2012_img_train.tar , 138GB.
 ILSVRC2012_img_val.tar , 6.3GB.
 Training bounding box annotations (Task 1 & 2 only). 20MB.
-    for extracting training and  val dataset after downloading:
+
+For extracting training and  val dataset after downloading, run below script perspectively (under the same folder of the tar file):
+
         mkdir train && mv ILSVRC2012_img_train.tar train/ && cd train
         tar -xvf ILSVRC2012_img_train.tar && rm -f ILSVRC2012_img_train.tar
         find . -name "*.tar" | while read NAME ; do mkdir -p "${NAME%.tar}"; tar -xvf "${NAME}" -C "${NAME%.tar}"; rm -f "${NAME}"; done
@@ -43,7 +45,8 @@ val/
 │   └── ...
 ├── ...
 └── ...
-
+val/
+├── n01440764
 '''
 
 import torchvision.transforms as transforms
@@ -56,7 +59,7 @@ from PIL import Image
 import numpy as np
 
 parser =  argparse.ArgumentParser()
-parser.add_argument('--root', metavar = 'root', default= '/data/datasets/imagenet')
+parser.add_argument('--root', metavar = 'root', default= '/data/datasets/imagenet') #/media/lab/Data/datasets/imagenet
 
 def normalize_transform():
     return transforms.Normalize(mean=[0.485, 0.456, 0.406],

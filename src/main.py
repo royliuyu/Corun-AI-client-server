@@ -51,11 +51,11 @@ def main():
     i=0
     profile_log = pd.DataFrame(columns = ['time_frame', 'train_configure', 'infer_configure','status', 'result'], index=None)
 
-    profiling_num = 9000000  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
+    profiling_num = 30  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
-            time.sleep(60)  # sleep 60 seconds among every combination experiment
+            time.sleep(1)  # sleep 60 seconds among every combination experiment
             print('\n' * 5)
             print('======== round ', i, ': ==========')
             i += 1
@@ -77,6 +77,9 @@ def main():
                 if train_config['arch'] == 'deeplab_v3':
                     p2 = mp_new.Process(target=deeplab_v3.work_train, args=(train_config,),
                                         kwargs=(dict(queue=trn_queue)))
+                elif train_config['arch'] == 'None': # no training
+                    p2= mp_new.Process(target=do_nothing.train, args=(train_config,),
+                                        kwargs=(dict(queue=trn_queue)))
                 else:
                     p2 = mp_new.Process(target= cnn_train.work, args= (train_config,), kwargs=(dict(queue=trn_queue)))
 
@@ -84,7 +87,7 @@ def main():
                     p3 = mp_new.Process(target = yolo_v5.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
 
                 elif infer_config['arch'] == 'None': # no inference
-                    p3 = mp_new.Process(target=do_nothing.work, args=(infer_config, (con_inf_a, con_inf_b),),
+                    p3 = mp_new.Process(target=do_nothing.infer, args=(infer_config, (con_inf_a, con_inf_b),),
                                         kwargs=(dict(queue=inf_queue)))
                 else:
                     p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))

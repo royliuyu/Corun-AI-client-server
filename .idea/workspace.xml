@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e6969df-2db6-4e83-8e48-855d87a567ec" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/profile_training_inference_cowork.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/profile_training_inference_cowork.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/coco.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/coco.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/imageNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/imageNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/cnn_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_infer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/cnn_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/deeplab_v3.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/deeplab_v3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/do_nothing.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/do_nothing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/configuration_process_record.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/configuration_process_record.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/profiler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profiler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +53,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "last_opened_file_path": "/home/royliu/Documents/training_inference_cowork",
+    "last_opened_file_path": "/home/royliu/Dropbox/research/profile_training_inference_cowork",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -66,7 +76,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.deeplab_v3">
+  <component name="RunManager" selected="Python.main">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="profile traing inference co-work" />
       <option name="INTERPRETER_OPTIONS" value="" />

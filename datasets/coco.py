@@ -3,9 +3,9 @@
 
 wget http://images.cocodataset.org/zips/train2017.zip
 wget http://images.cocodataset.org/zips/val2017.zip
+wget http://images.cocodataset.org/zips/test2017.zip
 wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
 
-//wget http://images.cocodataset.org/zips/test2017.zip
 //wget http://images.cocodataset.org/zips/unlabeled2017.zip
 
 91 classes, 80 classes for object detection
@@ -16,17 +16,23 @@ YOLO txt label downloads:  https://github.com/ultralytics/yolov5/releases/downlo
 data structure (YOLO format):
   coco
     ├─labels
-    │   ├─ train2017.txt
-    │   ├─ val2017.txt
-    │   └─ test-dev2017.txt
-    └─Images
+    │   ├─ train2017
+    │   │   ├─ 000000000009.txt
+    │   │   ├─ 000000000025.txt
+    │   │   ├─...text
+    │   ├─ val2017
+    │   │   ├─ 000000000139.txt
+    │   │   ├─ 000000000285.txt
+    │   │   ├─...txt
+    │   └─ test-dev2017
+    └─images
          ├─ train2017
-         │     ├─  000000000???.jpg
-         │     ├─  000000000???.jpg
+         │     ├─  000000000009.jpg
+         │     ├─  000000000025.jpg
          │     └─  ...
          ├─ val2017
-         │     ├─  000000000???.jpg
-         │     ├─  000000000???.jpg
+         │     ├─  000000000139.jpg
+         │     ├─  000000000285.jpg
          │     └─  ...
          └─ test2017
                ├─  000000000???.jpg

@@ -38,7 +38,7 @@ model_names = sorted(name for name in models.__dict__
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('--data', metavar='DIR', default='/home/royliu/Documents/datasets',
                     help='parent path to dataset ')  # could change the dataset in mini_imageNet.py
-parser.add_argument('--dataset', metavar='dataset', default='imagenet',
+parser.add_argument('--dataset', metavar='dataset', default='MiniImageNet',
                     help='default: imagenet, or MiniImageNet')  # could change the dataset in mini_imageNet.py
 
 parser.add_argument('-a', '--arch', metavar='MODEL', default='alexnet',
@@ -101,7 +101,7 @@ def work(config, queue):
     start = time.time()
     # update argparse' args with the new_args from parent process (main)
     for key, value in config.items():
-        vars(args)[key] = value  # update args
+        vars(args)[key] = value  # update args with config passed
     print(vars(args))
     print('Train starts .........', args)
     if args.seed is not None:

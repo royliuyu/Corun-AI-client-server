@@ -1,5 +1,5 @@
-def work(config, pipe, queue):
-    queue.put(dict(process= 'yolo_v5s'))  # for queue exception of this process
+def infer(config, pipe, queue):
+    queue.put(dict(process= 'donothing_infer'))  # for queue exception of this process
     con_a,con_b = pipe
     con_a.close()
     print('Infer: do nothing')
@@ -14,3 +14,8 @@ def work(config, pipe, queue):
                 queue.put(dict(latency=0))
                 print('Do noting: Quiting...')
                 break
+
+def train(config, queue):
+    queue.put(dict(duration_sec= 0))
+    print('Training: do nothing')
+
