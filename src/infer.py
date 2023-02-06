@@ -9,6 +9,7 @@ import time
 import PIL.Image as Image
 from torchvision import transforms, models
 from util import logger_by_date
+import infer
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -21,7 +22,7 @@ model_list = cnn_model_list + yolo_model_list + deeplab_model_list
 parser = argparse.ArgumentParser()
 parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents/datasets')
 parser.add_argument('--log-dir', metavar = 'log_dir', default= '../result/log')
-parser.add_argument('-a','--arch', metavar = 'arch', default = 'densenet121', help = model_list)
+parser.add_argument('-a','--arch', metavar = 'arch', default = 'yolov5n', help = model_list)
 parser.add_argument('-i','--image-size', metavar = 'image_size', default= 224)
 parser.add_argument('-d','--device', metavar = 'device', default = 'cuda')
 
@@ -33,19 +34,22 @@ def transform(image, image_size):
     ])
     return transform(image)
 
-def work(image_path):  #
+def work(image, ext_args):  #
     '''
     input:
         image path and file name
         model name (mendarory)
         imange size (optional)
         device type (optional)
-
     output:
         prediction
         latency
     '''
     args =  parser.parse_args()
+    print(ext_args)
+    for key, value in ext_args.items():  # update the args with external args
+        vars(args)[key] = value
+    print(args)
     model_name = args.arch
     device = args.device
     latency = 0
@@ -53,10 +57,9 @@ def work(image_path):  #
 
     ## process device
     assert device in ['cuda', 'cpu'], 'Device shall be "cuda" or "cpu" !'
-    if model_name in yolo_model_list  and device == 'cuda':  device = 0
+    assert not ((not torch.cuda.is_available()) and (device == 'cuda')), 'set device of cuda, while it is not available'
 
     ## process image
-    image = Image.open(image_path)
     if args.image_size:
         image_size = (args.image_size, args.image_size)
     else:
@@ -66,9 +69,12 @@ def work(image_path):  #
 
     ## process model
     assert model_name in model_list, f'Input model is not supported, shall be one of {model_list}'
-    model_func = 'models.' + model_name
-    model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
-    assert not ((not torch.cuda.is_available()) and (device =='cuda')), 'set device of cuda, while it is not available'
+    if model_name in cnn_model_list:
+        model_func = 'models.' + model_name
+        model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
+    elif model_name in yolo_model_list:
+        if device != 'cpu': device = 0
+        model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device)
 
     ## process inference
     model.to(device)
@@ -80,9 +86,18 @@ def work(image_path):  #
             starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
             starter.record()  # cuda
 
-        data = data.to(device)
-        prd = model.forward(data)
-        prd = prd.to('cpu').detach()
+        if model_name in cnn_model_list:  # cnn models
+            data = data.to(device)
+            prd = model.forward(data)
+            prd = prd.to('cpu').detach()
+            prd = np.argmax(prd, axis= 1).numpy()[0]  # transfer result from a tensor to a number
+
+        elif model_name in yolo_model_list:  # YOLO models
+            prd = model(data)
+            ### show result
+            # frame = np.squeeze(results.render())
+            # cv2.imshow('Window_', frame)
+            # if cv2.waitKey(800) & 0xFF >=0: break
 
         ## count latency
         if device == 'cpu':
@@ -92,14 +107,9 @@ def work(image_path):  #
             torch.cuda.synchronize()  ###
             latency = starter.elapsed_time(ender)  # metrics in ms
 
-    if model_name in cnn_model_list:
-        prd = np.argmax(prd, axis= 1).numpy()[0]  # transfer result from a tensor to a number
-    elif model_name in yolo_model_list:
-        pass
-
     ## save log
     # t0= time.time()
-    data_in_row = [work_start, args.arch, image_size, image_path, latency]
+    data_in_row = [work_start, args.arch, image_size, device, args.file_name, latency]
     logger_prefix = 'infer_log_'
     logger_by_date(data_in_row,args.log_dir, logger_prefix)
     # print('log overhead: ', time.time()-t0)
@@ -108,16 +118,15 @@ def work(image_path):  #
 
 
 if __name__ == '__main__':
-    image_path = '/home/royliu/Documents/datasets/mini_imagenet/images_temp/n0153282900000019.jpg'
-    # result, latency = main(image_path)
-    # print(f'Result is {result}, latency is {latency} ms.')
 
     poisson = np.random.poisson(30, 60)
     # print(poisson)
 
-    image_folder = '/home/royliu/Documents/datasets/coco/images/test2017'
+    image_folder = '/home/royliu/Documents/datasets/temp/fold'
     i= 0
-    for i, image in enumerate(os.listdir(image_folder)):
-        result, latency = work(os.path.join(image_folder, image))
+    ext_args = dict(arch='alexnet', device='cuda', image_size=224)
+    for i, file_name in enumerate(os.listdir(image_folder)):
+        image = Image.open(os.path.join(image_folder, file_name))
+        result, latency = work(image,ext_args)
         print(latency)
-        if i >5: break
+        if i >5: break  ## just test 5 images
