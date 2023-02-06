@@ -15,6 +15,7 @@ def work():
         conn, addr = s.accept()
         print(f'Received request from {addr} !')
         header = conn.recv(1024)
+        print('header recv:', header)
         try:
             format, args_str = header.decode().split('|')
             args = str2dict(args_str)
@@ -51,6 +52,7 @@ def work():
                     print(prd, latency)
 
             reply = conn.recv(1024)
+            print('rely recv: ', reply)
             if reply.decode() == 'done':
                 break
 work()

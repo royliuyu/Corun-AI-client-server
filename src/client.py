@@ -28,9 +28,11 @@ def send(dir, data_format, args):
                 to_send = data[p:p + data_len // 2]
                 s.send(to_send)
                 p += len(to_send)
-            s.recv(1024).decode()
+            server_reply = s.recv(1024).decode()
+            print('server_reply:', server_reply)
             if i < len(file_list)-1:  # i from 0 to n-1
-                s.send(b'continue')
+                pass
+                # s.send(b'continue')
         s.send(b'done')
         s.close()
 
@@ -51,14 +53,17 @@ if __name__ == '__main__':
     poisson = np.random.poisson(10, 6)
     interval = []
     print(poisson)
-    for p in poisson:
-        for i in range(p):
-            interval.append(1 / p)
-    for itv in interval:
-        img_path = r'/home/royliu/Documents/datasets/temp/fold'
-        args = dict(arch='alexnet', device='cuda', image_size=224)
-        start = time.time()
-        send(img_path, 'jpg', args)
-        time.sleep(itv)
+    img_path = r'/home/royliu/Documents/datasets/temp/fold'
+    args = dict(arch='alexnet', device='cuda', image_size=224)
+    send(img_path, 'jpg', args)
+    # for p in poisson:
+    #     for i in range(p):
+    #         interval.append(1 / p)
+    # for itv in interval:
+    #     img_path = r'/home/royliu/Documents/datasets/temp/fold'
+    #     args = dict(arch='alexnet', device='cuda', image_size=224)
+    #     start = time.time()
+    #     send(img_path, 'jpg', args)
+    #     time.sleep(itv)
 
-    print("Time elapse for each image: ", (time.time() - start), 'sec.')
+    # print("Time elapse for each image: ", (time.time() - start), 'sec.')
