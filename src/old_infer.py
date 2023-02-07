@@ -1,3 +1,8 @@
+'''
+Input image type: PIL.image, i.e. 'PIL.JpegImagePlugin.JpegImageFile'
+
+'''
+
 import os
 import sys
 import numpy as np
@@ -9,7 +14,7 @@ import time
 import PIL.Image as Image
 from torchvision import transforms, models
 from util import logger_by_date
-import infer
+import cv2
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -34,7 +39,7 @@ def transform(image, image_size):
     ])
     return transform(image)
 
-def work(image, ext_args):  #
+def work(image, ext_args, verbose = False):  #
     '''
     input:
         image path and file name
@@ -46,7 +51,6 @@ def work(image, ext_args):  #
         latency
     '''
     args =  parser.parse_args()
-    print(ext_args)
     for key, value in ext_args.items():  # update the args with external args
         vars(args)[key] = value
     print(args)
@@ -64,8 +68,10 @@ def work(image, ext_args):  #
         image_size = (args.image_size, args.image_size)
     else:
         image_size =  image.size  # (w,h)
-    data = transform(image, image_size)
-    data = torch.unsqueeze(data, dim =0)  # add a batch_size dimension
+    data = image  # input data in type of PIL.image
+    if model_name in cnn_model_list or model_name in deeplab_model_list:
+        data = transform(image, image_size)
+        data = torch.unsqueeze(data, dim =0)  # add a batch_size dimension
 
     ## process model
     assert model_name in model_list, f'Input model is not supported, shall be one of {model_list}'
@@ -73,8 +79,8 @@ def work(image, ext_args):  #
         model_func = 'models.' + model_name
         model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
     elif model_name in yolo_model_list:
-        if device != 'cpu': device = 0
-        model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device)
+        device_yolo ='cpu'  if device == 'cpu' else 0
+        model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device_yolo)
 
     ## process inference
     model.to(device)
@@ -90,14 +96,17 @@ def work(image, ext_args):  #
             data = data.to(device)
             prd = model.forward(data)
             prd = prd.to('cpu').detach()
-            prd = np.argmax(prd, axis= 1).numpy()[0]  # transfer result from a tensor to a number
+            result = np.argmax(prd, axis= 1).numpy()[0]  # transfer result from a tensor to a number
 
         elif model_name in yolo_model_list:  # YOLO models
             prd = model(data)
-            ### show result
-            # frame = np.squeeze(results.render())
-            # cv2.imshow('Window_', frame)
-            # if cv2.waitKey(800) & 0xFF >=0: break
+            result = prd.xyxyn
+
+            # ## show result
+            # if verbose:
+            #     frame = np.squeeze(prd.render())
+            #     cv2.imshow('Window_', frame)
+            #     cv2.waitKey(200)
 
         ## count latency
         if device == 'cpu':
@@ -114,19 +123,21 @@ def work(image, ext_args):  #
     logger_by_date(data_in_row,args.log_dir, logger_prefix)
     # print('log overhead: ', time.time()-t0)
 
-    return prd, latency
+    return result, latency
 
 
 if __name__ == '__main__':
 
-    poisson = np.random.poisson(30, 60)
+    poisson = np.random.poisson(30, 4)
     # print(poisson)
 
     image_folder = '/home/royliu/Documents/datasets/temp/fold'
     i= 0
-    ext_args = dict(arch='alexnet', device='cuda', image_size=224)
+    ext_args = dict(arch='yolov5s', device='cuda', image_size=224, verbose= True)
     for i, file_name in enumerate(os.listdir(image_folder)):
+        ext_args['file_name']= file_name
         image = Image.open(os.path.join(image_folder, file_name))
-        result, latency = work(image,ext_args)
-        print(latency)
+        # image.show()
+        result, latency = work(image,ext_args, verbose =True)
+        print(f'Result: {result}, Latency: {latency}')
         if i >5: break  ## just test 5 images
