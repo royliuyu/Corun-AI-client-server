@@ -1,7 +1,6 @@
 from PIL import Image
 import io
 import socket
-import old_infer
 from util import str2dict
 import time
 import numpy as np
@@ -12,7 +11,8 @@ import torch
 from torchvision import transforms, models
 from util import logger_by_date
 
-ip , port = '127.0.0.1', 8000
+ip , port = '128.226.119.73', 51400
+# ip , port = '127.0.0.1', 51400
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -40,6 +40,40 @@ def transform(image, image_size):
     ])
     return transform(image)
 
+def infer(model, model_name, data, device):
+    model.to(device)
+    model.eval()
+    with torch.no_grad():
+        if device == 'cpu':
+            start = time.time()
+        else:  # cuda
+            starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(
+                enable_timing=True)
+            starter.record()  # cuda
+
+        if model_name in cnn_model_list:  # cnn models
+            data = data.to(device)
+            prd = model.forward(data)
+            prd = prd.to('cpu').detach()
+            result = np.argmax(prd, axis=1).numpy()[0]  # transfer result from a tensor to a number
+
+        elif model_name in yolo_model_list:  # YOLO models
+            prd = model(data)
+            result = prd.xyxyn
+
+        if device == 'cpu':
+            latency = (time.time() - start) * 1000  # metrics in ms
+        else:  # gpu
+            ender.record()
+            torch.cuda.synchronize()  ###
+            latency = starter.elapsed_time(ender)  # metrics in ms
+
+            ## show the result
+            # frame = np.squeeze(prd.render())
+            # cv2.imshow('Window_', frame)
+            # cv2.waitKey(200)
+    return result, latency
+
 def work():
     s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -47,6 +81,7 @@ def work():
     s.listen(3)
     reply =''
     previous_model = ''
+    print('Server is listening...')
     while True:
         conn, addr = s.accept()
         print(f'Received request from {addr} !')
@@ -59,21 +94,28 @@ def work():
             print('Fail to connect !')
             conn.close()
             continue
-        msg = pickle.dumps('start....')
+        msg = pickle.dumps('Start....')
+        print(args)
         while True:
             # print('checking checking msg from client...', reply)
-            if reply == 'continuedone'  or reply =='done':  # msg to end
-                print('Job from client is done ! \n Server is waiting .....')
+            if reply == 'continuedone'  or reply =='done':  # msg indicates task ends from client
+                print('Job from client is done!\n','='*70,'\n'*3,'Server is listening.....')
                 break
             elif reply == 'continue' or reply =='':   # normal condition
                 file_info = conn.recv(1024).decode()
-            else:  ## file_len|file_name or continuefile_len|file_name
-                file_info = re.findall(r'([0-9].+)', reply)[0]  ## parse the "continue" msg, which for avoiding blocking
+            else:  ## i.e. file_len|file_name or continuefile_len|file_name
+                try: ## solve can't recognize "done" msg due to packets sticking issue
+                    file_info = re.findall(r'([0-9].+)', reply)[0]  ## parse the "continue" msg, which for avoiding blocking
+                except: break
 
+            try:  ## solve can't recognize "done" msg due to packets sticking issue, the last packets of file_info goes ahead of "continue"
+                data_len, file_name = file_info.split('|')  ## parse header with file length
+            except:
+                print('Job from client is done.\n','=' * 70, '\n\n\nServer is listening.....')
+                break
 
-            data_len, file_name = file_info.split('|')
             args['file_name'] = file_name
-            model_name, device = args['arch'], args['device']
+            model_name, device, image_size = args['arch'], args['device'], args['image_size']
 
             if model_name !=previous_model :  # if the model is the same as previous one , no need load model again
                 model=load_model(model_name, device)
@@ -84,12 +126,9 @@ def work():
             assert not ((not torch.cuda.is_available()) and (
                         device == 'cuda')), 'set device of cuda, while it is not available'
 
-
-
             conn.send(msg)
             if data_len and file_name:
                 work_start = time.time()
-                print(file_name)
                 # newfile = open(os.path.join(dir, file_name), 'wb')  # save file transfered from server
                 file = b''
                 data_len = int(data_len)
@@ -98,19 +137,15 @@ def work():
                     data = conn.recv(data_len//2)
                     file += data  ## binary code
                     get += len(data)
-                # conn.send(b'ok')
-                print(f' {data_len} bytes to transfer, recieved {len(file)} bytes.')
+
+                print(f' File name :{file_name}, {data_len} bytes to transfer, recieved {len(file)} bytes.')
                 if file:  # file is in format of binary byte
-                    pass
                     # newfile.write(file[:])  # save file transfered from server
                     # newfile.close()  # save file transfered from server
 
                     ## process image
                     image = Image.open(io.BytesIO(file))  # convert binary bytes to PIL image in RAM
-                    if args['image_size']:  # w/h
-                        image_size = (args['image_size'], args['image_size'])
-                    else:
-                        image_size = image.size  # (w,h)
+                    if type(image_size) is not tuple: image_size =(image_size,image_size)
                     data = image  # input data in type of PIL.image
                     if model_name in cnn_model_list or model_name in deeplab_model_list:
                         data = transform(image, image_size)
@@ -122,50 +157,20 @@ def work():
                     # cv2.imshow('image', cv_image)
                     # cv2.waitKey(500)
 
-                    ## predict image
-                    ## process inference
-
-                    model.to(device)
-                    model.eval()
-                    with torch.no_grad():
-                        if device == 'cpu':
-                            start = time.time()
-                        else:  # cuda
-                            starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(
-                                enable_timing=True)
-                            starter.record()  # cuda
-
-                        if model_name in cnn_model_list:  # cnn models
-                            data = data.to(device)
-                            prd = model.forward(data)
-                            prd = prd.to('cpu').detach()
-                            prd = np.argmax(prd, axis=1).numpy()[0]  # transfer result from a tensor to a number
-
-                        elif model_name in yolo_model_list:  # YOLO models
-                            prd = model(data)
-                            prd = prd.xyxyn
-
-                        if device == 'cpu':
-                            latency = (time.time() - start) * 1000  # metrics in ms
-                        else:  # gpu
-                            ender.record()
-                            torch.cuda.synchronize()  ###
-                            latency = starter.elapsed_time(ender)  # metrics in ms
+                    # ## process inference
+                    result, latency = infer(model, model_name, data, device)
 
                     # prd, latency = infer.work(image, args)
-                    msg = pickle.dumps(prd)  # serialize the result for sending back to client
+                    msg = pickle.dumps({'file_name': file_name, 'latency_server(ms)': latency, 'result': result})  # serialize the result for sending back to client
                     conn.send(msg)
-                    print(f' Result: {prd}, Latency: {latency} ms.')
+                    print(f' File name: {file_name}, Result: {result}, Latency: {latency} ms.\n')
 
                 ## save log
-                # t0= time.time()
                 data_in_row = [work_start, model_name, image_size, device, args['file_name'], latency]
                 logger_prefix = 'infer_log_'
                 logger_by_date(data_in_row, '../result/log', logger_prefix)
-                # print('log overhead: ', time.time()-t0)
 
             reply = conn.recv(1024).decode()
-            # if reply == 'done':
-            #     print('Job from client is done !')
-            #     break
+        reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
+
 work()

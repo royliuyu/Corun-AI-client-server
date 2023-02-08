@@ -14,7 +14,11 @@ import time
 import PIL.Image as Image
 from torchvision import transforms, models
 from util import logger_by_date
+<<<<<<< HEAD:src/old_infer.py
 import cv2
+=======
+import infer
+>>>>>>> b6f1f163353510e5708bf53aff4cb93efc3a95c8:src/infer.py
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -39,7 +43,11 @@ def transform(image, image_size):
     ])
     return transform(image)
 
+<<<<<<< HEAD:src/old_infer.py
 def work(image, ext_args, verbose = False):  #
+=======
+def work(image, ext_args):  #
+>>>>>>> b6f1f163353510e5708bf53aff4cb93efc3a95c8:src/infer.py
     '''
     input:
         image path and file name
@@ -51,6 +59,10 @@ def work(image, ext_args, verbose = False):  #
         latency
     '''
     args =  parser.parse_args()
+<<<<<<< HEAD:src/old_infer.py
+=======
+    print(ext_args)
+>>>>>>> b6f1f163353510e5708bf53aff4cb93efc3a95c8:src/infer.py
     for key, value in ext_args.items():  # update the args with external args
         vars(args)[key] = value
     print(args)
@@ -79,8 +91,13 @@ def work(image, ext_args, verbose = False):  #
         model_func = 'models.' + model_name
         model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
     elif model_name in yolo_model_list:
+<<<<<<< HEAD:src/old_infer.py
         device_yolo ='cpu'  if device == 'cpu' else 0
         model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device_yolo)
+=======
+        if device != 'cpu': device = 0
+        model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device)
+>>>>>>> b6f1f163353510e5708bf53aff4cb93efc3a95c8:src/infer.py
 
     ## process inference
     model.to(device)
@@ -96,6 +113,7 @@ def work(image, ext_args, verbose = False):  #
             data = data.to(device)
             prd = model.forward(data)
             prd = prd.to('cpu').detach()
+<<<<<<< HEAD:src/old_infer.py
             result = np.argmax(prd, axis= 1).numpy()[0]  # transfer result from a tensor to a number
 
         elif model_name in yolo_model_list:  # YOLO models
@@ -107,6 +125,16 @@ def work(image, ext_args, verbose = False):  #
             #     frame = np.squeeze(prd.render())
             #     cv2.imshow('Window_', frame)
             #     cv2.waitKey(200)
+=======
+            prd = np.argmax(prd, axis= 1).numpy()[0]  # transfer result from a tensor to a number
+
+        elif model_name in yolo_model_list:  # YOLO models
+            prd = model(data)
+            ### show result
+            # frame = np.squeeze(results.render())
+            # cv2.imshow('Window_', frame)
+            # if cv2.waitKey(800) & 0xFF >=0: break
+>>>>>>> b6f1f163353510e5708bf53aff4cb93efc3a95c8:src/infer.py
 
         ## count latency
         if device == 'cpu':
@@ -133,6 +161,7 @@ if __name__ == '__main__':
 
     image_folder = '/home/royliu/Documents/datasets/temp/fold'
     i= 0
+<<<<<<< HEAD:src/old_infer.py
     ext_args = dict(arch='yolov5s', device='cuda', image_size=224, verbose= True)
     for i, file_name in enumerate(os.listdir(image_folder)):
         ext_args['file_name']= file_name
@@ -140,4 +169,11 @@ if __name__ == '__main__':
         # image.show()
         result, latency = work(image,ext_args, verbose =True)
         print(f'Result: {result}, Latency: {latency}')
+=======
+    ext_args = dict(arch='alexnet', device='cuda', image_size=224)
+    for i, file_name in enumerate(os.listdir(image_folder)):
+        image = Image.open(os.path.join(image_folder, file_name))
+        result, latency = work(image,ext_args)
+        print(latency)
+>>>>>>> b6f1f163353510e5708bf53aff4cb93efc3a95c8:src/infer.py
         if i >5: break  ## just test 5 images
