@@ -2,6 +2,7 @@ import time
 import os
 import csv
 import re
+import numpy as np
 
 def date_time():
     s_l = time.localtime(time.time())
@@ -55,3 +56,64 @@ def str2dict(string, seperator = ','):
         if re.match(r'[0-9]+',val) : val = int(val)  # if is integer, then convert
         arg[key]=val
     return arg
+
+
+# function for colorizing a label image:
+def label_img_to_color(img):
+    label_to_color = {
+        0: [128, 64,128],
+        1: [244, 35,232],
+        2: [ 70, 70, 70],
+        3: [102,102,156],
+        4: [190,153,153],
+        5: [153,153,153],
+        6: [250,170, 30],
+        7: [220,220,  0],
+        8: [107,142, 35],
+        9: [152,251,152],
+        10: [ 70,130,180],
+        11: [220, 20, 60],
+        12: [255,  0,  0],
+        13: [  0,  0,142],
+        14: [  0,  0, 70],
+        15: [  0, 60,100],
+        16: [  0, 80,100],
+        17: [  0,  0,230],
+        18: [119, 11, 32],
+        19: [81,  0, 81]
+        }
+
+    img_height, img_width = img.shape
+
+    img_color = np.zeros((img_height, img_width, 3))
+    for row in range(img_height):
+        for col in range(img_width):
+            label = img[row, col]
+
+            img_color[row, col] = np.array(label_to_color[label])
+
+    return img_color
+
+def visualize_seg(imgs, outputs):  ## refer:  https://github.com/fregu856/deeplabv3/blob/master/visualization/run_on_seq.py
+    outputs = outputs['out'].cpu().numpy()  # (shape: (batch_size, num_classes, img_h, img_w))
+    pred_label_imgs = np.argmax(outputs, axis=1)  # (shape: (batch_size, img_h, img_w))
+    pred_label_imgs = pred_label_imgs.astype(np.uint8)
+
+    for i in range(pred_label_imgs.shape[0]):
+        pred_label_img = pred_label_imgs[i]  # (shape: (img_h, img_w))
+        # img_id = img_ids[i]
+        img = imgs[i]  # (shape: (3, img_h, img_w))
+
+        img = img.data.cpu().numpy()
+        img = np.transpose(img, (1, 2, 0))  # (shape: (img_h, img_w, 3))
+        img = img * np.array([0.229, 0.224, 0.225])
+        img = img + np.array([0.485, 0.456, 0.406])
+        img = img * 255.0
+        img = img.astype(np.uint8)
+
+        pred_label_img_color = label_img_to_color(pred_label_img)
+        overlayed_img = 0.35 * img + 0.65 * pred_label_img_color
+        overlayed_img = overlayed_img.astype(np.uint8)
+
+        return overlayed_img
+

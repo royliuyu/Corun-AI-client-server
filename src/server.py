@@ -9,10 +9,10 @@ import cv2
 import pickle
 import torch
 from torchvision import transforms, models
-from util import logger_by_date
+from util import logger_by_date, visualize_seg
 
-ip , port = '128.226.119.73', 51400
-# ip , port = '127.0.0.1', 51400
+# ip , port = '128.226.119.73', 51400
+ip , port = '127.0.0.1', 51400
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -31,6 +31,10 @@ def load_model(model_name, device):
     elif model_name in yolo_model_list:
         device_yolo ='cpu'  if device == 'cpu' else 0
         model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device_yolo)
+    elif model_name in deeplab_model_list:
+        model_func = 'models.segmentation.' + model_name
+        model = eval(model_func)(num_classes=19)
+
     return model
 
 def transform(image, image_size):
@@ -60,6 +64,18 @@ def infer(model, model_name, data, device):
         elif model_name in yolo_model_list:  # YOLO models
             prd = model(data)
             result = prd.xyxyn
+        elif model_name in deeplab_model_list:
+            img = data.to(device)
+            prd = model.forward(img)
+            result = prd['out'].shape
+
+            ## visualize result of segmentation
+            # print(prd['out'][0,:,:,:].shape)
+            # overlayed_img = visualize_seg(data, prd)
+            # print(overlayed_img.shape)
+            # cv2.imshow('Result', overlayed_img)
+            # cv2.waitKey(200)
+            # result = overlayed_img
 
         if device == 'cpu':
             latency = (time.time() - start) * 1000  # metrics in ms
@@ -68,10 +84,11 @@ def infer(model, model_name, data, device):
             torch.cuda.synchronize()  ###
             latency = starter.elapsed_time(ender)  # metrics in ms
 
-            ## show the result
+            ## show the result of yolo
             # frame = np.squeeze(prd.render())
             # cv2.imshow('Window_', frame)
             # cv2.waitKey(200)
+
     return result, latency
 
 def work():
@@ -144,18 +161,19 @@ def work():
                     # newfile.close()  # save file transfered from server
 
                     ## process image
-                    image = Image.open(io.BytesIO(file))  # convert binary bytes to PIL image in RAM
+                    image = Image.open(io.BytesIO(file))  # convert binary bytes to PIL image in RAM, i.e. 'PIL.JpegImagePlugin.JpegImageFile'
                     if type(image_size) is not tuple: image_size =(image_size,image_size)
                     data = image  # input data in type of PIL.image
                     if model_name in cnn_model_list or model_name in deeplab_model_list:
                         data = transform(image, image_size)
                         data = torch.unsqueeze(data, dim=0)  # add a batch_size dimension
-
+                    else: # yolo
+                        data = data.resize(image_size)
                     ## show image transfered
-                    # cv_image = np.array(image)
-                    # cv_image = cv_image[:, :, ::-1].copy()
+                    # cv_image = np.array(data)
+                    # # cv_image = cv_image[:, :, ::-1].copy()
                     # cv2.imshow('image', cv_image)
-                    # cv2.waitKey(500)
+                    # cv2.waitKey(200)
 
                     # ## process inference
                     result, latency = infer(model, model_name, data, device)
@@ -167,7 +185,7 @@ def work():
 
                 ## save log
                 data_in_row = [work_start, model_name, image_size, device, args['file_name'], latency]
-                logger_prefix = 'infer_log_'
+                logger_prefix = 'infer_log_server_'
                 logger_by_date(data_in_row, '../result/log', logger_prefix)
 
             reply = conn.recv(1024).decode()

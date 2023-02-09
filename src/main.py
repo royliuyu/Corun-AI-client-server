@@ -31,6 +31,10 @@ import cnn_infer, cnn_train, deeplab_v3, yolo_v5, do_nothing
 import warnings
 warnings.filterwarnings("ignore")
 
+cnn_model_list = ['inception_v3']
+yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
+deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101','deeplabv3_mobilenet_v3_large']
+
 def date_time():
     s_l = time.localtime(time.time())
     dt = time.strftime("%Y%m%d", s_l)
@@ -51,7 +55,7 @@ def main():
     i=0
     profile_log = pd.DataFrame(columns = ['time_frame', 'train_configure', 'infer_configure','status', 'result'], index=None)
 
-    profiling_num = 30  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
+    profiling_num = 500  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
@@ -83,15 +87,15 @@ def main():
                 else:
                     p2 = mp_new.Process(target= cnn_train.work, args= (train_config,), kwargs=(dict(queue=trn_queue)))
 
-                if infer_config['arch'] == 'yolo_v5s':
+                if infer_config['arch'] in yolo_model_list:
                     p3 = mp_new.Process(target = yolo_v5.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
-
-                elif infer_config['arch'] == 'None': # no inference
+                elif infer_config['arch'] in deeplab_model_list:
+                    p3 = mp_new.Process(target = deeplab_v3.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
+                elif infer_config['arch'] in cnn_model_list: # in cnn list
+                    p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
+                else: #  infer_config['arch'] == 'None': # no inference
                     p3 = mp_new.Process(target=do_nothing.infer, args=(infer_config, (con_inf_a, con_inf_b),),
                                         kwargs=(dict(queue=inf_queue)))
-                else:
-                    p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
-
                 p_list=[p1, p2, p3]
                 res = 'na'
 

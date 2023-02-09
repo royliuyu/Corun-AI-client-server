@@ -1,6 +1,7 @@
 '''
 1. download zip files via:
  https://www.cityscapes-dataset.com/dataset-overview/
+ sign up and log in before downloading
  gtFine_trainvaltest.zip (241MB) [md5], leftImg8bit_trainvaltest.zip (11GB) [md5]
 
 2. manually unzip or run codes to unzip files, as:
@@ -43,13 +44,13 @@ from PIL import Image
 import torch
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--root', metavar='root', default='/home/royliu/Documents/datasets/cityscapes')
+parser.add_argument('--root', metavar='root', default='/home/lab/Documents/datasets/cityscapes')
 parser.add_argument('--split', metavar='split', default='train', help='"train" or "val" or "test".')
 
 class DataGenerator(Cityscapes):  ## varible names in Cityscapes Class are: images, targets, split...
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, target_type="semantic")
-        self.image_size = (448,228)  ## Roy: 图片尺寸改这里
+        self.image_size = (224,224)  ## Roy: 图片尺寸改这里
         self.semantic_target_type_index = [i for i, t in enumerate(self.target_type) if t == "semantic"][0]
         self.colormap = self._generate_colormap()
 
@@ -117,8 +118,13 @@ if __name__=='__main__':
     args = parser.parse_args()
     assert os.path.exists(args.root), 'Root of dataset is incorrect or miss.'
 
-    dataset_train = DataGenerator( args.root,  split = 'train') # default: mode='fine', target_type= 'sementic, split: train, test or val if mode=”fine” otherwise train, train_extra or val
-    img_tensor, sgm = dataset_train[0]
+    # dataset_train = DataGenerator( args.root,  split = 'train') # default: mode='fine', target_type= 'sementic, split: train, test or val if mode=”fine” otherwise train, train_extra or val
+    # img_tensor, sgm = dataset_train[0]
+
+    dataset_test = DataGenerator(args.root, split='test')
+    img_tensor, sgm = dataset_test[0]
+    test_loader = torch.utils.data.DataLoader(DataGenerator(args.root, split='test'), \
+                                              batch_size= 1, num_workers=1)
     print(img_tensor.shape, sgm.shape)
     # print(img_tensor)
 

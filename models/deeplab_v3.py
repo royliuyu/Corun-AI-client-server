@@ -9,22 +9,23 @@ import argparse
 from tqdm import tqdm
 import sys
 sys.path.append("../datasets")
+sys.path.append("../src")
 import cityscapes
-
+import numpy as np
+import cv2
+from util import visualize_seg
 
 parser =  argparse.ArgumentParser()
 parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents/datasets')
 parser.add_argument('--dataset', metavar = 'data_dir', default= 'cityscapes')
-parser.add_argument('--arch', metavar = 'arch', default = 'segmentation.deeplabv3_resnet50', help ='e.g. segmentation.deeplabv3_resnet101')
+parser.add_argument('--arch', metavar = 'arch', default = 'deeplabv3_resnet50', help ='e.g. segmentation.deeplabv3_resnet101')
 args = parser.parse_args()
-
-
-def work_train(config, queue):
+deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101','deeplabv3_mobilenet_v3_large']
+def work_train(config, queue): # call train()
     ## initialize the arguments
     # queue.put(dict(process='deeplabv3_train'))  # for queue exception of this process
     args = parser.parse_args()
     start = time.time()
-    model_func = 'torchvision.models.'+args.arch # load parser_args's arch value before overiding by config
     # update argparse' args with the new_args from parent process (main)
     for key, value in config.items():
         vars(args)[key] = value  # update args
@@ -36,10 +37,13 @@ def work_train(config, queue):
     # device = 'cuda' if torch.cuda.is_available() else 'cpu'
     device = args.device
     print('Device:', device)
-    assert args.arch == 'deeplab_v3', f'Model \"{args.arch}\" is not recognized!'
+    assert args.arch in deeplab_model_list, f'Model \"{args.arch}\" is not recognized!'
 
-    model = torchvision.models.segmentation.deeplabv3_resnet101(num_classes=19)
+    # model = torchvision.models.segmentation.deeplabv3_resnet101(num_classes=19)
     # model = eval(model_func)(num_classes=19)
+    # model_func = 'torchvision.models.' + args.arch  # load parser_args's arch value before overiding by config
+    model_func = 'torchvision.models.segmentation.' + args.arch
+    model = eval(model_func)(num_classes=19)
 
     train_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(root, split='train'), \
                                                batch_size= batch_size, num_workers= num_workers)
@@ -52,7 +56,7 @@ def work_train(config, queue):
     print('Traingin duration: ', dur, ' sec.')
     queue.put(dict(duration_sec = dur))
 
-def train(model, train_loader, val_loader, num_epochs, device, batch_size):
+def train(model, train_loader, val_loader, num_epochs, device, batch_size):  # called by work_train()
     model.to(device)
     criterion = nn.CrossEntropyLoss()
     lr = 0.001
@@ -128,13 +132,17 @@ def work_infer(config, pipe, queue):
     img_size = args.image_size
     device = args.device
     dataset = args.dataset
+    root = os.path.join(args.root, args.dataset)
     num_workers = args.workers
 
-    dataload_test = torch.utils.data.DataLoader(cityscapes.DataGenerator(root, split='test'), \
+    test_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(root, split='test'), \
                                              batch_size= batch_size, num_workers= num_workers)
 
-    model_func = 'models.' + model_name
-    model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
+    # model_func = 'models.' + model_name
+    # model = torchvision.models.segmentation.deeplabv3_resnet101(num_classes=19)
+    model_func = 'torchvision.models.segmentation.' + model_name
+    model = eval(model_func)(num_classes=19)
+
     assert not ((not torch.cuda.is_available()) and (device =='cuda')), 'set device of cuda, while it is not available'
     model.to(device)
     model.eval()
@@ -150,17 +158,22 @@ def work_infer(config, pipe, queue):
         with torch.no_grad():
 
             # time.sleep(10)  # sleep 50 waiting for trainin
-            for data, label in dataload_test:
+            for image, label in test_loader:
                 if device == 'cpu':
                     start = time.time()
                 else: #cuda
                     starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
                     starter.record()  #cuda
-                data = data.to(device)
+                data = image.to(device)
                 prd = model.forward(data)
-                prd = prd.to('cpu').detach()
-                # prd= prd.numpy()
-                # prd = np.argmax(prd, axis=1)  # output is class_value
+                # prd = prd['out'].to('cpu').detach()
+
+                ## visualize result
+                # print(prd['out'][0,:,:,:].shape)
+                # overlayed_img = visualize_seg(image, prd)
+                # print(overlayed_img.shape)
+                # cv2.imshow('Result', overlayed_img)
+                # cv2.waitKey(200)
 
                 ## count latency
                 if device == 'cpu':
@@ -196,10 +209,14 @@ def work_infer(config, pipe, queue):
 
     print('Inferenc latency is: ', latency/batch_size, 'ms. Total ', count*batch_size,' images are infered.' )
 
-
 if __name__ == '__main__':
     queue = mp.Queue()
-    config = {"arch": "deeplab_v3", "workers": 1, "epochs": 3, "batch_size":4,  "image_size": 224,  "device": "cuda"}
-    work_train(config, queue)
+    pipe3, pipe4 = mp.Pipe()
+    pipe =(pipe3, pipe4)
+    # config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size":4,  "image_size": 224,  "device": "cuda"}
+    # work_train(config, queue)
+
+    config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size": 1, "image_size": 224, "device": "cuda"}
+    work_infer(config, pipe, queue)
 
 
