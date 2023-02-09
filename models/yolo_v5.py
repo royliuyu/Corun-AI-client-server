@@ -37,9 +37,9 @@ import numpy as np
 import time
 import multiprocessing as mp
 from PIL import Image
-
+yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 def work_infer(config, pipe, queue):
-    queue.put(dict(process= 'yolo_v5s'))  # for queue exception of this process
+    queue.put(dict(process= 'yolov5s'))  # for queue exception of this process
     con_yolo_a,con_yolo_b = pipe
     con_yolo_a.close()
     test_loader = DataLoader(coco.test_dataset((config['image_size'],config['image_size'])),\
@@ -47,11 +47,8 @@ def work_infer(config, pipe, queue):
 
     device = 0 if config['device'] == 'cuda' else 'cpu' #'cuda':0. or 'cpu'
     batch_size =  config['batch_size']
-    assert  config['arch'] in ['yolo_v5s', 'yolov_5x'], 'only sypport "yolo_v5s" or "yolov_5x" !'
-    if config['arch'] == 'yolo_v5s':
-        model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, device = device)  # yolov5n - yolov5x6 or custom
-    else:
-        model = torch.hub.load('ultralytics/yolov5', 'yolov5x', pretrained=True, device=device)
+    assert  config['arch'] in yolo_model_list, f'only sypport {yolo_model_list} !'
+    model = torch.hub.load('ultralytics/yolov5', config['arch'], pretrained=True, device=device)
     model.conf = 0.6  # confidence threshold (0-1) 0.52
     model.iou = 0.5  # NMS IoU threshold (0-1). 0.45
 
@@ -74,10 +71,10 @@ def work_infer(config, pipe, queue):
                 image = (image*255).numpy().astype(np.uint8)[[2, 1, 0], :,:]  # change tensor(created in coco.py/DataLoad) to ndarray, which is recognized by yolo
                 results = model(image)
 
-                ### show result
+                ## show result
                 # frame = np.squeeze(results.render())
                 # cv2.imshow('Window_', frame)
-                # if cv2.waitKey(800) & 0xFF >=0: break
+                # if cv2.waitKey(200) & 0xFF >=0: break
 
                 if device == 'cpu':
                     t_cpu = (time.time() - start) *1000  # in ms, for cpu exe time counting
@@ -127,7 +124,7 @@ def work_infer(config, pipe, queue):
             # print(latency)
 
 if __name__ == '__main__':
-    config ={'arch': 'yolo_v5s','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
+    config = {'arch': 'yolov5s','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
     pipe3, pipe4 = mp.Pipe()
     queue = mp.Queue()
     pipe =(pipe3, pipe4)
