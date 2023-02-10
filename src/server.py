@@ -13,7 +13,7 @@ from util import logger_by_date, visualize_seg
 
 # ip , port = '128.226.119.73', 51400
 ip , port = '127.0.0.1', 51400
-print_interval =  5
+print_interval =  100
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
                   'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
@@ -92,6 +92,7 @@ def work():
     reply =''
     previous_model = ''
     print('Server is listening...')
+    print(f'Print status every {print_interval} records.','\n')
     while True:
         conn, addr = s.accept()
         print(f'Received request from {addr} !')
@@ -104,7 +105,7 @@ def work():
             print('Fail to connect !')
             conn.close()
             continue
-        msg = pickle.dumps('Start....')
+        # msg = ('Start...').encode()
         print(args)
         cnt = 0
         while True:

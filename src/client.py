@@ -9,7 +9,7 @@ from util import dict2str, logger_by_date
 
 # ip , port = '128.226.119.73', 51400
 ip , port = '127.0.0.1', 51400
-print_interval = 5
+print_interval = 100
 def send(dir, data_format, args, interval_list):
     work_start = time.time()
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -49,10 +49,10 @@ def send(dir, data_format, args, interval_list):
 
 
 
-            # ## receive result from server,  old version of sending small # of result value
+            # ## option 1: receive result from server,  old version of sending small # of result value
             # result_from_server = pickle.loads(s.recv(1024))  # old: deserialize the result from server
 
-            # receive result from server
+            # ## option 2: receive result from server
             # s.send('Ready to recieve results size from server.'.encode())
             result_cont_size = s.recv(1024).decode()
             result_cont_size = int(result_cont_size)
@@ -99,14 +99,15 @@ def open_file(file_path):
 
 if __name__ == '__main__':
     np.random.seed(6)
-    poisson = np.random.poisson(2, 6)
+    poisson = np.random.poisson(10, 600)
     # print(poisson)
     interval_list = []
     for p in poisson:
         for i in range(p):
             interval_list.append(1 / p)  # in second metric. e.g. 0.16667
     # print(interval_list[:])
-    print(len(interval_list))
+    print('Instance amount :', len(interval_list))
+    print(f'Print status every {print_interval } records.')
 
     # img_path = r'/home/lab/Documents/datasets/temp/fold'
     img_path = r'/home/royliu/Documents/datasets/coco/images/test2017'
@@ -116,11 +117,11 @@ if __name__ == '__main__':
     # time.sleep(1)
     # print("Time elapse for each image: ", (time.time() - start), 'sec.')
 
-    arch_list = cnn_model_list = ['alexnet',  'densenet121',  'efficientnet_v2_l', \
+    arch_list = cnn_model_list = ['yolov5s','alexnet',  'densenet121',  'efficientnet_v2_l', \
                   'googlenet', 'inception_v3',  'mobilenet_v3_small',  'resnet50',  \
-                                  'vgg16', 'yolov5s', 'deeplabv3_resnet50']
+                                  'vgg16',  'deeplabv3_resnet50']
 
-    arch_list = cnn_model_list = ['deeplabv3_resnet50','alexnet',  'densenet121' ]
+    # arch_list = cnn_model_list = ['deeplabv3_resnet50','alexnet',  'densenet121' ]
 
     for arch in arch_list:
         args = dict(arch=arch, device='cuda', image_size=224)  # deeplabv3_resnet50
