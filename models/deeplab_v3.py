@@ -185,7 +185,7 @@ def work_infer(config, pipe, queue):
                 latency_list.append(duration)
                 count += 1
 
-                # measure accuracy and record loss
+                ## measure accuracy and record loss
                 try:  # if train end, then terminate infer here
                     # if con_inf_b.poll() and config['verbose'] != True:  # verbose to control if this program avoke locally (cnn_infer.py)
                     if con_b.poll() :

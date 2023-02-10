@@ -59,7 +59,7 @@ def main():
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
-            time.sleep(1)  # sleep 60 seconds among every combination experiment
+            time.sleep(60)  # sleep 60 seconds among every combination experiment
             print('\n' * 5)
             print('======== round ', i, ': ==========')
             i += 1

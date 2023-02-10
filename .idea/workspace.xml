@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e6969df-2db6-4e83-8e48-855d87a567ec" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/profile_training_inference_cowork.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/profile_training_inference_cowork.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/cnn_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn_train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/result/log/20230128/.~lock.Train arch_vgg16 workers_1 epochs_5 batch_size_64 image_size_224 device_cuda + Infer arch_yolo_v5s workers_1 batch_size_1 image_size_224 device_cuda_20230128183641.csv#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/result/log/profiler_log_20230129124953.csv" beforeDir="false" afterPath="$PROJECT_DIR$/result/log/profiler_log_20230129124953.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/data_analysis_prediction.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/data_analysis_prediction.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.ipynb_checkpoints/temp-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/.ipynb_checkpoints/temp-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/old_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/old_infer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/log/20230201/Train arch_vgg16 workers_1 epochs_5 batch_size_16 image_size_224 device_cuda + Infer arch_yolo_v5s workers_1 batch_size_1 image_size_224 device_cuda_20230201220155.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/log/20230206/Train arch_vgg16 workers_1 epochs_5 batch_size_64 image_size_224 device_cuda + Infer arch_yolo_v5s workers_1 batch_size_1 image_size_224 device_cuda_20230206125208.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/configuration_process_record.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/configuration_process_record.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/temp.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/script/temp.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/util.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +52,10 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="profile_training_inference_cowork" is-module-sdk="true">
@@ -64,7 +75,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.deeplab_v3">
+  <component name="RunManager" selected="Python.server">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="profile traing inference co-work" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -170,27 +181,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="imageNet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="profile_training_inference_cowork" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datasets" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datasets/imageNet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="profile_training_inference_cowork" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -246,6 +236,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datasets/mini_imageNet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="profile_training_inference_cowork" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/server.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -396,21 +407,21 @@
       <item itemvalue="Python.__init__" />
       <item itemvalue="Python.cnn_infer" />
       <item itemvalue="Python.cnn_train" />
-      <item itemvalue="Python.deeplab_v3" />
-      <item itemvalue="Python.imageNet" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.temp" />
+      <item itemvalue="Python.deeplab_v3" />
       <item itemvalue="Python.main_v1" />
       <item itemvalue="Python.mini_imageNet" />
-      <item itemvalue="Python.temp" />
       <item itemvalue="Python.yolo_v5" />
+      <item itemvalue="Python.server" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.server" />
+        <item itemvalue="Python.deeplab_v3" />
         <item itemvalue="Python.main_v1" />
         <item itemvalue="Python.yolo_v5" />
-        <item itemvalue="Python.deeplab_v3" />
         <item itemvalue="Python.mini_imageNet" />
-        <item itemvalue="Python.imageNet" />
       </list>
     </recent_temporary>
   </component>

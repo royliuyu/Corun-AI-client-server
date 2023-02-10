@@ -9,7 +9,7 @@ from util import dict2str, logger_by_date
 
 # ip , port = '128.226.119.73', 51400
 ip , port = '127.0.0.1', 51400
-print_interval = 5
+
 def send(dir, data_format, args, interval_list):
     work_start = time.time()
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -32,9 +32,9 @@ def send(dir, data_format, args, interval_list):
             data_len = len(data)
             file_info = str(data_len) + '|' + file_name
             s.send(file_info.encode())
-            msg = s.recv(1024) # for unblocking
-            # print('recived file info:', msg.decode())
-
+            aa = s.recv(1024) # unblock
+            print('recived file info:', aa.decode())
+            # print('Result:', msg)
             now = time.time()
             # print('Latency:', (now-start)*1000 , 'ms.')
             latency = (now-start)*1000
@@ -49,27 +49,26 @@ def send(dir, data_format, args, interval_list):
 
 
 
-            # ## receive result from server,  old version of sending small # of result value
-            # result_from_server = pickle.loads(s.recv(1024))  # old: deserialize the result from server
+            ## receive result from server
+            result_from_server = pickle.loads(s.recv(1024))  # old: deserialize the result from server
+            # s.send(pickle.dumps('Prepare to recieve results from server.'))
 
-            # receive result from server
             # s.send('Ready to recieve results size from server.'.encode())
-            result_cont_size = s.recv(1024).decode()
-            result_cont_size = int(result_cont_size)
+            # result_cont_size = s.recv(1024).decode()
+            # result_cont_size = int(result_cont_size)
             # print(result_cont_size)
-            s.send('Result size recieved'.encode())
-            if result_cont_size > 0:
-                result_cont = b''
-                get = 0
-                while get < result_cont_size:  # recieve data
-                    data = s.recv(result_cont_size // 2)
-                    result_cont += data  ## binary code
-                    get += len(data)
-            result_from_server =  pickle.loads(result_cont)
+            # s.send('continue'.encode())
+            # if result_cont_size > 0:
+            #     result_cont = b''
+            #     get = 0
+            #     while get < result_cont_size:  # recieve data
+            #         data = s.recv(result_cont_size // 2)
+            #         result_cont += data  ## binary code
+            #         get += len(data)
+            # result_from_server =  pickle.loads(result_cont)
 
-            if i% print_interval == 0:
-                print(f'{i}: Result from server: {result_from_server}, latency {latency}. ')  # print this consume latency
-
+            print(f'Result from server: {result_from_server}, latency {latency}. ')
+            # print(f'Result from server: {msg}, latency {latency}. ')
 
             # time.sleep(interval_list[i])  ## wait for a while,poisson interval
             if i < len(file_list)-1:  # i from 0 to n-1
@@ -77,14 +76,22 @@ def send(dir, data_format, args, interval_list):
             else :
                 s.send(b'done')
 
-            ## log the instance
-            # data_in_row = [work_start, args['arch'], args['image_size'], args['device'], file_name, latency]
-            # logger_prefix = 'infer_log_client_'
-            # logger_by_date(data_in_row, '../result/log', logger_prefix)
+
+
+
+
+
+
+            # log the instance
+            data_in_row = [work_start, args['arch'], args['image_size'], args['device'], file_name, latency]
+            logger_prefix = 'infer_log_client_'
+            logger_by_date(data_in_row, '../result/log', logger_prefix)
 
         s.send(b'done')
         s.close()
         print('Latency(ms): ', latency_list[:])
+
+
 
 def open_file(file_path):
     data = b''
@@ -99,7 +106,7 @@ def open_file(file_path):
 
 if __name__ == '__main__':
     np.random.seed(6)
-    poisson = np.random.poisson(2, 6)
+    poisson = np.random.poisson(10, 600)
     # print(poisson)
     interval_list = []
     for p in poisson:
@@ -120,10 +127,11 @@ if __name__ == '__main__':
                   'googlenet', 'inception_v3',  'mobilenet_v3_small',  'resnet50',  \
                                   'vgg16', 'yolov5s', 'deeplabv3_resnet50']
 
-    arch_list = cnn_model_list = ['deeplabv3_resnet50','alexnet',  'densenet121' ]
+    arch_list = cnn_model_list = [ 'densenet121']
 
     for arch in arch_list:
         args = dict(arch=arch, device='cuda', image_size=224)  # deeplabv3_resnet50
         start = time.time()
         send(img_path, 'jpg', args, interval_list)
         time.sleep(1)
+

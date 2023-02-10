@@ -13,7 +13,7 @@ from util import logger_by_date, visualize_seg
 
 # ip , port = '128.226.119.73', 51400
 ip , port = '127.0.0.1', 51400
-print_interval =  5
+
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
                   'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
@@ -67,8 +67,15 @@ def infer(model, model_name, data, device):
         elif model_name in deeplab_model_list:
             img = data.to(device)
             prd = model.forward(img)
-            result = prd['out'] # prd['out'].shape is [1, 19, 224, 224]
-            # result = visualize_seg(img, prd)  # shape is [3, 244,244], but if overlay processed at server, will consume hundress ms @ server
+            result = prd['out']
+
+            ## visualize result of segmentation
+            # print(prd['out'][0,:,:,:].shape)
+            # overlayed_img = visualize_seg(data, prd)
+            # print(overlayed_img.shape)
+            # cv2.imshow('Result', overlayed_img)
+            # cv2.waitKey(200)
+            # result = overlayed_img
 
         if device == 'cpu':
             latency = (time.time() - start) * 1000  # metrics in ms
@@ -106,11 +113,10 @@ def work():
             continue
         msg = pickle.dumps('Start....')
         print(args)
-        cnt = 0
         while True:
-            # print('checking checking msg from client...', reply)
+            print('checking checking msg from client...', reply)
             if reply == 'continuedone'  or reply =='done':  # msg indicates task ends from client
-                print(' Job from client is done!\n','='*70,'\n'*3,'Server is listening.....')
+                print('Job from client is done!\n','='*70,'\n'*3,'Server is listening.....')
                 break
             elif reply == 'continue' or reply =='':   # normal condition
                 file_info = conn.recv(1024).decode()
@@ -122,7 +128,7 @@ def work():
             try:  ## solve can't recognize "done" msg due to packets sticking issue, the last packets of file_info goes ahead of "continue"
                 data_len, file_name = file_info.split('|')  ## parse header with file length
             except:
-                print(' Job from client is done.\n','=' * 70, '\n\n\nServer is listening.....')
+                print('Job from client is done.\n','=' * 70, '\n\n\nServer is listening.....')
                 break
 
             args['file_name'] = file_name
@@ -149,8 +155,7 @@ def work():
                     file += data  ## binary code
                     get += len(data)
 
-                if cnt % print_interval == 0:
-                    print(f' {cnt}: File name :{file_name}, {data_len} bytes to transfer, recieved {len(file)} bytes.')
+                print(f' File name :{file_name}, {data_len} bytes to transfer, recieved {len(file)} bytes.')
                 if file:  # file is in format of binary byte
                     # newfile.write(file[:])  # save file transfered from server
                     # newfile.close()  # save file transfered from server
@@ -174,27 +179,25 @@ def work():
                     result, latency = infer(model, model_name, data, device)
                     # prd, latency = infer.work(image, args)
 
-                    # ## option 1:send back the result to client, old version of sending small # of result value
-                    # result_cont = pickle.dumps({'file_name': file_name, 'latency_server(ms)': latency, 'result': result})
-                    # conn.send(result_cont)
+                    ## send back the result to client
+                    result_cont = pickle.dumps({'file_name': file_name, 'latency_server(ms)': latency, 'result': result})
+                    conn.send(result_cont)
 
-                    ## option 2: send result to client
-                    result_cont = pickle.dumps({'file_name': file_name, 'latency_server(ms)': latency, 'result': result})  # serialize the result for sending back to client
-                    result_cont_size = len(result_cont)
-
-                    conn.send(str(result_cont_size).encode())
-                    msg = conn.recv(1024).decode()
+                    ## send result to client
+                    # result_cont = pickle.dumps({'file_name': file_name, 'latency_server(ms)': latency, 'result': result})  # serialize the result for sending back to client
+                    # result_cont_size = len(result_cont)
+                    # conn.send(str(result_cont_size).encode())
+                    # a = conn.recv(1024).decode()
+                    # print(a)
                     # print(result_cont_size)
-                    # print("shall get msg of result size recieved., actual: ", msg)  # result size recieved
+                    # p = 0
+                    # while p < result_cont_size:
+                    #     to_send = result_cont[p:p + result_cont_size // 2]
+                    #     conn.send(to_send)
+                    #     p += len(to_send)
 
-                    p = 0
-                    while p < result_cont_size:
-                        to_send = result_cont[p:p + result_cont_size // 2]
-                        conn.send(to_send)
-                        p += len(to_send)
-
-                    if cnt % print_interval ==0:
-                        print(f' {cnt}: File name: {file_name}, Result: {result}, Latency: {latency} ms.\n')
+                    print(f' File name: {file_name}, Result: {result}, Latency: {latency} ms.\n')
+                    # conn.recv(1024)
 
                 ## save log
                 # data_in_row = [work_start, model_name, image_size, device, args['file_name'], latency]
@@ -202,7 +205,6 @@ def work():
                 # logger_by_date(data_in_row, '../result/log', logger_prefix)
 
             reply = conn.recv(1024).decode()
-            cnt += 1
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
 work()

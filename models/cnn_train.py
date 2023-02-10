@@ -351,6 +351,10 @@ def main_worker(gpu, ngpus_per_node, args):
             #     'optimizer': optimizer.state_dict(),
             #     'scheduler': scheduler.state_dict()
             # }, is_best)
+
+        # file_name = 'training_log'
+        #
+        # log_by_date(df, file_name)
     print('Train done!  Configure: ', args)
 
 

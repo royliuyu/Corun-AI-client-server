@@ -31,12 +31,12 @@ def fmt_to_stmp(tm,*arg):
     timeStamp = time.mktime(timeArray)+int(ms)/1000
     return timeStamp
 
-def save_log(data,file_name):
+def save_log(df_data,file_name):
     dt, tm = date_time()
     log_dir = '../result/log/' + dt
     if not os.path.exists(log_dir): os.mkdir(log_dir)
     log_file = file_name + '_'+ dt + tm
-    data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
+    df_data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
 
 def dict2str(dictionary, seperator = ','):
     assert len(seperator) == 1, "Seperator must be type of character"
