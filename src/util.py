@@ -11,7 +11,7 @@ def date_time():
     # print(date, tm )
     return dt, tm
 
-def logger_by_date(data_in_row, dir, file_name_prefix):  # save in csv format
+def logger_by_date(col, data_in_row, dir, file_name_prefix):  # save in csv format
     data, _ = date_time()
     file_path = os.path.join(dir,file_name_prefix+ data+ '.csv')
     if os.path.exists(file_path):
@@ -21,6 +21,7 @@ def logger_by_date(data_in_row, dir, file_name_prefix):  # save in csv format
     else:
         with open(file_path, 'w', newline='') as csvf:
             writer =  csv.writer(csvf)
+            writer.writerow(col)
             writer.writerow(data_in_row)
 
 
@@ -58,7 +59,7 @@ def str2dict(string, seperator = ','):
     return arg
 
 
-# function for colorizing a label image:
+# function for colorizing a segmentation label image:
 def label_img_to_color(img):
     label_to_color = {
         0: [128, 64,128],

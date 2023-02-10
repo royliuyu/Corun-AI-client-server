@@ -13,7 +13,7 @@ from util import logger_by_date, visualize_seg
 
 # ip , port = '128.226.119.73', 51400
 ip , port = '127.0.0.1', 51400
-print_interval =  100
+print_interval =  1000 ## to change this value to change the result displaying frequency on the screen
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
                   'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
@@ -77,7 +77,7 @@ def infer(model, model_name, data, device):
             torch.cuda.synchronize()  ###
             latency = starter.elapsed_time(ender)  # metrics in ms
 
-            ## show the result of yolo
+            ## vidualize the result of yolo
             # frame = np.squeeze(prd.render())
             # cv2.imshow('Window_', frame)
             # cv2.waitKey(200)
@@ -92,7 +92,7 @@ def work():
     reply =''
     previous_model = ''
     print('Server is listening...')
-    print(f'Print status every {print_interval} records.','\n')
+    print(f'Print result every {print_interval} records.','\n')
     while True:
         conn, addr = s.accept()
         print(f'Received request from {addr} !')
@@ -116,7 +116,7 @@ def work():
             elif reply == 'continue' or reply =='':   # normal condition
                 file_info = conn.recv(1024).decode()
             else:  ## i.e. file_len|file_name or continuefile_len|file_name
-                try: ## solve can't recognize "done" msg due to packets sticking issue
+                try: ## solve that can't recognize "done" msg due to packets sticking issue
                     file_info = re.findall(r'([0-9].+)', reply)[0]  ## parse the "continue" msg, which for avoiding blocking
                 except: break
 
@@ -165,7 +165,7 @@ def work():
                         data = torch.unsqueeze(data, dim=0)  # add a batch_size dimension
                     else: # yolo
                         data = data.resize(image_size)
-                    ## show image transfered
+                    ## visualize the image transfered
                     # cv_image = np.array(data)
                     # # cv_image = cv_image[:, :, ::-1].copy()
                     # cv2.imshow('image', cv_image)
@@ -173,7 +173,8 @@ def work():
 
                     # ## process inference
                     result, latency = infer(model, model_name, data, device)
-                    # prd, latency = infer.work(image, args)
+
+                    ### send back the result to client
 
                     # ## option 1:send back the result to client, old version of sending small # of result value
                     # result_cont = pickle.dumps({'file_name': file_name, 'latency_server(ms)': latency, 'result': result})
@@ -197,10 +198,11 @@ def work():
                     if cnt % print_interval ==0:
                         print(f' {cnt}: File name: {file_name}, Result: {result}, Latency: {latency} ms.\n')
 
-                ## save log
-                # data_in_row = [work_start, model_name, image_size, device, args['file_name'], latency]
-                # logger_prefix = 'infer_log_server_'
-                # logger_by_date(data_in_row, '../result/log', logger_prefix)
+                # save log
+                col = ['work_start', 'model_name', 'image_size', 'device', 'file_name', 'latency']
+                data_in_row = [work_start, model_name, args['image_size'], device, args['file_name'], latency]
+                logger_prefix = 'infer_log_server_'
+                logger_by_date(col, data_in_row, '../result/log', logger_prefix)
 
             reply = conn.recv(1024).decode()
             cnt += 1
