@@ -42,6 +42,7 @@ def work_train(config, queue): # call train()
     # model = torchvision.models.segmentation.deeplabv3_resnet101(num_classes=19)
     # model = eval(model_func)(num_classes=19)
     # model_func = 'torchvision.models.' + args.arch  # load parser_args's arch value before overiding by config
+
     model_func = 'torchvision.models.segmentation.' + args.arch
     model = eval(model_func)(num_classes=19)
 
@@ -213,10 +214,10 @@ if __name__ == '__main__':
     queue = mp.Queue()
     pipe3, pipe4 = mp.Pipe()
     pipe =(pipe3, pipe4)
-    # config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size":4,  "image_size": 224,  "device": "cuda"}
-    # work_train(config, queue)
+    config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size":4,  "image_size": 224,  "device": "cuda"}
+    work_train(config, queue)
 
-    config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size": 1, "image_size": 224, "device": "cuda"}
-    work_infer(config, pipe, queue)
+    # config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size": 1, "image_size": 224, "device": "cuda"}
+    # work_infer(config, pipe, queue)
 
 

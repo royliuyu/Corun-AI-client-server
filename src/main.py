@@ -31,9 +31,13 @@ import cnn_infer, cnn_train, deeplab_v3, yolo_v5, do_nothing
 import warnings
 warnings.filterwarnings("ignore")
 
-cnn_model_list = ['inception_v3']
+cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
+                  'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
+                  'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
+                  'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
-deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101','deeplabv3_mobilenet_v3_large']
+deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet50', 'deeplabv3_mobilenet_v3_large']
+model_list = cnn_model_list + yolo_model_list + deeplab_model_list
 
 def date_time():
     s_l = time.localtime(time.time())
@@ -55,11 +59,11 @@ def main():
     i=0
     profile_log = pd.DataFrame(columns = ['time_frame', 'train_configure', 'infer_configure','status', 'result'], index=None)
 
-    profiling_num = 500  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
+    profiling_num = 200000  #  every 5 epochs with imagenet: 5*1000*60 sec, 83 hours
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
-            time.sleep(60)  # sleep 60 seconds among every combination experiment
+            time.sleep(600)  # sleep 60 seconds among every combination experiment
             print('\n' * 5)
             print('======== round ', i, ': ==========')
             i += 1
@@ -78,7 +82,7 @@ def main():
                 print(config)
                 p1 = mp.Process(target= profiler.profile, args = (config, profiling_num, (con_prf_a,con_prf_b),))
 
-                if train_config['arch'] == 'deeplab_v3':
+                if train_config['arch'] in deeplab_model_list:
                     p2 = mp_new.Process(target=deeplab_v3.work_train, args=(train_config,),
                                         kwargs=(dict(queue=trn_queue)))
                 elif train_config['arch'] == 'None': # no training
@@ -117,7 +121,7 @@ def main():
                             res = inf_queue.get()
                             print('Main: Get data from infer:', res)
 
-                        print('Main: Terminate training and inference', '\n'*5)
+                        print('Main: Terminate training and inference', '\n')
                         profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
                         print('log file saved in:', os.path.join('../result/log', log_file_name))
                         p2.terminate()

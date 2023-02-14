@@ -4,7 +4,7 @@ import re
 import subprocess
 import pandas as pd
 import time
-
+from util import save_log
 
 def cpu_freq():
     dev=json.load(open(r'./device.json','r'))
@@ -70,12 +70,12 @@ def grab_gpu_data(arg):
     output[pos]= fmt_to_stmp(output[pos], "%Y/%m/%d %H:%M:%S") # convert date-time to stamp format, format in "%Y/%m/%d %H:%M:%S"
     return dict(zip(arg, output))
 
-def save_log(data,config):
-    dt, tm = date_time()
-    log_dir = '../result/log/' + dt
-    if not os.path.exists(log_dir): os.mkdir(log_dir)
-    log_file = config + '_'+ dt + tm
-    data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
+# def save_log(data,config):
+#     dt, tm = date_time()
+#     log_dir = '../result/log/' + dt
+#     if not os.path.exists(log_dir): os.mkdir(log_dir)
+#     log_file = config + '_'+ dt + tm
+#     data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
 
 def profile(config, profiling_num, pipe):
     con_prf_a, con_prf_b = pipe
@@ -147,8 +147,11 @@ def profile(config, profiling_num, pipe):
                 # print(cpu_usg_dict)
                 break
 
+    print(f'shapre of gpu:{gpu.shape}, and cpu: {cpu.shape}.')
     data = gpu.join(cpu)
     save_log(data, config)
+    # save_log(gpu, 'gpu')
+    # save_log(cpu, 'cpu')
     print('Profiler: Profiling is ending, notice to main!')
     con_prf_a.send('done')
     print('Profiler: Time elapsed: ', time.time() - start, 'sec.')

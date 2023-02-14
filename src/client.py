@@ -7,7 +7,7 @@ import time
 import numpy as np
 from util import dict2str, logger_by_date
 
-# ip , port = '128.226.119.73', 51400
+# ip , port = '192.168.85.73', 51400
 ip , port = '127.0.0.1', 51400
 print_interval = 1000  # to change this value to change the result displaying frequency on the screen
 
@@ -74,9 +74,9 @@ def send(dir, data_format, args, interval_list):
                 s.send(b'done')
 
             # log the instance
-            col = ['work_start', 'model_name', 'image_size', 'device', 'file_name', 'latency']
-            data_in_row = [work_start, args['arch'], args['image_size'], args['device'], file_name, latency]
-            logger_prefix = 'infer_log_client_'
+            col = ['work_start', 'infer_model_name', 'train_model_name','image_size', 'device', 'file_name', 'latency']
+            data_in_row = [work_start, args['arch'], args['train_model_name'], args['image_size'], args['device'], file_name, latency]
+            logger_prefix = 'infer_log_server_'+'train '+args['train_model_name']+'_'+'infer '+ args['arch']+'_'
             logger_by_date(col, data_in_row, '../result/log', logger_prefix)
 
         s.send(b'done')
@@ -106,13 +106,16 @@ if __name__ == '__main__':
     print(f'Print status every {print_interval } records.')
 
     # img_path = r'/home/lab/Documents/datasets/temp/fold'
-    img_path = r'/home/royliu/Documents/datasets/coco/images/test2017'
+    img_path = r'/home/lab/Documents/datasets/coco/images/test2017'
 
     arch_list = cnn_model_list = ['yolov5s','alexnet',  'densenet121',  'efficientnet_v2_l', \
                   'googlenet', 'inception_v3',  'mobilenet_v3_small',  'resnet50',  \
                                   'vgg16',  'deeplabv3_resnet50']
+    train_model_list = ['none','alexnet', 'vgg16',  'deeplabv3_resnet50']
+
     for arch in arch_list:
-        args = dict(arch=arch, device='cuda', image_size=224)  # deeplabv3_resnet50
+        train_model_name = 'none' #manually change the name here !!
+        args = dict(arch=arch, train_model_name = train_model_name, device='cuda', image_size=224)  # deeplabv3_resnet50
         start = time.time()
         send(img_path, 'jpg', args, interval_list)
         time.sleep(1)

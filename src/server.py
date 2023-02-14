@@ -11,8 +11,10 @@ import torch
 from torchvision import transforms, models
 from util import logger_by_date, visualize_seg
 
+# ip , port = '192.168.85.73', 51400
 # ip , port = '128.226.119.73', 51400
 ip , port = '127.0.0.1', 51400
+
 print_interval =  1000 ## to change this value to change the result displaying frequency on the screen
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -158,6 +160,8 @@ def work():
 
                     ## process image
                     image = Image.open(io.BytesIO(file))  # convert binary bytes to PIL image in RAM, i.e. 'PIL.JpegImagePlugin.JpegImageFile'
+                    if len(np.array(image).shape) < 3:  # gray image
+                        image = image.convert("RGB")  # if gray imange , change to RGB (3 channels)
                     if type(image_size) is not tuple: image_size =(image_size,image_size)
                     data = image  # input data in type of PIL.image
                     if model_name in cnn_model_list or model_name in deeplab_model_list:
@@ -199,9 +203,9 @@ def work():
                         print(f' {cnt}: File name: {file_name}, Result: {result}, Latency: {latency} ms.\n')
 
                 # save log
-                col = ['work_start', 'model_name', 'image_size', 'device', 'file_name', 'latency']
-                data_in_row = [work_start, model_name, args['image_size'], device, args['file_name'], latency]
-                logger_prefix = 'infer_log_server_'
+                col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
+                data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
+                logger_prefix = 'infer_log_server_'+'train '+args['train_model_name']+'_'+'infer '+model_name+'_'
                 logger_by_date(col, data_in_row, '../result/log', logger_prefix)
 
             reply = conn.recv(1024).decode()

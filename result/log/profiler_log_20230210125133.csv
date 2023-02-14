@@ -1,0 +1,3 @@
+,time_frame,train_configure,infer_configure,status,result
+1,1676051515.4847167,"{'arch': 'resnet152', 'workers': 1, 'epochs': 5, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolo_v5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 0}
+2,1676051537.1594126,"{'arch': 'resnet152', 'workers': 1, 'epochs': 5, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'None', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'latency': 0}
