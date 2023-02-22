@@ -1,0 +1,47 @@
+,time_frame,train_configure,infer_configure,status,result
+1,1676481830.0193157,"{'arch': 'vgg16', 'workers': 1, 'epochs': 5, 'batch_size': 16, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolov5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 303, in main_worker
+    train_loader, val_loader  = imageNet.data_loader(batch_size =  args.batch_size, workers = args.workers, image_size=(img_size,img_size))
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../datasets/imageNet.py"", line 107, in data_loader
+    train_ds = train_dataset(data_dir, image_size)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../datasets/imageNet.py"", line 80, in train_dataset
+    train_dataset = datasets.ImageFolder(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 309, in __init__
+    super().__init__(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 144, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 218, in find_classes
+    return find_classes(directory)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 40, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: '/data/datasets/imagenet/ILSVRC2012_img_train'
+"
+2,1676481839.5853708,"{'arch': 'resnet152', 'workers': 1, 'epochs': 5, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolov5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 303, in main_worker
+    train_loader, val_loader  = imageNet.data_loader(batch_size =  args.batch_size, workers = args.workers, image_size=(img_size,img_size))
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../datasets/imageNet.py"", line 107, in data_loader
+    train_ds = train_dataset(data_dir, image_size)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../datasets/imageNet.py"", line 80, in train_dataset
+    train_dataset = datasets.ImageFolder(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 309, in __init__
+    super().__init__(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 144, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 218, in find_classes
+    return find_classes(directory)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torchvision/datasets/folder.py"", line 40, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: '/data/datasets/imagenet/ILSVRC2012_img_train'
+"

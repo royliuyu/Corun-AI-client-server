@@ -1,112 +1,21 @@
 {
   "train": [
-    {
-      "arch": "vgg16",
-      "workers": 1,
-      "epochs": 5,
-      "batch_size": 64,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "resnet152",
-      "workers": 1,
-      "epochs": 5,
-      "batch_size": 32,
-      "image_size": 224,
-      "device": "cuda"
-    },
+
     {
       "arch": "alexnet",
       "workers": 1,
       "epochs": 5,
-      "batch_size": 1024,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "deeplabv3_resnet50",
-      "workers": 1,
-      "epochs": 5,
-      "batch_size": 8,
+      "batch_size": 512,
       "image_size": 224,
       "device": "cuda"
     }
   ],
   "infer": [
     {
-      "arch": "none"
-
-    },
-    {
-      "arch": "yolov5s",
+      "arch": "None",
       "workers": 1,
       "batch_size": 1,
       "image_size": 224,
       "device": "cuda"
-    },
-    {
-      "arch": "alexnet",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "densenet121",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "googlenet",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "inception_v3",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "mobilenet_v3_small",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "resnet50",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "vgg16",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "deeplabv3_resnet50",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    },
-    {
-      "arch": "efficientnet_v2_l",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
-    }
-  ]
+    }]
 }

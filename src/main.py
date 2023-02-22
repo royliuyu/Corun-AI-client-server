@@ -36,7 +36,7 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
                   'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
                   'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
-deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet50', 'deeplabv3_mobilenet_v3_large']
+deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
 model_list = cnn_model_list + yolo_model_list + deeplab_model_list
 
 def date_time():
@@ -63,7 +63,7 @@ def main():
     ## start co-run train and infer.....
     for infer_config in infer_config_list:
         for train_config in train_config_list:
-            time.sleep(600)  # sleep 60 seconds among every combination experiment
+            time.sleep(6)  # sleep 60 seconds among every combination experiment
             print('\n' * 5)
             print('======== round ', i, ': ==========')
             i += 1
@@ -122,8 +122,8 @@ def main():
                             print('Main: Get data from infer:', res)
 
                         print('Main: Terminate training and inference', '\n')
-                        profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
-                        print('log file saved in:', os.path.join('../result/log', log_file_name))
+                        profile_log.to_csv(os.path.join('../result/log/all_profiler_log', log_file_name), index_label=None, mode='w')
+                        print('log file saved in:', os.path.join('../result/log/all_profiler_log', log_file_name))
                         p2.terminate()
                         p3.terminate()
                         break
@@ -139,8 +139,8 @@ def main():
                             con_prf_a.close()
 
                             print('Main: Terminate profiling, training and inference')
-                            # profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
-                            # print('log file saved in:', os.path.join('../result/log', log_file_name))
+                            # profile_log.to_csv(os.path.join('../result/log/all_profiler_log', log_file_name), index_label=None, mode='w')
+                            # print('log file saved in:', os.path.join('../result/log/all_profiler_log', log_file_name))
                             # p1.terminate()
                             # p2.terminate()
                             p3.terminate()
@@ -155,8 +155,8 @@ def main():
                         p2.terminate()
                         p1.terminate()
                         raise ChildProcessError(trc_back)
-                        profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
-                        print('log file saved in:', os.path.join('../result/log', log_file_name))
+                        profile_log.to_csv(os.path.join('../result/log/all_profiler_log', log_file_name), index_label=None, mode='w')
+                        print('log file saved in:', os.path.join('../result/log/all_profiler_log', log_file_name))
                         break
                     if p3.exception:
                         print('Terminate all processes, due to infer process exception.')
@@ -165,8 +165,8 @@ def main():
                         p2.terminate()
                         p1.terminate()
                         raise ChildProcessError(trc_back)
-                        profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
-                        print('log file saved in:', os.path.join('../result/log', log_file_name))
+                        profile_log.to_csv(os.path.join('../result/log/all_profiler_log', log_file_name), index_label=None, mode='w')
+                        print('log file saved in:', os.path.join('../result/log/all_profiler_log', log_file_name))
                         break
 
                 for p in p_list:
@@ -176,12 +176,12 @@ def main():
                     p.terminate()
 
                 profile_log.loc[i]= [time.time(), train_config, infer_config, 'Sucess',res]  # add one row of data
-                profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
+                profile_log.to_csv(os.path.join('../result/log/all_profiler_log', log_file_name), index_label=None, mode='w')
 
             except Exception:
                 print('traceback:', traceback.format_exc())
                 profile_log.loc[i] = [time.time(), train_config, infer_config, 'Fail', trc_back]
-                profile_log.to_csv(os.path.join('../result/log', log_file_name), index_label=None, mode='w')
+                profile_log.to_csv(os.path.join('../result/log/all_profiler_log', log_file_name), index_label=None, mode='w')
 
 if __name__ == '__main__':
     main()

@@ -12,8 +12,8 @@ from torchvision import transforms, models
 from util import logger_by_date, visualize_seg
 
 # ip , port = '192.168.85.73', 51400
-# ip , port = '128.226.119.73', 51400
-ip , port = '127.0.0.1', 51400
+ip , port = '128.226.119.71', 51400
+# ip , port = '127.0.0.1', 51400
 
 print_interval =  1000 ## to change this value to change the result displaying frequency on the screen
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
@@ -205,7 +205,7 @@ def work():
                 # save log
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
-                logger_prefix = 'infer_log_server_'+'train '+args['train_model_name']+'_'+'infer '+model_name+'_'
+                logger_prefix = 'infer_log_server_' + 'request_rate_' + str(args['request_rate'])+' train_'+args['train_model_name']+' infer_'+model_name+'_'
                 logger_by_date(col, data_in_row, '../result/log', logger_prefix)
 
             reply = conn.recv(1024).decode()

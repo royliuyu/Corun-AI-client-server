@@ -1,0 +1,18 @@
+,time_frame,train_configure,infer_configure,status,result
+1,1676481030.6291091,"{'arch': 'vgg16', 'workers': 1, 'epochs': 5, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolov5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 332, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, device, args)
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/../models/cnn_train.py"", line 395, in train
+    loss.backward()
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torch/_tensor.py"", line 488, in backward
+    torch.autograd.backward(
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.8/site-packages/torch/autograd/__init__.py"", line 197, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 392.00 MiB (GPU 0; 5.93 GiB total capacity; 3.74 GiB already allocated; 143.75 MiB free; 4.00 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+"

@@ -1,0 +1,16 @@
+,time_frame,train_configure,infer_configure,status,result
+1,1675002388.16175,"{'arch': 'vgg16', 'workers': 1, 'epochs': 5, 'batch_size': 64, 'image_size': 224, 'device': 'cuda'}","{'arch': 'None', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Fail,"Traceback (most recent call last):
+  File ""/home/royliu/Dropbox/research/profile_training_inference_cowork/src/multiprocessing_exception.py"", line 17, in run
+    multiprocessing.Process.run(self)
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/multiprocessing/process.py"", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File ""../models/cnn_train.py"", line 140, in work
+    main_worker(args.gpu, ngpus_per_node, args)
+  File ""../models/cnn_train.py"", line 345, in main_worker
+    save_checkpoint({
+  File ""../models/cnn_train.py"", line 465, in save_checkpoint
+    shutil.copyfile(filename, 'model_best.pth.tar')
+  File ""/home/royliu/anaconda3/envs/tf/lib/python3.9/shutil.py"", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: 'checkpoint.pth.tar'
+"

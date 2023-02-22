@@ -38,7 +38,7 @@ model_names = sorted(name for name in models.__dict__
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('--data', metavar='DIR', default='/home/royliu/Documents/datasets',
                     help='parent path to dataset ')  # could change the dataset in mini_imageNet.py
-parser.add_argument('--dataset', metavar='dataset', default='MiniImageNet',
+parser.add_argument('--dataset', metavar='dataset', default='imagenet',
                     help='default: imagenet, or MiniImageNet')  # could change the dataset in mini_imageNet.py
 
 parser.add_argument('-a', '--arch', metavar='MODEL', default='alexnet',
