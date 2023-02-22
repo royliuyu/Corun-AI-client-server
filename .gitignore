@@ -1,0 +1,10 @@
+result/log/
+.idea/
+src/__pycache__/
+src/.ipynb_checkpoints
+script/__pycache__/
+script/.ipynb_checkpoints
+datasets/__pycache__/
+datasets/.ipynb_checkpoints
+models/__pycache__/
+models/.ipynb_checkpoints
