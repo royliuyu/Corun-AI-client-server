@@ -113,7 +113,7 @@ if __name__ == '__main__':
         # img_path = r'/home/lab/Documents/datasets/temp/fold'
         img_path = r'/home/anurag/Documents/coco/images/test2017'
 
-        arch_list = cnn_model_list = ['yolov5s','alexnet',  'densenet121',  'efficientnet_v2_l', \
+        arch_list = ['yolov5s','alexnet',  'densenet121',  'efficientnet_v2_l', \
                       'googlenet', 'inception_v3',  'mobilenet_v3_small',  'resnet50',  \
                                       'vgg16',  'deeplabv3_resnet50']
         train_model_list = ['none','alexnet', 'vgg16',  'deeplabv3_resnet50']

@@ -2,20 +2,17 @@
   "train": [
 
     {
-      "arch": "alexnet",
+      "arch": "deeplabv3_resnet50",
       "workers": 1,
       "epochs": 5,
-      "batch_size": 512,
+      "batch_size": 64,
       "image_size": 224,
       "device": "cuda"
     }
   ],
   "infer": [
     {
-      "arch": "None",
-      "workers": 1,
-      "batch_size": 1,
-      "image_size": 224,
-      "device": "cuda"
+      "arch": "None"
+
     }]
 }

@@ -3,6 +3,7 @@ import os
 import csv
 import re
 import numpy as np
+import random
 
 def date_time():
     s_l = time.localtime(time.time())
@@ -117,4 +118,32 @@ def visualize_seg(imgs, outputs):  ## refer:  https://github.com/fregu856/deepla
         overlayed_img = overlayed_img.astype(np.uint8)
 
         return overlayed_img
+
+
+def dataset_split(dataset, split_rate=(0.6, 0.2, 0.2), seed=42):
+    random.seed(seed)
+    a, b, c = split_rate
+    length = len(dataset)
+    total = np.arange(length).tolist()
+    split = int(a * length)
+    train_idx = sorted(random.sample(total, split))
+    remain = sorted(set(total) - set(train_idx))
+    val_idx = sorted(random.sample(remain, int(b * length)))
+    test_idx = sorted(set(remain) - set(val_idx))
+    trn = dict.fromkeys(train_idx, 'train')
+    val = dict.fromkeys(val_idx, 'val')
+    tst = dict.fromkeys(test_idx, 'test')
+    trn.update(val)
+    trn.update(tst)
+    idx_mode = sorted(trn.items())
+    train_dataset, val_dataset, test_dataset = [], [], []
+    for idx, mode in idx_mode:  # type of idx_mode is tuple NOT dict
+        if mode == 'train':
+            train_dataset.append(dataset[idx])
+        elif mode == 'val':
+            val_dataset.append(dataset[idx])
+        else: # mode == 'test'
+            test_dataset.append(dataset[idx])
+
+    return train_dataset, val_dataset, test_dataset
 

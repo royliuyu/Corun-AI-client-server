@@ -214,7 +214,7 @@ if __name__ == '__main__':
     queue = mp.Queue()
     pipe3, pipe4 = mp.Pipe()
     pipe =(pipe3, pipe4)
-    config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size":4,  "image_size": 224,  "device": "cuda"}
+    config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size":8,  "image_size": 224,  "device": "cuda"}
     work_train(config, queue)
 
     # config = {"arch": "deeplabv3_resnet101", "workers": 1, "epochs": 3, "batch_size": 1, "image_size": 224, "device": "cuda"}

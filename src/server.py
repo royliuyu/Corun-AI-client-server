@@ -10,9 +10,11 @@ import pickle
 import torch
 from torchvision import transforms, models
 from util import logger_by_date, visualize_seg
+import os
 
-# ip , port = '192.168.85.73', 51400
-ip , port = '128.226.119.71', 51400
+root ='/home/royliu'
+ip , port = '192.168.85.71', 51400
+# ip , port = '128.226.119.71', 51400
 # ip , port = '127.0.0.1', 51400
 
 print_interval =  1000 ## to change this value to change the result displaying frequency on the screen
@@ -31,8 +33,13 @@ def load_model(model_name, device):
         model_func = 'models.' + model_name
         model = eval(model_func)(pretrained=True) # eval(): transform string to variable or function
     elif model_name in yolo_model_list:
-        device_yolo ='cpu'  if device == 'cpu' else 0
-        model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device_yolo)
+        device ='cpu'  if device == 'cpu' else 0
+        # model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device=device_yolo)
+        local_source = os.path.join(root, './.cache/torch/hub/ultralytics_yolov5_master')
+        assert local_source, 'Model does not exist please run download_models.py to download yolov5 models first.'
+        model = torch.hub.load(local_source, model_name, source='local', pretrained=True,
+                               device=device)  ## so it can be loaded locally
+
     elif model_name in deeplab_model_list:
         model_func = 'models.segmentation.' + model_name
         model = eval(model_func)(num_classes=19)
@@ -86,13 +93,18 @@ def infer(model, model_name, data, device):
 
     return result, latency
 
+global cnt # to count the combination # conducted
+cnt = 0
 def work():
+    global cnt
     s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((ip, port))
-    s.listen(3)
+    s.listen(5)
     reply =''
     previous_model = ''
+    print('======== episode ', cnt, ': ==========')
+    cnt +=1
     print('Server is listening...')
     print(f'Print result every {print_interval} records.','\n')
     while True:

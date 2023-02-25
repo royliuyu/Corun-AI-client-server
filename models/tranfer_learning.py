@@ -1,5 +1,3 @@
-########## backup for transfer learning with a small dataset,@ 20230224
-
 '''
 Transfer learning demo, 2 binary classification of bee and ants
 
@@ -25,10 +23,14 @@ from tqdm import tqdm
 import argparse
 import cnn_train  #for accuracy , TBI
 import numpy as np
+from torch.utils.data import DataLoader
+import sys
+sys.path.append("../src")
+from caltech101 import GenerateDataset
 
 parser =  argparse.ArgumentParser()
 parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents')
-parser.add_argument('--dataset', metavar = 'data_dir', default= './datasets/hymenoptera_data', help =' path of dataset ')
+parser.add_argument('--dataset', metavar = 'dataset', default= 'caltech101', help ='name of dataset: e.g. caltech101, or, hymenoptera_data ')
 parser.add_argument('--arch', metavar = 'arch', default = 'alexnet', help ='e.g. resnet50, alexnet')
 parser.add_argument('--method', metavar = 'method', default = 'append', help ='e.g. fine-tune or append') # train as fine tune or append
 args = parser.parse_args()
@@ -49,7 +51,6 @@ def work_train(config, queue): ## method: fine tune or append
     batch_size = args.batch_size
     image_size = args.image_size
     num_workers = args.workers
-    method = args.method
     # device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
@@ -58,9 +59,7 @@ def work_train(config, queue): ## method: fine tune or append
     model_func = 'models.' + model_name
     model = eval(model_func)(weights=True)  # eval(): transform string to variable or function, # weights: pre-trained = True
 
-    data_dir = os.path.join(args.root, args.dataset)
-
-
+    print('Training of transfer learning starts...')
     print('Device:', device)
 
     data_transforms = {
@@ -78,24 +77,31 @@ def work_train(config, queue): ## method: fine tune or append
         ]),
     }
 
-    image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                              data_transforms[x])
-                      for x in ['train', 'val']}
-    dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size= batch_size,
-                                                  shuffle=True, num_workers= num_workers)
-                   for x in ['train', 'val']}
-    class_names = image_datasets['train'].classes
-    inputs, classes = next(iter(dataloaders['train']))
-    out = utils.make_grid(inputs)
+    if args.dataset == 'caltech101':
+        image_datasets = {x: GenerateDataset(image_size=(224, 224), mode=x) for x in ['train', 'val']}
+        dataloaders  = {x: DataLoader(image_datasets[x], batch_size= batch_size, num_workers=1, shuffle=True) for x in ['train', 'val']}
+        class_names = np.unique(image_datasets['train'].label_list_trn)
+    else:
+        data_dir = os.path.join(args.root, './datasets/hymenoptera_data')
+        image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
+                                                  data_transforms[x])
+                          for x in ['train', 'val']}
+        dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size= batch_size,
+                                                      shuffle=True, num_workers= num_workers)
+                       for x in ['train', 'val']}
 
-    if method == 'append':
+        class_names = image_datasets['train'].classes
+        # inputs, classes = next(iter(dataloaders['train']))
+        # out = utils.make_grid(inputs)
+
+    if args.method == 'append':
         ## option 1 : train final layers
         model_conv = model  # weights: pre-trained = True
         for param in model_conv.parameters():
             param.requires_grad = False  ## freeze train
         # Parameters of newly constructed modules have requires_grad=True by default
         num_ftrs = model_conv.fc.in_features
-        model_conv.fc = nn.Linear(num_ftrs, len(class_names))  # num_class =2
+        model_conv.fc = nn.Linear(num_ftrs, len(class_names))  # num_class =2 , change the final layers
         model_conv = model_conv.to(device)
         criterion = nn.CrossEntropyLoss()
         optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
@@ -140,10 +146,15 @@ def work_infer(config, pipe, queue):
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
             ])
 
-    data_dir = os.path.join(root, args.dataset)
-    image_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), data_transforms)  # no transforms here
-    dataload_test = torch.utils.data.DataLoader(image_datasets, batch_size= batch_size,
-                                                  shuffle=True, num_workers= num_workers)
+    if args.dataset == 'caltech101':
+        image_datasets = GenerateDataset(image_size=(224, 224), mode='test')
+        dataload_test  = DataLoader(image_datasets, batch_size= batch_size, num_workers=1, shuffle=True)
+
+    else:
+        data_dir = os.path.join(root, './datasets/hymenoptera_data')
+        image_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), data_transforms)  # no transforms here
+        dataload_test = torch.utils.data.DataLoader(image_datasets, batch_size= batch_size,
+                                                      shuffle=True, num_workers= num_workers)
     pt_dir = os.path.join(root, './pt_files')
     pt_file_name = args.arch + '_tfl_best.pt'
     pt_file_path = os.path.join(pt_dir, pt_file_name)
@@ -171,7 +182,6 @@ def work_infer(config, pipe, queue):
                 data = data.to(device)
                 prd = model.forward(data)
                 prd = prd.to('cpu').detach()
-                print(prd)
                 # prd= prd.numpy()
                 # prd = np.argmax(prd, axis=1)  # output is class_value
 
@@ -241,11 +251,11 @@ def train_model(model, args, criterion, optimizer, scheduler, dataloaders):
             running_corrects = 0
 
             # Iterate over data.
-            data_cnt = 0 # for calculating lass and accuracy
-            for inputs, labels in dataloaders[phase]:
+            data_cnt = 0 # count number of processed instances for calculating lass and accuracy
+            dl = dataloaders[phase]
+            for inputs, labels in dl:
                 inputs = inputs.to(device)
                 labels = labels.to(device)
-                print(labels)
 
                 optimizer.zero_grad()
                 with torch.set_grad_enabled(phase == 'train'):
@@ -296,7 +306,7 @@ if __name__ == '__main__':
     queue = mp.Queue()
     pipe_a, pipe_b = mp.Pipe()
     pipe =(pipe_a, pipe_b)
-    config = {'arch': 'resnet50', 'workers': 1, 'epochs': 10, 'batch_size':1, 'image_size': 224, 'device': 'cuda',
+    config = {'arch': 'resnet50', 'workers': 1, 'epochs': 50, 'batch_size':384, 'image_size': 224, 'device': 'cuda',
               'verbose': True}
     work_train(config, queue)
-    work_infer(config, pipe, queue)
+    # work_infer(config, pipe, queue)

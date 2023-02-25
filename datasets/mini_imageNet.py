@@ -28,8 +28,6 @@ class MiniImageNet(Dataset):
             label_name = img_label.loc[i,'label'] # old label in format of n01930112
             self.label_list.append(label_mapping_dict[label_name])   # new label in class value format, e.g 37
 
-
-
     def __len__(self):
         return len(self.img_path_list)
 
