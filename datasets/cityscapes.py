@@ -44,8 +44,9 @@ from PIL import Image
 import torch
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--root', metavar='root', default='/home/lab/Documents/datasets/cityscapes')
+parser.add_argument('--data_dir', metavar='data_dir', default='./Documents/datasets/cityscapes')
 parser.add_argument('--split', metavar='split', default='train', help='"train" or "val" or "test".')
+root = os.environ['HOME']
 
 class DataGenerator(Cityscapes):  ## varible names in Cityscapes Class are: images, targets, split...
     def __init__(self, *args, **kwargs):
@@ -116,14 +117,15 @@ class CityTransform:  # to transform image and mask
 if __name__=='__main__':
 
     args = parser.parse_args()
-    assert os.path.exists(args.root), 'Root of dataset is incorrect or miss.'
+    data_dir = os.path.join(root, args.data_dir)
+    assert os.path.exists(data_dir), 'Root of dataset is incorrect or miss.'
 
     # dataset_train = DataGenerator( args.root,  split = 'train') # default: mode='fine', target_type= 'sementic, split: train, test or val if mode=”fine” otherwise train, train_extra or val
     # img_tensor, sgm = dataset_train[0]
 
-    dataset_test = DataGenerator(args.root, split='test')
+    dataset_test = DataGenerator(data_dir, split='test')
     img_tensor, sgm = dataset_test[0]
-    test_loader = torch.utils.data.DataLoader(DataGenerator(args.root, split='test'), \
+    test_loader = torch.utils.data.DataLoader(DataGenerator(data_dir, split='test'), \
                                               batch_size= 1, num_workers=1)
     print(img_tensor.shape, sgm.shape)
     # print(img_tensor)

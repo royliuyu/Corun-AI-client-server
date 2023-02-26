@@ -12,10 +12,7 @@ from torchvision import transforms, models
 from util import logger_by_date, visualize_seg
 import os
 
-root ='/home/royliu'
-ip , port = '192.168.85.71', 51400
-# ip , port = '128.226.119.71', 51400
-# ip , port = '127.0.0.1', 51400
+
 
 print_interval =  1000 ## to change this value to change the result displaying frequency on the screen
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
@@ -23,8 +20,9 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
                   'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
                   'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
-deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet50', 'deeplabv3_mobilenet_v3_large']
+deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
 model_list = cnn_model_list + yolo_model_list + deeplab_model_list
+root = os.environ['HOME']
 
 def load_model(model_name, device):
     ## process model
@@ -95,8 +93,9 @@ def infer(model, model_name, data, device):
 
 global cnt # to count the combination # conducted
 cnt = 0
-def work():
+def work(ip_port):
     global cnt
+    ip, port = ip_port
     s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((ip, port))
@@ -218,10 +217,14 @@ def work():
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
                 logger_prefix = 'infer_log_server_' + 'request_rate_' + str(args['request_rate'])+' train_'+args['train_model_name']+' infer_'+model_name+'_'
-                logger_by_date(col, data_in_row, '../result/log', logger_prefix)
+                # logger_by_date(col, data_in_row, '../result/log', logger_prefix)
 
             reply = conn.recv(1024).decode()
             cnt += 1
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
-work()
+if __name__ =='__main__':
+    # ip , port = '192.168.85.71', 51400
+    # ip , port = '128.226.119.71', 51400
+    ip_port = ('127.0.0.1', 51400)
+    work(ip_port)

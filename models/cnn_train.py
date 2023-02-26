@@ -36,9 +36,9 @@ model_names = sorted(name for name in models.__dict__
                      and callable(models.__dict__[name]))
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
-parser.add_argument('--data', metavar='DIR', default='/home/royliu/Documents/datasets',
-                    help='parent path to dataset ')  # could change the dataset in mini_imageNet.py
-parser.add_argument('--dataset', metavar='dataset', default='imagenet',
+# parser.add_argument('--data', metavar='DIR', default='./Documents/datasets',
+#                     help='parent path to dataset ')  # could change the dataset in mini_imageNet.py
+parser.add_argument('--dataset', metavar='dataset', default='MiniImageNet',
                     help='default: imagenet, or MiniImageNet')  # could change the dataset in mini_imageNet.py
 
 parser.add_argument('-a', '--arch', metavar='MODEL', default='alexnet',
@@ -93,7 +93,7 @@ parser.add_argument('--multiprocessing-distributed', action='store_true',
 parser.add_argument('--dummy', action='store_true', help="use fake data to benchmark")
 
 best_acc1 = 0
-
+root = os.environ['HOME']
 
 def work(config, queue):
     # queue.put(dict(process = 'cnn_train'))  # for queue exception of this process
@@ -259,8 +259,8 @@ def main_worker(gpu, ngpus_per_node, args):
         train_dataset = datasets.FakeData(1281167, (3, 224, 224), 1000, transforms.ToTensor())
         val_dataset = datasets.FakeData(50000, (3, 224, 224), 1000, transforms.ToTensor())
     else:
-        # traindir = os.path.join(args.data, 'train')
-        # valdir = os.path.join(args.data, 'val')
+        # traindir = os.path.join( 'train')
+        # valdir = os.path.join( 'val')
         # normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
         #                              std=[0.229, 0.224, 0.225])
         #
@@ -302,8 +302,8 @@ def main_worker(gpu, ngpus_per_node, args):
         if args.dataset == 'imagenet':  #imagenet
             train_loader, val_loader  = imageNet.data_loader(batch_size =  args.batch_size, workers = args.workers, image_size=(img_size,img_size))
         else: # args.dataset == 'MiniImageNet':
-            train_dataset = MiniImageNet(args.data, 'train', transform)
-            val_dataset = MiniImageNet(args.data, 'val', transform)
+            train_dataset = MiniImageNet('train', transform)
+            val_dataset = MiniImageNet('val', transform)
 
             if args.distributed:
                 train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)

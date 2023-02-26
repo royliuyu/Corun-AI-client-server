@@ -13,8 +13,7 @@ import imageNet
 import argparse
 
 parser =  argparse.ArgumentParser()
-parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents/datasets')
-parser.add_argument('--dataset', metavar = 'data_dir', default= 'MiniImageNet', help =' to choose "MiniImageNet" or "imagenet" ')
+parser.add_argument('--dataset', metavar = 'MiniImageNet', default= 'MiniImageNet', help =' to choose "MiniImageNet" or "imagenet" ')
 parser.add_argument('--arch', metavar = 'arch', default = 'alexnet', help ='e.g. resnet50, alexnet')
 
 
@@ -23,7 +22,7 @@ def work(config, pipe, queue):
     for key, value in config.items():  # update the args with transfered config
         vars(args)[key] = value
 
-    root = args.root
+    # root = args.root
     con_inf_a,con_inf_b = pipe
     con_inf_a.close()
     queue.put(dict(process= 'cnn_infer'))  # for queue exception of this process
@@ -56,7 +55,7 @@ def work(config, pipe, queue):
     assert dataset in ['MiniImageNet', 'imagenet'], f'Dataset \"{dataset}\" is not recognized!'
     model_func = 'models.'+ model_name
     if dataset == 'MiniImageNet':
-        data_test = MiniImageNet(root, 'test', transform)
+        data_test = MiniImageNet('test', transform)
         dataload_test = DataLoader(data_test, batch_size= batch_size, shuffle=True, num_workers=num_workers)
     elif dataset == 'imagenet':
         dataload_test = imageNet.test_loader(batch_size=batch_size, workers=num_workers, image_size = (img_size,img_size))

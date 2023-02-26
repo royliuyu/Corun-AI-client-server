@@ -39,7 +39,8 @@ import multiprocessing as mp
 import os
 from PIL import Image
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
-root ='/home/royliu'
+root = os.environ['HOME']
+
 def work_infer(config, pipe, queue):
     queue.put(dict(process= 'yolov5s'))  # for queue exception of this process
     con_yolo_a,con_yolo_b = pipe
@@ -89,9 +90,9 @@ def work_infer(config, pipe, queue):
                     torch.cuda.synchronize()  ###
                     t_gpu = starter.elapsed_time(ender)   ### 计算时间
 
-                # cv2.imshow('Result', np.squeeze(results.render()))
-                # cv2.waitKey(100)
-                # cv2.destroyAllWindows()
+                cv2.imshow('Result', np.squeeze(results.render()))
+                cv2.waitKey(100)
+                cv2.destroyAllWindows()
 
                 if device == 0:
                     latency_list.append(t_gpu)

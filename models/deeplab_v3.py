@@ -16,21 +16,24 @@ import cv2
 from util import visualize_seg
 
 parser =  argparse.ArgumentParser()
-parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents/datasets')
-parser.add_argument('--dataset', metavar = 'data_dir', default= 'cityscapes')
+# parser.add_argument('--root', metavar = 'root', default= '/home/royliu')
+parser.add_argument('--dataset', metavar = 'data_dir', default= './Documents/datasets/cityscapes')
 parser.add_argument('--arch', metavar = 'arch', default = 'deeplabv3_resnet50', help ='e.g. segmentation.deeplabv3_resnet101')
 args = parser.parse_args()
 deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101','deeplabv3_mobilenet_v3_large']
+root = os.environ['HOME']
+
 def work_train(config, queue): # call train()
     ## initialize the arguments
     # queue.put(dict(process='deeplabv3_train'))  # for queue exception of this process
     args = parser.parse_args()
     start = time.time()
     # update argparse' args with the new_args from parent process (main)
+
     for key, value in config.items():
         vars(args)[key] = value  # update args
     print('Train starts .........', args)
-    root = os.path.join(args.root, args.dataset)  # add cityscapes folder with root
+    data_dir = os.path.join(root, args.dataset)
     epoch = args.epochs
     batch_size = args.batch_size
     num_workers = args.workers
@@ -46,9 +49,9 @@ def work_train(config, queue): # call train()
     model_func = 'torchvision.models.segmentation.' + args.arch
     model = eval(model_func)(num_classes=19)
 
-    train_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(root, split='train'), \
+    train_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(data_dir, split='train'), \
                                                batch_size= batch_size, num_workers= num_workers)
-    val_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(root, split='val'), \
+    val_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(data_dir, split='val'), \
                                              batch_size= batch_size, num_workers= num_workers)
 
     train(model, train_loader, val_loader, epoch, device, batch_size)
@@ -124,7 +127,6 @@ def work_infer(config, pipe, queue):
         vars(args)[key] = value  # update args with config passed
     print(vars(args))
 
-    root = args.root
     con_a,con_b = pipe
     con_a.close()
     queue.put(dict(process= 'deeplab_infer'))  # for queue exception of this process
@@ -133,10 +135,10 @@ def work_infer(config, pipe, queue):
     img_size = args.image_size
     device = args.device
     dataset = args.dataset
-    root = os.path.join(args.root, args.dataset)
+    data_dir = os.path.join(root, args.dataset)
     num_workers = args.workers
 
-    test_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(root, split='test'), \
+    test_loader = torch.utils.data.DataLoader(cityscapes.DataGenerator(data_dir, split='test'), \
                                              batch_size= batch_size, num_workers= num_workers)
 
     # model_func = 'models.' + model_name

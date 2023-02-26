@@ -35,9 +35,10 @@ sys.path.append("../src")
 from util import dataset_split
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--root', metavar='root', default='/home/royliu/Documents')
+parser.add_argument('--data-dir', metavar='data-dir', default='./Documents/datasets/caltech-101')
 parser.add_argument('--split', metavar='split', default='train', help='"train" or "val" or "test".')
 parser.add_argument('--split-rate', metavar='split-rate', default= (0.6,0.2,0.2), help='a tuple: e.g. (0.6,0.2,0.2)')
+root = os.environ['HOME']
 
 def encoder_label(labels_name_list):
     label_names = list(dict.fromkeys(labels_name_list)) #unique
@@ -56,7 +57,7 @@ class GenerateDataset(Dataset):
         self.image_size = image_size
         self.mode = mode
         split_rate = args.split_rate
-        image_dir = os.path.join(args.root, './datasets/caltech-101')
+        image_dir = os.path.join(root, args.data_dir)
         image_folders = os.listdir(image_dir)
         self.img_path_list, self.label_list = [], []
         for sub_folder in (image_folders):

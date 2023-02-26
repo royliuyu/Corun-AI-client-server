@@ -59,7 +59,8 @@ from PIL import Image
 import numpy as np
 
 parser =  argparse.ArgumentParser()
-parser.add_argument('--root', metavar = 'root', default= '/data/datasets/imagenet') #/media/lab/Data/datasets/imagenet
+parser.add_argument('--data-dir', metavar = 'data-dir', default= './Documents/datasets/imagenet') #/media/lab/Data/datasets/imagenet
+root = os.environ['HOME']
 
 def normalize_transform():
     return transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -103,7 +104,7 @@ def val_dataset(data_dir, image_size):
 
 def data_loader(batch_size=256, workers=2, pin_memory=True, image_size=(224,224)):
     args = parser.parse_args()
-    data_dir = args.root
+    data_dir = args.data_dir
     train_ds = train_dataset(data_dir, image_size)
     val_ds = val_dataset(data_dir, image_size)
 
@@ -155,7 +156,7 @@ class test_dataset(Dataset):
 
 def test_loader(batch_size=16, workers=1, pin_memory=True, image_size=(224,224)):
     args = parser.parse_args()
-    data_dir = args.root
+    data_dir = args.data_dir
     test_ds = test_dataset(data_dir, image_size)
     test_loader = torch.utils.data.DataLoader(
         test_ds,

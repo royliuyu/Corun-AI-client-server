@@ -5,7 +5,7 @@ Base model: cnn_models such as vgg, resnet, mobilenet, etc
 TL model (change the final layer to a binary classification
 
 dataset: download from: https://download.pytorch.org/tutorial/hymenoptera_data.zip
-extract to os.path.join(root, 'hymenoptera_data')
+extract to os.path.join(root, './Documents/hymenoptera_data')
 
 '''
 
@@ -29,11 +29,11 @@ sys.path.append("../src")
 from caltech101 import GenerateDataset
 
 parser =  argparse.ArgumentParser()
-parser.add_argument('--root', metavar = 'root', default= '/home/royliu/Documents')
-parser.add_argument('--dataset', metavar = 'dataset', default= 'caltech101', help ='name of dataset: e.g. caltech101, or, hymenoptera_data ')
+parser.add_argument('--dataset', metavar = 'dataset', default= './Documents/caltech101', help ='name of dataset: e.g. caltech101, or, hymenoptera_data ')
 parser.add_argument('--arch', metavar = 'arch', default = 'alexnet', help ='e.g. resnet50, alexnet')
 parser.add_argument('--method', metavar = 'method', default = 'append', help ='e.g. fine-tune or append') # train as fine tune or append
 args = parser.parse_args()
+root = os.environ['HOME']
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -82,7 +82,7 @@ def work_train(config, queue): ## method: fine tune or append
         dataloaders  = {x: DataLoader(image_datasets[x], batch_size= batch_size, num_workers=1, shuffle=True) for x in ['train', 'val']}
         class_names = np.unique(image_datasets['train'].label_list_trn)
     else:
-        data_dir = os.path.join(args.root, './datasets/hymenoptera_data')
+        data_dir = os.path.join(root, './Documents/datasets/hymenoptera_data')
         image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
                                                   data_transforms[x])
                           for x in ['train', 'val']}
@@ -126,7 +126,6 @@ def work_infer(config, pipe, queue):
         vars(args)[key] = value  # update args with config passed
     print(vars(args))
 
-    root = args.root
     con_tl_a,con_tl_b = pipe
     con_tl_a.close()
 
@@ -151,11 +150,11 @@ def work_infer(config, pipe, queue):
         dataload_test  = DataLoader(image_datasets, batch_size= batch_size, num_workers=1, shuffle=True)
 
     else:
-        data_dir = os.path.join(root, './datasets/hymenoptera_data')
+        data_dir = os.path.join(root, './Documents/datasets/hymenoptera_data')
         image_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), data_transforms)  # no transforms here
         dataload_test = torch.utils.data.DataLoader(image_datasets, batch_size= batch_size,
                                                       shuffle=True, num_workers= num_workers)
-    pt_dir = os.path.join(root, './pt_files')
+    pt_dir = os.path.join(root, './Documents/pt_files')
     pt_file_name = args.arch + '_tfl_best.pt'
     pt_file_path = os.path.join(pt_dir, pt_file_name)
     assert os.path.exists(pt_file_path), 'This model by transfer learning is not exist, please train it first.'
@@ -231,7 +230,6 @@ def work_infer(config, pipe, queue):
     # print('acc: ', acc1.numpy()[0] / 100)  # convert tensor to numpy
 
 def train_model(model, args, criterion, optimizer, scheduler, dataloaders):
-    root = args.root  # add cityscapes folder with root
     num_epochs = args.epochs
     device = args.device
 
@@ -285,7 +283,7 @@ def train_model(model, args, criterion, optimizer, scheduler, dataloaders):
                 best_model_wts = copy.deepcopy(model.state_dict())
 
                 ##save to file
-                pt_dir = os.path.join(root, './pt_files')
+                pt_dir = os.path.join(root, './Documents/pt_files')
                 pt_file_name = args.arch + '_tfl_best.pt'
                 pt_file_path = os.path.join(pt_dir, pt_file_name)
                 if not os.path.exists(pt_dir): os.mkdir(pt_dir)
@@ -306,7 +304,8 @@ if __name__ == '__main__':
     queue = mp.Queue()
     pipe_a, pipe_b = mp.Pipe()
     pipe =(pipe_a, pipe_b)
-    config = {'arch': 'resnet50', 'workers': 1, 'epochs': 50, 'batch_size':384, 'image_size': 224, 'device': 'cuda',
+    config = {'arch': 'resnet50', 'workers': 1, 'epochs': 50, 'batch_size':1, 'image_size': 224, 'device': 'cuda',
               'verbose': True}
-    work_train(config, queue)
-    # work_infer(config, pipe, queue)
+    # work_train(config, queue) # set batch size 1
+    work_infer(config, pipe, queue)
+#

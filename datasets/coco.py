@@ -54,19 +54,19 @@ from torchvision import transforms
 import numpy as np
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--root', metavar= 'root', default = '/home/royliu/Documents/datasets/coco')
+parser.add_argument('--data-dir', metavar= 'data-dir', default = './Documents/datasets/coco')
 parser.add_argument('--split', metavar='split', default='test', help='"train" or "val" or "test".')
-
+root = os.environ['HOME']
 
 class test_dataset(Dataset):
     def __init__(self, image_size ,*args, **kwargs):
         super().__init__(*args, **kwargs) # if there is any arg or kw, inherit!
         args = parser.parse_args()
-        self.root = os.path.join(args.root, './images/test2017')
+        self.data_dir = os.path.join(root, args.data_dir, './images/test2017')
         self.images = []
         self.image_size = image_size
-        for file_name  in os.listdir(self.root):
-            self.images.append(os.path.join(self.root, file_name))
+        for file_name  in os.listdir(self.data_dir):
+            self.images.append(os.path.join(self.data_dir, file_name))
 
     def _transform(self, image_pil):
         transform = transforms.Compose([

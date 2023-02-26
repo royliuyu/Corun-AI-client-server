@@ -7,13 +7,9 @@ import time
 import numpy as np
 from util import dict2str, logger_by_date
 
-# ip , port = '192.168.85.73', 51400
-# ip , port = '127.0.0.1', 51400
-ip , port = '128.226.119.71', 51400
 
-print_interval = 1  # to change this value to change the result displaying frequency on the screen
-
-def send(dir, data_format, args, interval_list):
+def send(ip_port, dir, data_format, args, interval_list):
+    ip, port = ip_port
     work_start = time.time()
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ip , port))
@@ -80,7 +76,7 @@ def send(dir, data_format, args, interval_list):
             data_in_row = [work_start, args['arch'], args['train_model_name'], args['image_size'], args['device'], file_name, latency], args['request_rate']
             logger_prefix = 'infer_log_client_' + 'request_rate_' + str(args['request_rate']) + ' train_' + args[
                 'train_model_name'] + ' infer_' + args['arch'] + '_'
-            logger_by_date(col, data_in_row, '../result/log', logger_prefix)
+            # logger_by_date(col, data_in_row, '../result/log', logger_prefix)
 
         s.send(b'done')
         s.close()
@@ -98,8 +94,15 @@ def open_file(file_path):
         return data
 
 if __name__ == '__main__':
+
+    # ip , port = '192.168.85.73', 51400
+    ip_port = ('127.0.0.1', 51400)
+    # ip , port = '128.226.119.71', 51400
+
     np.random.seed(6)
     request_rate_list = [20,40, 60]
+    print_interval = 1  # to change this value to change the result displaying frequency on the screen
+
     for request_rate in request_rate_list:
         poisson = np.random.poisson(request_rate, 600)
         # print(poisson)
@@ -110,10 +113,11 @@ if __name__ == '__main__':
         print('Instance amount :', len(interval_list))
         print(f'Print status every {print_interval } records.')
 
+        root = os.environ['HOME']
         # img_path = r'/home/lab/Documents/datasets/temp/fold'
-        img_path = r'/home/anurag/Documents/coco/images/test2017'
+        img_path = os.path.join(root,r'./Documents/datasets/coco/images/test2017')
 
-        arch_list = ['yolov5s','alexnet',  'densenet121',  'efficientnet_v2_l', \
+        arch_list = ['alexnet',  'densenet121',  'efficientnet_v2_l', \
                       'googlenet', 'inception_v3',  'mobilenet_v3_small',  'resnet50',  \
                                       'vgg16',  'deeplabv3_resnet50']
         train_model_list = ['none','alexnet', 'vgg16',  'deeplabv3_resnet50']
@@ -122,5 +126,5 @@ if __name__ == '__main__':
             train_model_name = 'none' #manually change the name here , batch size as well!!
             args = dict(request_rate = request_rate, arch=arch, train_model_name = train_model_name, device='cuda', image_size=224)  # deeplabv3_resnet50
             start = time.time()
-            send(img_path, 'jpg', args, interval_list)
+            send(ip_port, img_path, 'jpg', args, interval_list)
             time.sleep(1)

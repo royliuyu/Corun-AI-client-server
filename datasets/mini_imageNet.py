@@ -3,20 +3,21 @@ import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
 from PIL import Image
+root = os.environ['HOME']
 
 class MiniImageNet(Dataset):
-    def __init__(self, root, mode, transform):
-        self.root_mini = os.path.join(root,'mini_imagenet')
+    def __init__(self, mode, transform):
+        self.data_dir = os.path.join(root,'./Documents/datasets/mini_imagenet')
         self.csv_name = mode + '.csv'
         self.transform = transform[mode]
-        assert os.path.exists(self.root_mini), 'Root dir "%s" is not found.' % (self.root_mini)
-        img_dir = os.path.join(self.root_mini, './images') # ./images
+        assert os.path.exists(self.data_dir), 'Root dir "%s" is not found.' % (self.data_dir)
+        img_dir = os.path.join(self.data_dir, './images') # ./images
         assert os.path.exists(img_dir), 'Image dir "%s" is not found' % (img_dir)
-        img_label_file = os.path.join(self.root_mini, self.csv_name)
+        img_label_file = os.path.join(self.data_dir, self.csv_name)
         img_label = pd.read_csv(img_label_file)
 
         # generate dict for converting label (n01930112) to class_value (37)
-        label_mapping = pd.read_csv(os.path.join(root, 'LOC_synset_mapping.csv'), index_col=None)
+        label_mapping = pd.read_csv(os.path.join(self.data_dir, '../LOC_synset_mapping.csv'), index_col=None)
         label_mapping_dict = {}
         for i in range(label_mapping.shape[0]):
             class_value, file_name, _,_ = label_mapping.loc[i]
