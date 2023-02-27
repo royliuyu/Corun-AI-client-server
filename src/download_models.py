@@ -1,3 +1,13 @@
+'''
+model will be downlaod autometically, at:
+cnn and deeplab models:
+    ~/.cache/torch/hub/checkpoints
+
+yolo:
+    ~/.cache/torch/hub
+
+'''
+
 # from torchstat import stat
 from torchsummary import summary
 from torchvision import models
@@ -32,6 +42,7 @@ for model_name in model_list:
     #     # stat(model,(3,448,448))
     #     print('\n'*5)
 
+    ## manually: wget -c -t 0 https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5n.pt
     if model_name in yolo_model_list:
         model = torch.hub.load('ultralytics/yolov5', model_name, pretrained=True, device =0)
         # summary(model,(3,224,224))

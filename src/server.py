@@ -224,7 +224,7 @@ def work(ip_port):
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
 if __name__ =='__main__':
-    # ip , port = '192.168.85.71', 51400
+    ip_port = ('192.168.85.71', 51400)
     # ip , port = '128.226.119.71', 51400
-    ip_port = ('127.0.0.1', 51400)
+    # ip_port = ('127.0.0.1', 51400)
     work(ip_port)

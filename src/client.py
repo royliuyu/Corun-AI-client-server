@@ -96,8 +96,8 @@ def open_file(file_path):
 if __name__ == '__main__':
 
     # ip , port = '192.168.85.73', 51400
-    ip_port = ('127.0.0.1', 51400)
-    # ip , port = '128.226.119.71', 51400
+    # ip_port = ('127.0.0.1', 51400)
+    ip_port = ('128.226.119.71', 51400)
 
     np.random.seed(6)
     request_rate_list = [20,40, 60]

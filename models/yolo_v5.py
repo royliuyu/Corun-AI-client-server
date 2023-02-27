@@ -42,7 +42,7 @@ yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 root = os.environ['HOME']
 
 def work_infer(config, pipe, queue):
-    queue.put(dict(process= 'yolov5s'))  # for queue exception of this process
+    queue.put(dict(process= 'yolov5'))  # for queue exception of this process
     con_yolo_a,con_yolo_b = pipe
     con_yolo_a.close()
     test_loader = DataLoader(coco.test_dataset((config['image_size'],config['image_size'])),\
@@ -54,7 +54,7 @@ def work_infer(config, pipe, queue):
     # model = torch.hub.load('ultralytics/yolov5', config['arch'], pretrained=True, device=device)  #location: /home/royliu/.cache/torch/hub/ultralytics_yolov5_master
     local_source = os.path.join(root,'./.cache/torch/hub/ultralytics_yolov5_master')
     assert local_source, 'Model does not exist please run download_models.py to download yolov5 models first.'
-    model = torch.hub.load(local_source, config['arch'],  source='local', pretrained=True, device=device) ## so it can be loaded locally
+    model = torch.hub.load(local_source, config['arch'],  source='local',  pretrained=True, device=device) ## so it can be loaded locally
 
     model.conf = 0.6  # confidence threshold (0-1) 0.52
     model.iou = 0.5  # NMS IoU threshold (0-1). 0.45
@@ -78,8 +78,9 @@ def work_infer(config, pipe, queue):
                 image = (image*255).numpy().astype(np.uint8)[[2, 1, 0], :,:]  # change tensor(created in coco.py/DataLoad) to ndarray, which is recognized by yolo
                 results = model(image)
 
-                # show result
-                # frame = np.squeeze(results.render())
+                ## show result
+                frame = np.squeeze(results.render())
+                print(frame)
                 # cv2.imshow('Window_', frame)
                 # if cv2.waitKey(200) & 0xFF >=0: break
 
@@ -89,10 +90,6 @@ def work_infer(config, pipe, queue):
                     ender.record()  # for gpu exe time counting
                     torch.cuda.synchronize()  ###
                     t_gpu = starter.elapsed_time(ender)   ### 计算时间
-
-                cv2.imshow('Result', np.squeeze(results.render()))
-                cv2.waitKey(100)
-                cv2.destroyAllWindows()
 
                 if device == 0:
                     latency_list.append(t_gpu)
@@ -131,7 +128,7 @@ def work_infer(config, pipe, queue):
             # print(latency)
 
 if __name__ == '__main__':
-    config = {'arch': 'yolov5s','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
+    config = {'arch': 'yolov5s','workers': 1, 'epochs': 10, 'batch_size': 1, 'image_size':224, 'device':'cuda', 'verbose': True}
     pipe3, pipe4 = mp.Pipe()
     queue = mp.Queue()
     pipe =(pipe3, pipe4)

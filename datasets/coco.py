@@ -58,6 +58,7 @@ parser.add_argument('--data-dir', metavar= 'data-dir', default = './Documents/da
 parser.add_argument('--split', metavar='split', default='test', help='"train" or "val" or "test".')
 root = os.environ['HOME']
 
+
 class test_dataset(Dataset):
     def __init__(self, image_size ,*args, **kwargs):
         super().__init__(*args, **kwargs) # if there is any arg or kw, inherit!
@@ -88,7 +89,7 @@ class test_dataset(Dataset):
 
 def main():
     test_loader = DataLoader(test_dataset(image_size = (224,224)), batch_size=1, num_workers= 1, shuffle=False)
-
+    print(len(test_loader))
 
 if __name__== '__main__':
     main()
