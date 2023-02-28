@@ -1,7 +1,7 @@
 from PIL import Image
 import io
 import socket
-from util import str2dict
+from util import str2dict, date_time
 import time
 import numpy as np
 import re
@@ -36,11 +36,11 @@ def load_model(model_name, device):
         local_source = os.path.join(root, './.cache/torch/hub/ultralytics_yolov5_master')
         assert local_source, 'Model does not exist please run download_models.py to download yolov5 models first.'
         model = torch.hub.load(local_source, model_name, source='local', pretrained=True,
-                               device=device)  ## so it can be loaded locally
-
+                               device=device)  ## model is loaded locally
     elif model_name in deeplab_model_list:
         model_func = 'models.segmentation.' + model_name
         model = eval(model_func)(num_classes=19)
+    else: return -1
 
     return model
 
@@ -93,9 +93,9 @@ def infer(model, model_name, data, device):
 
 global cnt # to count the combination # conducted
 cnt = 0
-def work(ip_port):
+def work(ip,port):
     global cnt
-    ip, port = ip_port
+    print(ip,port)
     s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((ip, port))
@@ -214,17 +214,20 @@ def work(ip_port):
                         print(f' {cnt}: File name: {file_name}, Result: {result}, Latency: {latency} ms.\n')
 
                 # save log
+                dt, tm = date_time()  # catch current datatime
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
-                logger_prefix = 'infer_log_server_' + 'request_rate_' + str(args['request_rate'])+' train_'+args['train_model_name']+' infer_'+model_name+'_'
-                # logger_by_date(col, data_in_row, '../result/log', logger_prefix)
+                logger_prefix = 'infer_log_server_' + 'requestRate_' + str(args['request_rate'])+' train_'+args['train_model_name']+'+infer_'+model_name+'_'
+                log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt)
+                if not os.path.exists(log_dir): os.makedirs(log_dir)
+                logger_by_date(col, data_in_row, log_dir, logger_prefix)
 
             reply = conn.recv(1024).decode()
             cnt += 1
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
 if __name__ =='__main__':
-    ip_port = ('192.168.85.71', 51400)
+    # ip, port = '192.168.85.71', 51400
     # ip , port = '128.226.119.71', 51400
-    # ip_port = ('127.0.0.1', 51400)
-    work(ip_port)
+    ip, port = '127.0.0.1', 51400
+    work(ip, port)

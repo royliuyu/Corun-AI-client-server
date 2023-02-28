@@ -84,8 +84,11 @@ def work(config, pipe, queue):
                 data = data.to(device)
                 prd = model.forward(data)
                 prd = prd.to('cpu').detach()
-                # prd= prd.numpy()
-                # prd = np.argmax(prd, axis=1)  # output is class_value
+
+                ## print result
+                # result= prd.numpy()
+                # result = np.argmax(result, axis=1)  # output is class_value
+                # print(result)
 
                 ## count latency
                 if device == 'cpu':
@@ -102,6 +105,7 @@ def work(config, pipe, queue):
                 acc1, acc5 = cnn_train.accuracy(prd, target, topk=(1, 5))
                 if config['verbose'] == True:
                     print('acc1: ', acc1.numpy()[0]/100, ',        acc5: ', acc5.numpy()[0]/100)  # convert tensor to numpy
+
 
                 try:  # if train end, then terminate infer here
                     # if con_inf_b.poll() and config['verbose'] != True:  # verbose to control if this program avoke locally (cnn_infer.py)
@@ -133,7 +137,7 @@ def work(config, pipe, queue):
 
 if __name__ == '__main__':
 
-    config ={'arch': 'resnet50','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
+    config ={'arch': 'densenet201','workers': 1, 'epochs': 10, 'batch_size': 32, 'image_size':224, 'device':'cuda', 'verbose': True}
     pipe3, pipe4 = mp.Pipe()
     queue = mp.Queue()
     pipe =(pipe3, pipe4)

@@ -49,9 +49,10 @@ parser.add_argument('--split', metavar='split', default='train', help='"train" o
 root = os.environ['HOME']
 
 class DataGenerator(Cityscapes):  ## varible names in Cityscapes Class are: images, targets, split...
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, target_type="semantic")
-        self.image_size = (224,224)  ## Roy: 图片尺寸改这里
+    def __init__(self,  *args, **kwargs):
+        super().__init__( *args, **kwargs, target_type="semantic")
+        # if not type(image_size) == tuple: image_size = (image_size,image_size)
+        self.image_size = (224,224) ## Roy: 图片尺寸改这里
         self.semantic_target_type_index = [i for i, t in enumerate(self.target_type) if t == "semantic"][0]
         self.colormap = self._generate_colormap()
 
@@ -125,7 +126,7 @@ if __name__=='__main__':
 
     dataset_test = DataGenerator(data_dir, split='test')
     img_tensor, sgm = dataset_test[0]
-    test_loader = torch.utils.data.DataLoader(DataGenerator(data_dir, split='test'), \
+    test_loader = torch.utils.data.DataLoader(dataset_test, \
                                               batch_size= 1, num_workers=1)
     print(img_tensor.shape, sgm.shape)
     # print(img_tensor)

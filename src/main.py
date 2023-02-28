@@ -5,7 +5,7 @@ profiler recoding data when train and infer
 
 use Pipe , after training ending,  cnn_train.py send message to profiller.py and cnn_infer.py to stop.
 
-note: multiprocessing_exception.py is process cascade exception from children process to parent process
+note: mp_exception.py is process cascade exception from children process to parent process
         https://stackoverflow.com/questions/19924104/python-multiprocessing-handling-child-errors-in-parent
 
 
@@ -21,7 +21,7 @@ import os
 import multiprocessing as mp
 import pandas as pd
 import time
-import multiprocessing_exception as mp_new  # procss.py is process cascade exception from children process to parent process
+import mp_exception as mp_new  # procss.py is process cascade exception from children process to parent process
 import traceback
 import profiler
 import sys
