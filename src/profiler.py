@@ -5,7 +5,7 @@ import subprocess
 import pandas as pd
 import time
 from util import save_log
-
+import multiprocessing as mp
 def cpu_freq():
     dev=json.load(open(r'./device.json','r'))
     cpu_freq_dict ={}
@@ -147,7 +147,7 @@ def profile(config, profiling_num, pipe):
                 # print(cpu_usg_dict)
                 break
 
-    print(f'shapre of gpu:{gpu.shape}, and cpu: {cpu.shape}.')
+    print(f'Data shape of gpu:{gpu.shape}, and cpu: {cpu.shape}.')
     data = gpu.join(cpu)
     save_log(data, config)
     # save_log(gpu, 'gpu')
@@ -158,4 +158,6 @@ def profile(config, profiling_num, pipe):
     return 0
 
 if __name__ == '__main__':
-    profile('na')
+    profiling_num = 200000
+    con_prf_a, con_prf_b = mp.Pipe()
+    profile('Train_none+Infer_none',profiling_num, (con_prf_a, con_prf_b))

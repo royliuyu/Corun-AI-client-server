@@ -22,6 +22,7 @@ def image_folder(data_dir, model):
 
 def main():
     basic_ip ='127.0.0.1'
+    # basic_ip = '192.168.85.71'
     basic_port = 54101
     client_num = 5
     print_interval = 1000
@@ -39,7 +40,7 @@ def main():
         print(f'{arch_list[i]} is runing')
         ip, port = addr
         try:
-            ## work(ip, port, request_rate_list, arch_list, train_model_name, print_interval )
+            ### call: work(ip, port, request_rate_list, arch_list, train_model_name, print_interval )
             args= (ip, port, request_rate_list , [arch_list[i]],train_model_name, print_interval,)
             # pool.apply_async(client.work, args=args)  # change to below for passing exceptions
             p_list.append(mp_new.Process(target=client.work, args=(args)))

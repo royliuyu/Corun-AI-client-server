@@ -146,7 +146,7 @@ if __name__ =='__main__':
     random.seed(3)
     task_num =  6
     latency_list , args_list, res_list = [], [], []
-    pool=mp_new.Pool(task_num)
+    pool=mp.Pool(task_num)
     data_dir = os.path.join(os.environ['HOME'],'./Documents/datasets')
 
     for i in range(task_num):

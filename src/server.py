@@ -217,7 +217,7 @@ def work(ip,port):
                 dt, tm = date_time()  # catch current datatime
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
-                logger_prefix = 'infer_log_server_' + 'requestRate_' + str(args['request_rate'])+' train_'+args['train_model_name']+'+infer_'+model_name+'_'
+                logger_prefix = 'infer_log_server_' + str(args['request_rate']) + 'rps_' +' train_'+args['train_model_name']+'+infer_'+model_name+'_'
                 log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt)
                 if not os.path.exists(log_dir): os.makedirs(log_dir)
                 logger_by_date(col, data_in_row, log_dir, logger_prefix)
@@ -227,7 +227,7 @@ def work(ip,port):
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
 if __name__ =='__main__':
-    # ip, port = '192.168.85.71', 51400
+    ip, port = '192.168.85.71', 51400
     # ip , port = '128.226.119.71', 51400
-    ip, port = '127.0.0.1', 51400
+    # ip, port = '127.0.0.1', 51400
     work(ip, port)

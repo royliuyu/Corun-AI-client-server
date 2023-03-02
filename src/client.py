@@ -1,5 +1,3 @@
-
-
 import pickle
 import socket
 import os
@@ -81,7 +79,7 @@ def send(ip,port, dir, args, interval_list, print_interval):
             dt, tm = date_time() # catch current datatime
             col = ['work_start', 'infer_model_name', 'train_model_name','image_size', 'device', 'file_name', 'latency', 'request_rate']
             data_in_row = [work_start, args['arch'], args['train_model_name'], args['image_size'], args['device'], file_name, latency, args['request_rate']]
-            logger_prefix = 'infer_log_client_' + 'requestRate_' + str(args['request_rate']) + ' train_' + args[
+            logger_prefix = 'infer_log_client_' + str(args['request_rate']) +'rps_' +  ' train_' + args[
                 'train_model_name'] + '+infer_' + args['arch'] + '_'
             log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_client', dt)
             if not os.path.exists(log_dir): os.makedirs(log_dir)
@@ -127,6 +125,7 @@ def work(ip, port, request_rate_list, arch_list, train_model_name, print_interva
 
     np.random.seed(6)
     print(f'Print status every {print_interval} records.')
+    print('Start time: ', time.time())
     root = os.environ['HOME']
     data_dir = os.path.join(root, r'./Documents/datasets/')
 
@@ -135,7 +134,7 @@ def work(ip, port, request_rate_list, arch_list, train_model_name, print_interva
         for arch in arch_list:
             args = dict(request_rate = request_rate, arch=arch, train_model_name = train_model_name, device='cuda', image_size=224)  # deeplabv3_resnet50
             img_folder = os.path.join(root, r'./Documents/datasets/coco/images/test2017')
-            img_folder = image_folder(data_dir, args['arch'])  # select dataset to fit models
+            # img_folder = image_folder(data_dir, args['arch'])  # select dataset to fit models
 
             send(ip, port, img_folder, args, interval_list,print_interval)
             time.sleep(1)
@@ -144,12 +143,11 @@ if __name__ == '__main__':
     # ip , port = '192.168.85.73', 51400
     ip, port = '127.0.0.1', 51400
     # ip,port = '128.226.119.71', 51400
-    print_interval = 1  # to change this value to change the result displaying frequency on the screen
+    print_interval = 1000  # to change this value to change the result displaying frequency on the screen
 
-    arch_list = [ 'alexnet','deeplabv3_resnet50','yolov5s',  'densenet121', 'efficientnet_v2_l', \
-                 'googlenet', 'inception_v3', 'mobilenet_v3_small', 'resnet50', \
-                 'vgg16']
-    ## train_model_list = ['none', 'alexnet_1024_', 'vgg16_64_', 'deeplabv3_resnet50_8_']
+    arch_list = ['yolov5s', 'vgg16', 'resnet50', 'alexnet','deeplabv3_resnet50',  'densenet121',\
+                 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
+    ## train_model_list = ['none', 'resnet152_32', 'vgg16_64', 'deeplabv3_resnet50_8']
     train_model_name = 'none'  # manually change the name here , batch size as well!!
     request_rate_list = [10, 20, 40, 60]
 
