@@ -14,7 +14,7 @@ def date_time():
 
 def logger_by_date(col, data_in_row, dir, file_name_prefix):  # save in csv format
     data, _ = date_time()
-    file_path = os.path.join(dir,file_name_prefix+ data+ '.csv')
+    file_path = os.path.join(dir,file_name_prefix+ data+'.csv')
     if os.path.exists(file_path):
         with open(file_path, 'a', newline='') as csvf:
             writer =  csv.writer(csvf)
@@ -24,7 +24,6 @@ def logger_by_date(col, data_in_row, dir, file_name_prefix):  # save in csv form
             writer =  csv.writer(csvf)
             writer.writerow(col)
             writer.writerow(data_in_row)
-
 
 def fmt_to_stmp(tm,*arg):
     fmt= "%Y-%m-%d %H:%M:%S" if not arg else arg[0]

@@ -5,7 +5,6 @@ import time
 import datetime
 import numpy as np
 from util import dict2str, logger_by_date, date_time
-import threading
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -138,13 +137,9 @@ def work(ip, port, request_rate_list, arch_list, train_model_name, print_interva
             args = dict(request_rate = request_rate, arch=arch, train_model_name = train_model_name, device='cuda', image_size=224)  # deeplabv3_resnet50
             img_folder = os.path.join(root, r'./Documents/datasets/coco/images/test2017')
             # img_folder = image_folder(data_dir, args['arch'])  # select dataset to fit models
-            thread = threading.Thread(target=send, args =(ip, port, img_folder, args, request_interval_list,print_interval))
-            # send(ip, port, img_folder, args, request_interval_list,print_interval)
-            thread.setDaemon(True)
-            thread.start()
 
-
-
+            send(ip, port, img_folder, args, request_interval_list,print_interval)
+            print(request_interval_list)
             time.sleep(1)
 
 if __name__ == '__main__':

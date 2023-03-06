@@ -6,11 +6,11 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def main():
-    basic_ip ='127.0.0.1'
-    # basic_ip = '192.168.85.71'
+    # basic_ip ='127.0.0.1'
+    basic_ip = '192.168.85.71'
     basic_port = 54101
-    server_num = 6
-    assert server_num < 9, f'server num. {server_num} is too big, no larger than 8.'  # support 9 servers at most
+    server_num = 2
+    assert server_num < 11, f'server num. {server_num} is too big, no larger than 11.'  # support 9 servers at most
     addr_list = []
     [addr_list.append((basic_ip, port)) for port in range(basic_port ,basic_port +server_num)]
     # pool = mp.Pool(server_num)

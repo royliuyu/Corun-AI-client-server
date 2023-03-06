@@ -78,6 +78,7 @@ def grab_gpu_data(arg):
 #     data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
 
 def profile(config, profiling_num, pipe):
+    file_name = 'profile_' + config
     con_prf_a, con_prf_b = pipe
     # con_prf_b.close()  ##  only send message to main, 关闭收到端
     gpu_col = ['time_stamp', 'gpu_power', 'gpu_freq', 'gpu_mem_freq', 'gpu_temp', 'gpu_util%', 'gpu_mem_util%', 'gpu_name']
@@ -132,7 +133,7 @@ def profile(config, profiling_num, pipe):
             print()
             print('Profiler: Collecting done!')
             # data = gpu.join(cpu)
-            # save_log(data, config)
+            # save_log(data, file_name)
             # print(cpu_usg_dict)
             break
 
@@ -143,13 +144,13 @@ def profile(config, profiling_num, pipe):
                 print()
                 print('Profiler: get notice from main to stop!')
                 # data = gpu.join(cpu)
-                # save_log(data, config)
+                # save_log(data, file_name)
                 # print(cpu_usg_dict)
                 break
 
     print(f'Data shape of gpu:{gpu.shape}, and cpu: {cpu.shape}.')
     data = gpu.join(cpu)
-    save_log(data, config)
+    save_log(data, file_name)
     # save_log(gpu, 'gpu')
     # save_log(cpu, 'cpu')
     print('Profiler: Profiling is ending, notice to main!')

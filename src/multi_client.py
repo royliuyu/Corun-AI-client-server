@@ -24,10 +24,10 @@ def main():
     basic_ip ='127.0.0.1'
     # basic_ip = '192.168.85.71'
     basic_port = 54101
-    client_num = 5
+    client_num = 10
     print_interval = 1000
     train_model_name = 'None'
-    assert client_num < 9, f'server num. {client_num} is too big, no larger than 8.'  # support 9 servers at most
+    assert client_num < 11, f'server num. {client_num} is too big, no larger than 11.'  # support 9 servers at most
     addr_list = []
     [addr_list.append((basic_ip, port)) for port in range(basic_port, basic_port + client_num)]
     arch_list = ['yolov5s', 'alexnet', 'deeplabv3_resnet50','resnet50', 'vgg16']
