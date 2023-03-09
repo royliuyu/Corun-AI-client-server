@@ -1,3 +1,5 @@
+# backup for server 20230306
+
 from PIL import Image
 import io
 import socket
@@ -11,7 +13,6 @@ import torch
 from torchvision import transforms, models
 from util import logger_by_date, visualize_seg
 import os
-import threading
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -101,7 +102,7 @@ def work(ip,port):
     s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((ip, port))
-    s.listen(50)
+    s.listen(5)
     reply =''
     previous_model = ''
     print('======== episode ', cnt, ': ==========')
@@ -219,7 +220,7 @@ def work(ip,port):
                 dt, tm = date_time()  # catch current datatime
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
-                logger_prefix = 'multi-infer_log_server_' + str(args['request_rate']) + 'rps_' +' train_'+args['train_model_name']+'+infer_'+model_name+'_'
+                logger_prefix = 'infer_log_server_' + str(args['request_rate']) + 'rps_' +' train_'+args['train_model_name']+'+infer_'+model_name+'_'
                 log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt)
                 if not os.path.exists(log_dir): os.makedirs(log_dir)
                 logger_by_date(col, data_in_row, log_dir, logger_prefix)
@@ -232,6 +233,4 @@ if __name__ =='__main__':
     ip, port = '192.168.85.71', 51400
     # ip , port = '128.226.119.71', 51400
     ip, port = '127.0.0.1', 51400
-    # work(ip, port)
-    thread = threading.Thread(target = work, args=(ip,port))
-    thread.start()
+    work(ip, port)

@@ -138,10 +138,13 @@ def work(ip, port, request_rate_list, arch_list, train_model_name, print_interva
             args = dict(request_rate = request_rate, arch=arch, train_model_name = train_model_name, device='cuda', image_size=224)  # deeplabv3_resnet50
             img_folder = os.path.join(root, r'./Documents/datasets/coco/images/test2017')
             # img_folder = image_folder(data_dir, args['arch'])  # select dataset to fit models
+
             thread = threading.Thread(target=send, args =(ip, port, img_folder, args, request_interval_list,print_interval))
-            # send(ip, port, img_folder, args, request_interval_list,print_interval)
             thread.setDaemon(True)
             thread.start()
+
+            # send(ip, port, img_folder, args, request_interval_list,print_interval)
+
 
 
 
@@ -153,7 +156,7 @@ if __name__ == '__main__':
     # ip,port = '128.226.119.71', 51400
     print_interval = 1000  # to change this value to change the result displaying frequency on the screen
 
-    arch_list = [ 'vgg16', 'resnet50', 'alexnet','deeplabv3_resnet50',  'densenet121',\
+    arch_list = [ 'yolov5s', 'vgg16', 'resnet50', 'alexnet','deeplabv3_resnet50',  'densenet121',\
                  'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
     ## train_model_list = ['none', 'resnet152_32', 'vgg16_64', 'deeplabv3_resnet50_8']
     train_model_name = 'none'  # manually change the name here , batch size as well!!

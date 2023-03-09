@@ -2,7 +2,7 @@
   "train": [
 
     {
-      "arch": "resnet152",
+      "arch": "vgg16",
       "workers": 1,
       "epochs": 100,
       "batch_size": 32,
