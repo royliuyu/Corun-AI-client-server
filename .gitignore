@@ -9,4 +9,5 @@ datasets/.ipynb_checkpoints
 models/__pycache__/
 models/.ipynb_checkpoints
 *.pt
-src/old*
+old*
+temp*
