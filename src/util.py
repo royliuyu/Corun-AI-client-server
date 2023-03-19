@@ -35,7 +35,7 @@ def fmt_to_stmp(tm,*arg):
 def save_log(df_data,file_name):
     dt, tm = date_time()
     log_dir = '../result/log/' + dt
-    if not os.path.exists(log_dir): os.mkdir(log_dir)
+    if not os.path.exists(log_dir): os.makedirs(log_dir)
     log_file = file_name + '_'+ dt + tm
     df_data.to_csv(os.path.join(log_dir,log_file)+ '.csv')
 
@@ -54,7 +54,7 @@ def str2dict(string, seperator = ','):
     arg_list
     for s in arg_list:
         key, val = s.split(':')
-        if re.match(r'[0-9]+',val) : val = int(val)  # if is integer, then convert
+        if re.match(r'.[0-9]+',val) : val = int(val)  # if is integer, then convert
         arg[key]=val
     return arg
 

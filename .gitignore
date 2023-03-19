@@ -8,4 +8,6 @@ datasets/__pycache__/
 datasets/.ipynb_checkpoints
 models/__pycache__/
 models/.ipynb_checkpoints
+
 *.pt
+old*

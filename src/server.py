@@ -17,7 +17,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-print_interval =  10 ## to change this value to change the result displaying frequency on the screen
+print_interval =  1000 ## to change this value to change the result displaying frequency on the screen
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
                   'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
@@ -105,13 +105,13 @@ def work(ip,port):
     s.listen(5)
     reply =''
     previous_model = ''
-    print('======== episode ', cnt, ': ==========')
+    # print('======== episode ', cnt, ': ==========')
     cnt +=1
-    print('Server is listening...')
-    print(f'Print result every {print_interval} records.','\n')
+    # print('Server is listening...')
+    # print(f'Print result every {print_interval} records.','\n')
     while True:
         conn, addr = s.accept()
-        print(f'Received request from {addr} !')
+        # print(f'Received request from {addr} !')
         header = conn.recv(1024)
         try:
             format, args_str = header.decode().split('|')
@@ -131,9 +131,11 @@ def work(ip,port):
                 break
             elif reply == 'continue' or reply =='':   # normal condition
                 file_info = conn.recv(1024).decode()
+                # print('aaa:', file_info)
             else:  ## i.e. file_len|file_name or continuefile_len|file_name
                 try: ## solve that can't recognize "done" msg due to packets sticking issue
-                    file_info = re.findall(r'([0-9].+)', reply)[0]  ## parse the "continue" msg, which for avoiding blocking
+                    file_info = re.findall(r'([0-9].+)', reply)[0]  ## parse the "continue" msg, which for avoiding blocking (e.g. file_info is 284532|000000000019.jpg)
+                    # print('fffffff', file_info)
                 except: break
 
             try:  ## solve can't recognize "done" msg due to packets sticking issue, the last packets of file_info goes ahead of "continue"
@@ -144,6 +146,7 @@ def work(ip,port):
 
             args['file_name'] = file_name
             model_name, device, image_size = args['arch'], args['device'], args['image_size']
+            sub_folder= args['comb_id'] if 'comb_id' in args.keys() else ''
 
             if model_name !=previous_model :  # if the model is the same as previous one , no need load model again
                 model=load_model(model_name, device)
@@ -220,8 +223,8 @@ def work(ip,port):
                 dt, tm = date_time()  # catch current datatime
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
-                logger_prefix = 'infer_log_server_' + str(args['request_rate']) + 'rps_' +' train_'+args['train_model_name']+'+infer_'+model_name+'_'
-                log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt)
+                logger_prefix = 'azure-multi-infer_log_server_' + str(args['request_rate']) + 'rps_' +' train_'+args['train_model_name']+'+infer_'+model_name+'_'
+                log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt, sub_folder)
                 if not os.path.exists(log_dir): os.makedirs(log_dir)
                 logger_by_date(col, data_in_row, log_dir, logger_prefix)
 
@@ -230,7 +233,7 @@ def work(ip,port):
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
 if __name__ =='__main__':
-    ip, port = '192.168.85.71', 51400
+    ip, port = '192.168.85.71', 54100  ## high speed switch
     # ip , port = '128.226.119.71', 51400
-    ip, port = '127.0.0.1', 51400
+    ip, port = '0.0.0.0', 5400
     work(ip, port)

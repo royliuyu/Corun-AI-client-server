@@ -6,6 +6,7 @@ import datetime
 import numpy as np
 from util import dict2str, logger_by_date, date_time
 import threading
+import mp_exception as mp_new
 
 cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                   'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
@@ -14,11 +15,13 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
 
-def send(ip,port, dir, args, interval_list, print_interval):
+def send(ip,port, comb_id, dir, args, interval_list, print_interval):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ip , port))
+    args['comb_id']=comb_id # this is extra argument for compatible of multiple inference running
     args_str = dict2str(args)
-    s.send(b'start')
+
+    ## s.send(b'start')
     data_format = 'jpg'
     header = data_format + '|' + args_str
     s.send(header.encode())
@@ -32,13 +35,13 @@ def send(ip,port, dir, args, interval_list, print_interval):
         for i, file_name in enumerate(file_list):
             time.sleep(interval_list[i])
             work_start = time.time()
-            if i>= len(interval_list):
+            if i>= len(interval_list)-1:
                 break # quit for loop when interval list is over
             data = open_file(os.path.join(dir, file_name))
             data_len = len(data)
             file_info = str(data_len) + '|' + file_name
             s.send(file_info.encode())
-            msg = s.recv(1024) # for unblocking
+            msg = s.recv(1024) # for unblocking, r"start to ..."
             # print('recived file info:', msg.decode())
 
             now = time.time()
@@ -57,7 +60,7 @@ def send(ip,port, dir, args, interval_list, print_interval):
 
             # ## option 2: receive result from server
             # s.send('Ready to recieve results size from server.'.encode())
-            result_cont_size = s.recv(1024).decode()
+            result_cont_size = s.recv(1024).decode()  # result file info from server
             result_cont_size = int(result_cont_size)
             # print(result_cont_size)
             s.send('Result size recieved'.encode())
@@ -84,7 +87,7 @@ def send(ip,port, dir, args, interval_list, print_interval):
             data_in_row = [work_start, args['arch'], args['train_model_name'], args['image_size'], args['device'], file_name, latency, args['request_rate']]
             logger_prefix = 'infer_log_client_' + str(args['request_rate']) +'rps_' +  ' train_' + args[
                 'train_model_name'] + '+infer_' + args['arch'] + '_'
-            log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_client', dt)
+            log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_client', dt, comb_id)
             if not os.path.exists(log_dir): os.makedirs(log_dir)
             logger_by_date(col, data_in_row, log_dir, logger_prefix)
 
@@ -115,7 +118,7 @@ def image_folder(data_dir, model):
     return os.path.join(data_dir,folder)
 
 def gen_poission_interval(request_rate):
-    poisson = np.random.poisson(request_rate, 600)
+    poisson = np.random.poisson(request_rate, 60)
     # print(poisson)
     interval_list = []
     for p in poisson:
@@ -124,44 +127,43 @@ def gen_poission_interval(request_rate):
     print('Instance amount :', len(interval_list))
     return interval_list
 
-def work(ip, port, request_rate_list, arch_list, train_model_name, print_interval):
-
+def work(ip, port, comb_id, request_rate_list, arch_list, train_model_name, print_interval):  # if single inference, comb_id =NULL
     np.random.seed(6)
     print(f'Print status every {print_interval} records.')
     print('Start time: ', datetime.datetime.now())
     root = os.environ['HOME']
     data_dir = os.path.join(root, r'./Documents/datasets/')
 
-    for request_rate in request_rate_list:
-        request_interval_list = gen_poission_interval(request_rate)
-        for arch in arch_list:
+    for request_rate in request_rate_list: ## e.g. [10,20] or [10]
+        if request_rate == 0:
+            with open('/home/anurag/Documents/exps/profile-training-inference-cowork-71/traces/delays_to_be_used_for_AZURE_TRACES_experiments.csv', 'r') as f:
+                request_interval_list = f.read().splitlines()
+                request_interval_list = [float(x) for x in request_interval_list]
+        else:
+            request_interval_list = gen_poission_interval(request_rate)
+        for arch in arch_list: ## e.g. ['yolov5s', 'resnet50']
             args = dict(request_rate = request_rate, arch=arch, train_model_name = train_model_name, device='cuda', image_size=224)  # deeplabv3_resnet50
-            img_folder = os.path.join(root, r'./Documents/datasets/coco/images/test2017')
-            # img_folder = image_folder(data_dir, args['arch'])  # select dataset to fit models
+            # img_folder = os.path.join(root, r'./Documents/exps/profile-training-inference-cowork-71/datasets/coco/images/test2017') ## Anurugs
+            img_folder = image_folder(data_dir, args['arch'])  # select dataset to fit models
 
-            thread = threading.Thread(target=send, args =(ip, port, img_folder, args, request_interval_list,print_interval))
-            thread.setDaemon(True)
-            thread.start()
+            # thread = threading.Thread(target=send, args =(ip, port, comb_id, img_folder, args, request_interval_list,print_interval))
+            # thread.setDaemon(True)
+            # thread.start()
 
-            # send(ip, port, img_folder, args, request_interval_list,print_interval)
-
-
-
-
+            send(ip, port, comb_id, img_folder, args, request_interval_list,print_interval)
             time.sleep(1)
 
 if __name__ == '__main__':
-    # ip , port = '192.168.85.73', 51400
-    ip, port = '127.0.0.1', 51400
-    # ip,port = '128.226.119.71', 51400
+    ip , port = '192.168.85.71', 54100 #  high speed switch's
+    # ip, port = '127.0.0.1', 51400
+    # ip,port = '128.226.119.71', 51400  # campas
     print_interval = 1000  # to change this value to change the result displaying frequency on the screen
 
-    arch_list = [ 'yolov5s', 'vgg16', 'resnet50', 'alexnet','deeplabv3_resnet50',  'densenet121',\
-                 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
-    ## train_model_list = ['none', 'resnet152_32', 'vgg16_64', 'deeplabv3_resnet50_8']
+    arch_list = ['vgg16', 'resnet50', 'alexnet', 'densenet121', 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
+    ## train_model_list = ['none', 'resnet152_32', 'vgg16_64']
     train_model_name = 'none'  # manually change the name here , batch size as well!!
-    request_rate_list = [40, 60]
-
+    request_rate_list = [0]
+    comb_id=''  # to be compatable with multiple model infering
     ######################## run the inference combinations ########################
-    work(ip, port, request_rate_list, arch_list, train_model_name, print_interval )
+    work(ip, port, comb_id, request_rate_list, arch_list, train_model_name, print_interval )
     ################################################################################

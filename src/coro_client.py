@@ -1,7 +1,7 @@
 # 和多个客户端通讯 - client端：
 import socket
 import time
-
+from util import dict2str, logger_by_date, date_time
 import pandas as pd
 import time
 import os
@@ -45,19 +45,24 @@ def open_file(file_path):
         return data
 
 
-async def handle(dir, file_name):
-    # await asyncio.sleep(0.02)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 10002))
+# async def handle(dir, file_name):
+async def handle(ip, port, dir, file_name, args, accum_interval):
 
-    s.send(b'start')
+    # await asyncio.sleep(0.02)
+    start = time.time()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+
+    args_str = dict2str(args)
     data_format = 'jpg'
-    header = data_format + '|' + 'hello'
+    header = data_format + '|' + args_str
     s.send(header.encode())
     reply = s.recv(1024)
 
+
     if reply.decode() == 'ok':
-        start = time.time()
+
+    #     start = time.time()
         ## 1. Send image to server
         data = open_file(os.path.join(dir, file_name))
         data_len = len(data)
@@ -89,25 +94,31 @@ async def handle(dir, file_name):
         s.send(b'continue')
     # return result_cont_size, result_from_server, start, time.time()
 
-async def task_coro(dir, file_list):
+async def task_coro(ip, port, dir, file_list):
     tasks = []  ## tasks for coroutine running
     # results = await asyncio.gather(tasks)
     accum_interval = 0
+
     for i in range(200):
         if i >= len(file_list) - 1: break  # if out of file_list, quit
         file_name = file_list[i]
-        tasks.append(asyncio.ensure_future(handle(dir, file_name)))
+        # tasks.append(asyncio.ensure_future(handle(dir, file_name)))
+        tasks.append(asyncio.ensure_future(handle(ip, port, dir, file_name, args, accum_interval)))
     await asyncio.wait(tasks)
-    # return asyncio.wait(tasks)
 
+
+######################################MAIN###################################
 root = os.environ['HOME']
 dir = os.path.join(root, r'./Documents/datasets/coco/images/test2017')
 file_list = os.listdir(dir)
 file_list.sort(key=lambda x: x[:-4])  # take out surfix (.cvs)
 
+ip, port = '127.0.0.1', 54100
+args = dict(request_rate= 40, arch='densenet121', train_model_name='densenet121', device='cuda',
+            image_size=224)  # deeplabv3_resnet50
 
 loop = asyncio.get_event_loop()
 # loop.run_until_complete(asyncio.wait(tasks))
-loop.run_until_complete(task_coro( dir, file_list))
+loop.run_until_complete(task_coro(ip, port, dir, file_list))
 loop.close()
 

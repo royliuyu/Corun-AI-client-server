@@ -104,7 +104,7 @@ def val_dataset(data_dir, image_size):
 
 def data_loader(batch_size=256, workers=2, pin_memory=True, image_size=(224,224)):
     args = parser.parse_args()
-    data_dir = args.data_dir
+    data_dir = os.path.join(os.environ['HOME'],args.data_dir)
     train_ds = train_dataset(data_dir, image_size)
     val_ds = val_dataset(data_dir, image_size)
 

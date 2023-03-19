@@ -1,5 +1,0 @@
-,time_frame,train_configure,infer_configure,status,result
-1,1676704814.4223273,"{'arch': 'alexnet', 'workers': 1, 'epochs': 5, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}",{'arch': 'none'},Sucess,{'duration_sec': 43789.8565196991}
-2,1676744381.667223,"{'arch': 'resnet152', 'workers': 1, 'epochs': 5, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}",{'arch': 'none'},Sucess,{'duration_sec': 38965.6248652935}
-3,1676790498.3239315,"{'arch': 'alexnet', 'workers': 1, 'epochs': 5, 'batch_size': 1024, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolov5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'duration_sec': 45515.35954833031}
-4,1676835591.1296003,"{'arch': 'resnet152', 'workers': 1, 'epochs': 5, 'batch_size': 32, 'image_size': 224, 'device': 'cuda'}","{'arch': 'yolov5s', 'workers': 1, 'batch_size': 1, 'image_size': 224, 'device': 'cuda'}",Sucess,{'duration_sec': 44490.96298456192}

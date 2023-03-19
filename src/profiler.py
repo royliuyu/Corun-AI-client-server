@@ -132,8 +132,8 @@ def profile(config, profiling_num, pipe):
         except:  # press stop to break
             print()
             print('Profiler: Collecting done!')
-            # data = gpu.join(cpu)
-            # save_log(data, file_name)
+            data = gpu.join(cpu)
+            save_log(data, file_name)
             # print(cpu_usg_dict)
             break
 
@@ -143,8 +143,8 @@ def profile(config, profiling_num, pipe):
             if msg == 'stop':
                 print()
                 print('Profiler: get notice from main to stop!')
-                # data = gpu.join(cpu)
-                # save_log(data, file_name)
+                data = gpu.join(cpu)
+                save_log(data, file_name)
                 # print(cpu_usg_dict)
                 break
 
@@ -159,6 +159,6 @@ def profile(config, profiling_num, pipe):
     return 0
 
 if __name__ == '__main__':
-    profiling_num = 200000
+    profiling_num = 800000
     con_prf_a, con_prf_b = mp.Pipe()
     profile('Train_none+Infer_none',profiling_num, (con_prf_a, con_prf_b))
