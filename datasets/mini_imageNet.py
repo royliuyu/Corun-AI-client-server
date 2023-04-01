@@ -1,3 +1,16 @@
+'''
+There are 60000 images, zip file of 3.1GB
+mini_imagenet
+ ├─labels.json
+ ├─test.csv
+ ├─val.csv
+ ├─train.csv
+ └─ images
+     ├─ n0153282900000005.jpg
+     ├─ n0153282900000006.jpg
+     └─ ...
+
+'''
 import os
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader

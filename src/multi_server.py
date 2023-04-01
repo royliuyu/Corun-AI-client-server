@@ -6,7 +6,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def main():
-    basic_ip ='127.0.0.1'
+    # basic_ip ='127.0.0.1'
     basic_ip = '0.0.0.0'
     # basic_ip = '128.226.119.73'
     basic_port = 54100

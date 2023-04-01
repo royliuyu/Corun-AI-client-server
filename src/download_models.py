@@ -8,7 +8,7 @@ yolo:
 
 '''
 
-# from torchstat import stat
+from torchstat import stat
 from torchsummary import summary
 from torchvision import models
 import torch
