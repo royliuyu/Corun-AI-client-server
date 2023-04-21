@@ -12,13 +12,13 @@ import multiprocessing as mp
 import warnings
 warnings.filterwarnings("ignore")
 
-
 cnn_model_list = ['alexnet',  'densenet121',  'efficientnet_v2_l', \
                   'googlenet', 'inception_v3',  'mobilenet_v3_small',  'resnet50','vgg16']
 yolo_model_list = [ 'yolov5s']
 deeplab_model_list = ['deeplabv3_resnet50']
 model_list = cnn_model_list + yolo_model_list + deeplab_model_list
-infer_image_num = 200
+model_list = cnn_model_list # for testing with training
+infer_image_num = 2000   # infer in one round/episode
 
 def process_image(image_path, image_size, model_name):
     image= Image.open(image_path)
@@ -35,7 +35,7 @@ def process_image(image_path, image_size, model_name):
 
 def work(args):
     model_name, device, image_size, image_folder =  args['arch'], args['device'], args['image_size'], args['image_folder']
-
+    print('inferences start to run... ', args)
     ## process device
     assert device in ['cuda', 'cpu'], 'Device shall be "cuda" or "cpu" !'
     assert not ((not torch.cuda.is_available()) and (
@@ -53,7 +53,11 @@ def work(args):
 
     with torch.no_grad():
         ## process image
+        nn = 0
         for i, image_name in enumerate(os.listdir(image_folder)):
+            if nn >infer_image_num: break   # around 2000s to end when apply
+            nn+=1
+            # print("nnnnnnnnn:", nn)
             try:
                 for_model = model_name
                 image_path= os.path.join(image_folder, image_name)
@@ -132,47 +136,60 @@ def transform(image, image_size):
         transforms.ToTensor()
     ])
     return transform(image)
-def image_folder(data_dir, model):
+def image_folder(root, model):
     if model in cnn_model_list:
-        folder = './mini_imagenet/images'
+        folder = './mini_imagenet/images'  ## mini_imagenet
+        folder = os.path.join(root, folder)
+        # folder = '/data/datasets/imagenet/ILSVRC2012_img_test_v10102019'  ## imagenet
     elif model in deeplab_model_list:
         folder = './google_street/part1'
+        folder = os.path.join(root,folder)
     else:
         folder = './coco/images/test2017'
-    return os.path.join(data_dir,folder)
+        folder = os.path.join(root, folder)
+    return folder
 
 if __name__ =='__main__':
 
-    random.seed(3)
-    task_num =  6
+    # random.seed(3)
+    task_num =  4
     latency_list , args_list, res_list = [], [], []
-    pool=mp.Pool(task_num)
     data_dir = os.path.join(os.environ['HOME'],'./Documents/datasets')
 
-    for i in range(task_num):
-        args = dict(image_size=224, device='cuda')
-        mdl= choice(model_list)
-        args['arch']= mdl
-        args['image_folder'] = image_folder(data_dir, args['arch'])
-        args_list.append(args)
-        args = {'image_size': 224, 'device': 'cuda', 'arch': 'alexnet', 'image_folder': '/home/royliu/Documents/datasets/./mini_imagenet/images'}
-    print('inferences start to run... ', args)
+    cnt = 0
 
-    p_list = []
-    for i in range(task_num):
-        try:
-            res_list.append(pool.apply_async(work, args= (args_list[i],)))
-            # latency_list.append(result.get())
-        except:
-            break
-
-    pool.close()
-    pool.join()
-    #
-
-    for res in res_list:
-        # print(res.get())
-        latency_list.append(res.get())
+    while True:  ## just repeatedly to run untill manually stop
+        args_list = []
+        pool = mp.Pool(task_num)
+        for i in range(task_num):
+            args = dict(image_size=224, device='cuda')
+            model= choice(model_list)
+            args['arch']= model
+            args['image_folder'] = image_folder(data_dir, args['arch'])
+            args_list.append(args)
+        print(args_list)
+            # image_folder = os.path.join(data_dir,'Documents/datasets/mini_imagenet/images')
+            # args = {'image_size': 224, 'device': 'cuda', 'arch': 'alexnet', 'image_folder': image_folder}
 
 
-    print(latency_list)
+        print('=' * 80)
+        print(f'Episode {cnt}.')
+
+        p_list = []
+        for i in range(task_num):
+            try:
+                res_list.append(pool.apply_async(work, args= (args_list[i],)))
+                # latency_list.append(result.get())
+            except:
+                break
+
+        pool.close()
+        pool.join()
+        #
+
+        for res in res_list:
+            # print(res.get())
+            latency_list.append(res.get())
+        # print(latency_list)
+
+        cnt +=1

@@ -85,7 +85,7 @@ def main():
                 if train_config['arch'] in deeplab_model_list:
                     p2 = mp_new.Process(target=deeplab_v3.work_train, args=(train_config,),
                                         kwargs=(dict(queue=trn_queue)))
-                elif train_config['arch'] == 'None': # no training
+                elif train_config['arch'].lower() == 'none': # no training
                     p2= mp_new.Process(target=do_nothing.train, args=(train_config,),
                                         kwargs=(dict(queue=trn_queue)))
                 else:
@@ -97,9 +97,13 @@ def main():
                     p3 = mp_new.Process(target = deeplab_v3.work_infer, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
                 elif infer_config['arch'] in cnn_model_list: # in cnn list
                     p3 = mp_new.Process(target = cnn_infer.work, args = (infer_config, (con_inf_a,con_inf_b),), kwargs=(dict(queue=inf_queue)))
-                else: #  infer_config['arch'] == 'None': # no inference
+                elif infer_config['arch'].lower() == 'none': #  infer_config['arch'] == 'None': # no inference
                     p3 = mp_new.Process(target=do_nothing.infer, args=(infer_config, (con_inf_a, con_inf_b),),
                                         kwargs=(dict(queue=inf_queue)))
+                else:  # e.g. '2 inferences', manually run 2 inferences, but run train as 'none'combination
+                    p3 = mp_new.Process(target=do_nothing.infer, args=(infer_config, (con_inf_a, con_inf_b),),
+                                        kwargs=(dict(queue=inf_queue)))
+
                 p_list=[p1, p2, p3]
                 res = 'na'
 
