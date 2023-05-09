@@ -2,7 +2,7 @@ models: AlexNet, GoogLeNet, ResNet, MobilenetV2, MNASNet, SqueezeNet, ShuffleNet
 dataset: ImageNet
 input_shape:
 
-Tiny-ImageNet的下载链接如下：http://cs231n.stanford.edu/tiny-imagenet-200.zip
+Tiny-ImageNet：http://cs231n.stanford.edu/tiny-imagenet-200.zip
     https://www.cnblogs.com/liuyangcode/p/14689893.html
 
 
