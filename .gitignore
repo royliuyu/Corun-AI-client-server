@@ -1,5 +1,6 @@
 result/
 .idea/
+paper/
 src/__pycache__/
 src/.ipynb_checkpoints
 script/__pycache__/

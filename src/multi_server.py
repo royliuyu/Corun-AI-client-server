@@ -6,9 +6,9 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def main():
-    # basic_ip ='127.0.0.1'
+    # basic_ip ='127.0.0.1'   ## change to your real ip address
     basic_ip = '0.0.0.0'
-    # basic_ip = '128.226.119.73'
+
     basic_port = 54100
     server_num = 4
     assert server_num < 11, f'server num. {server_num} is too big, no larger than 11.'  # support 9 servers at most

@@ -154,9 +154,8 @@ def work(ip, port, comb_id, request_rate_list, arch_list, train_model_name, prin
             time.sleep(1)
 
 if __name__ == '__main__':
-    ip , port = '192.168.85.71', 54100 #  high speed switch's
-    # ip, port = '127.0.0.1', 51400
-    # ip,port = '128.226.119.71', 51400  # campas
+    ip, port = '127.0.0.1', 51400  ## change to your real ip address
+
     print_interval = 1000  # to change this value to change the result displaying frequency on the screen
 
     arch_list = ['vgg16', 'resnet50', 'alexnet', 'densenet121', 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
