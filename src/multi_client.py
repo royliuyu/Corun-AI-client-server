@@ -1,3 +1,8 @@
+'''
+- Multiple-client for sending and receiving data and model names
+- Manage intervel
+
+'''
 import client
 import os
 import mp_exception as mp_new
@@ -10,6 +15,7 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
                   'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
+dehazing_model_list = ['RIDCP_dehazing']
 
 def image_folder(data_dir, model):
     if model in cnn_model_list:
@@ -17,11 +23,14 @@ def image_folder(data_dir, model):
         folder = './coco/images/test2017'
     elif model in deeplab_model_list:
         folder = './google_street/part1'
+    elif model in dehazing_model_list:
+        folder = './dehazing/test_224'
     else:
         folder = './coco/images/test2017'
     return os.path.join(data_dir,folder)
 
 
+## Generate a model list combination
 def create_model_comb_list(arch_pool, client_num):
     combinations = itertools.combinations(arch_pool, client_num)
     combinations_list = []
@@ -39,7 +48,9 @@ def main():
     '''
 
     ################################  set configurations below ! #####################################################
-    arch_zoo = ['resnet50', 'vgg16', 'mobilenet_v3_small', 'inception_v3', 'efficientnet_v2_l', 'densenet121', 'googlenet', 'alexnet']
+    arch_zoo = ['RIDCP_dehazing', 'resnet50', 'vgg16', 'mobilenet_v3_small', 'inception_v3', 'efficientnet_v2_l',
+                 'densenet121', 'googlenet', 'alexnet']
+
     combinations = itertools.combinations(arch_zoo, 4)
     combinations_list = []
     for tuple in combinations:
@@ -48,14 +59,13 @@ def main():
     # print("Number of combinations: ", len(random_combinations))
 
     basic_ip ='127.0.0.1'  ## change to your real ip address
-
     basic_port = 54100
     # client_num = 4 # set the combination number here, which means how many madels run concurrently, e.g. 2, 3, 4
-    print_interval = 1000
+    print_interval = 100
     ## train_model_list = ['none', 'resnet152_8', 'efficientnet_v2_l_2', mobilenet_v3_small_128]
-    train_model_name = 'resnet50_16' ## add this manually from: ## train_model_list = ['none', 'resnet152_8', 'efficientnet_v2_l_2', mobilenet_v3_small_128]
-    request_rate_list = [0]  ## in ms, [10, 20, 40, 60] 0 =AZURE Traces
-    client_num_list = [4,3,2] ## [4,3,2] means deploy 4,3,2 combinations of concurrently running inference tasks
+    train_model_name = 'resnet50' ## 'none' #'resnet50_16' ## add this manually from: ## train_model_list = ['none', 'resnet152_8', 'efficientnet_v2_l_2', mobilenet_v3_small_128]
+    request_rate_list = [10]  ## in ms, [10, 20, 40, 60] 0 =AZURE Traces
+    client_num_list = [3] ## [4,3,2] means deploy 4,3,2 combinations of concurrently running inference tasks
     #####################################set parameters above !#####################################################
 
     for client_num in client_num_list:
@@ -63,6 +73,7 @@ def main():
         addr_list = []
         [addr_list.append((basic_ip, port)) for port in range(basic_port, basic_port + client_num)]
         model_comb_list = create_model_comb_list(arch_zoo, client_num)
+
         # data_dir = os.path.join(os.environ['HOME'], './Documents/datasets')
 
         ###########################################################################################################################
@@ -74,6 +85,10 @@ def main():
         ############################################################################################################################
 
         for model_comb in model_comb_list: ## model_comb is a list of models
+            ###new added####
+            if not 'RIDCP_dehazing' in model_comb:  ## this is for extra experiment for dehazing only, July 24, 2024
+                break  ## skip experiment, which dehaxing model is not involved
+
             p_list = []
             comb_id = 'models_' + str(client_num)+ "_"  # don't contain ':' or '|'
             if len(model_comb) >= 2:  # if there is multiple model inference run concurently, create subfolder to store result

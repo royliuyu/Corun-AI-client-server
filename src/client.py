@@ -4,6 +4,7 @@ import os
 import time
 import datetime
 import numpy as np
+import random
 from util import dict2str, logger_by_date, date_time
 import threading
 import mp_exception as mp_new
@@ -14,7 +15,7 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
                   'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
-
+dehazing_model_list = ['RIDCP_dehazing']
 def send(ip,port, comb_id, dir, args, interval_list, print_interval):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ip , port))
@@ -29,6 +30,9 @@ def send(ip,port, comb_id, dir, args, interval_list, print_interval):
 
     file_list = os.listdir(dir)
     file_list.sort(key=lambda x: x[:-4])
+    if len(file_list) <40000:  ## new: extend file list if it too short, to make sure inference lasts enough experiment duration
+        file_list = extend_file_list(40000, file_list)
+
     latency_list =[]
     start = time.time()
     if reply.decode() == 'ok':
@@ -62,7 +66,6 @@ def send(ip,port, comb_id, dir, args, interval_list, print_interval):
             # s.send('Ready to recieve results size from server.'.encode())
             result_cont_size = s.recv(1024).decode()  # result file info from server
             result_cont_size = int(result_cont_size)
-            # print(result_cont_size)
             s.send('Result size recieved'.encode())
             if result_cont_size > 0:
                 result_cont = b''
@@ -74,7 +77,7 @@ def send(ip,port, comb_id, dir, args, interval_list, print_interval):
             result_from_server =  pickle.loads(result_cont)
 
             if i% print_interval == 0:
-                print(f'{i}: Result data size: {result_cont_size} bytes, Result from server: {result_from_server}, latency {latency}. ')  # print this consume latency
+                print(f'{i}: Result data size: {result_cont_size} bytes, Result from server: {result_from_server}, latency {latency}. ')  # printing this consumes latency
 
             if i < len(file_list)-1:  # i from 0 to n-1
                 s.send(b'continue')
@@ -87,14 +90,14 @@ def send(ip,port, comb_id, dir, args, interval_list, print_interval):
             data_in_row = [work_start, args['arch'], args['train_model_name'], args['image_size'], args['device'], file_name, latency, args['request_rate']]
             logger_prefix = 'infer_log_client_' + str(args['request_rate']) +'rps_' +  ' train_' + args[
                 'train_model_name'] + '+infer_' + args['arch'] + '_'
-            log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_client', dt, comb_id)
+            # log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_client', dt, comb_id)
+            log_dir = os.path.join(r'../result/log/infer_client', dt, comb_id)
             if not os.path.exists(log_dir): os.makedirs(log_dir)
             logger_by_date(col, data_in_row, log_dir, logger_prefix)
 
         s.send(b'done')
         s.close()
         # print('Latency(ms): ', latency_list[:])
-
 def open_file(file_path):
     data = b''
     try:
@@ -113,12 +116,14 @@ def image_folder(data_dir, model):
     elif model in deeplab_model_list:
         # folder = './google_street/part1'
         folder = './coco/images/test2017'
+    elif model in dehazing_model_list:
+        folder = './dehazing/test_224'
     else:
         folder = './coco/images/test2017'
     return os.path.join(data_dir,folder)
 
 def gen_poission_interval(request_rate):
-    poisson = np.random.poisson(request_rate, 60)
+    poisson = np.random.poisson(request_rate, 100)
     # print(poisson)
     interval_list = []
     for p in poisson:
@@ -153,16 +158,35 @@ def work(ip, port, comb_id, request_rate_list, arch_list, train_model_name, prin
             send(ip, port, comb_id, img_folder, args, request_interval_list,print_interval)
             time.sleep(1)
 
+
+def extend_file_list(target_list_len, file_list):
+    """
+    Expands the given file list by appending randomly selected existing file names until it reaches the target length.
+
+    :param target_list_len: The target length of the final list.
+    :param file_list: The original list of file names.
+    :return: The extended list of file names.
+    """
+    if target_list_len <= len(file_list):
+        return file_list
+    needed_files = target_list_len - len(file_list)
+    for _ in range(needed_files):
+        file_list.append(random.choice(file_list))
+
+    return file_list
+
 if __name__ == '__main__':
-    ip, port = '127.0.0.1', 51400  ## change to your real ip address
 
-    print_interval = 1000  # to change this value to change the result displaying frequency on the screen
+    ip, port = '127.0.0.1', 54100  ## change to your real ip address
 
-    arch_list = ['vgg16', 'resnet50', 'alexnet', 'densenet121', 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
+    print_interval = 100  # to change this value to change the result displaying frequency on the screen
+
+    arch_list = ['RIDCP_dehazing','vgg16', 'resnet50', 'alexnet', 'densenet121', 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
+
     ## train_model_list = ['none', 'resnet152_32', 'vgg16_64']
     train_model_name = 'none'  # manually change the name here , batch size as well!!
-    request_rate_list = [0]
-    comb_id=''  # to be compatable with multiple model infering
+    request_rate_list = [20]
+    comb_id=''  # place-holder only, no need change this empty value. It's to be compatable with multiple model infering
     ######################## run the inference combinations ########################
     work(ip, port, comb_id, request_rate_list, arch_list, train_model_name, print_interval )
     ################################################################################

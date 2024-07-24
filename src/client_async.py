@@ -1,3 +1,8 @@
+'''
+- Asynchronous client for sending and receiving data and model names
+- Manage intervel
+
+'''
 import pickle
 import socket
 import os
@@ -16,7 +21,7 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
                   'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
-
+dehazing_model_list = ['RIDCP_dehazing']
 
 def open_file(file_path):
     data = b''
@@ -161,15 +166,15 @@ def main(ip, port, comb_id, request_rate_list, arch_list, train_model_name, prin
             # time.sleep(1)
 
 if __name__ == '__main__':
-    ip, port = '127.0.0.1', 5400  ## change to your real ip address
+    ip, port = '127.0.0.1', 54100  ## change to your real ip address
 
-    print_interval = 1000  # to change this value to change the result displaying frequency on the screen
+    print_interval = 100  # to change this value to change the result displaying frequency on the screen
 
-    arch_list = ['vgg16', 'resnet50', 'alexnet', 'densenet121', 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
+    arch_list = ['RIDCP_dehazing','vgg16', 'resnet50', 'alexnet', 'densenet121', 'efficientnet_v2_l', 'googlenet', 'inception_v3+', 'mobilenet_v3_small' ]
     ## train_model_list = ['none', 'resnet152_32', 'vgg16_64']
     train_model_name = 'none'  # manually change the name here , batch size as well!!
     request_rate_list = [40]
-    comb_id=''  # to be compatable with multiple model infering
+    comb_id=''  # place-holder only, to be compatable with multiple model infering
     ######################## run the inference combinations ########################
     main(ip, port, comb_id, request_rate_list, arch_list, train_model_name, print_interval )
     ################################################################################

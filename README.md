@@ -1,4 +1,16 @@
-# Measuring the Throughput and Tail Latency of Concurrent Model Training and Inferences
+# Measuring the throughput and tail Latency of Concurrent Model Training and Inferences
+
+##  Concurrently run multiple CNN models inference and training on edge server, where requests are
+##  sent from client. Server sends inference results back to client.
+   - We are now supprting the models of:
+     - cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
+                    'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
+                    'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
+                    'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
+      yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
+      deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
+      dehazing_model_list = ['RIDCP_dehazing']
+
 ## "src" folder:
  - main.py
    - implement single training and single inference tasks to run concurrently
@@ -11,7 +23,7 @@
  - multi_infer.py
    - implement multiple inference tasks
  - client.py, client_asysnc.py, server.py
-   - act as sub-functions of above functions 
+   - act as sub-functions called by above programs 
    - client.py spawn client in synchronized mode, while client_asysnc.py is in an asynchronized mode
 ## "datasets" folder:
  - dataset and dataloader generators 
@@ -19,3 +31,44 @@
  - build DNN models
 ## "result" folder:
  - save results
+
+## Dataset（in client side)：
+   - chck root directory in work() of client.py:
+     - root = os.environ['HOME']
+     - data_dir = os.path.join(root, r'./Documents/datasets/')
+     - datasets are phsycally available in:
+       - root+data_dir+'./coco/images/test2017'
+       - root+data_dir+'./mini_imagenet/images'
+       - root+data_dir+'./dehazing/test_224'
+       
+## Setup：
+ - Option1. Corun with multiple inference and single training:
+   Deploy these codes both on Server and Client. Multi_client sends inference request and setup train model.  
+   - If want to run a train model concurrently with above multiple inference on server:
+     - On client, multi_client.py: name the training model in variable: "train_model_name". It's for logging
+     - On server: setup training config and in config.json, inference arch set 'none'
+     - On server: Run main.py before running multi_client and multi_server
+   - Server side, in main() of multi_server.py:
+     - Setup ip and port variable
+     - Setup server_num variable
+     - Run multi_server.py, it will spawn multiple processes to call server.py
+     - Experiment results are saved in "result/infer_server" folder   
+   - Client side, in main() of multi_client.py:
+     - Setup ip, port
+     - Setup inference models in variable "arch_zoo"
+     - Setup train models in variable "train_model_name", if no train , setup "none"
+     - Setup request_rate_list variable, e.g. [0] stands for use one Azure's
+     - Setup client_num_list variable, e.g. [4,3] stands for run 4 combinations and 3 combinations
+     - Setup how may clients to run concurrently, in "client_num_list"
+     - Run multi_client.py, it will spawn multiple processes to call client.py to send requests
+     - Experiment results are saved in "result/infer_client" folder
+   - execution time depends how the long the interval list is, if use poission, we setup 120 seconds.
+     in the codes of "poisson = np.random.poisson(request_rate, 120)" in client.py
+ - Option 2. Corun single training and single inference on server, client send inference request
+   - Run server.py on server
+   - Run client.py on client
+ - Option 3. Corun single train and single inference on one machine (profiler will be run concurrently as well) on server:  
+   - Setup models in config.json
+   - Run main.py
+   - Associated model's program in model folder will be called
+

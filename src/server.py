@@ -13,6 +13,9 @@ import torch
 from torchvision import transforms, models
 from util import logger_by_date, visualize_seg
 import os
+import sys
+sys.path.append('../models/RIDCP_dehazing')
+from basicsr.archs.dehaze_vq_weight_arch import VQWeightDehazeNet
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -24,7 +27,8 @@ cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'eff
                   'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
 yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
 deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
-model_list = cnn_model_list + yolo_model_list + deeplab_model_list
+dehazing_model_list = ['RIDCP_dehazing']
+model_list = cnn_model_list + yolo_model_list + deeplab_model_list+dehazing_model_list
 root = os.environ['HOME']
 
 def load_model(model_name, device):
@@ -43,6 +47,12 @@ def load_model(model_name, device):
     elif model_name in deeplab_model_list:
         model_func = 'models.segmentation.' + model_name
         model = eval(model_func)(num_classes=19)
+    elif model_name in dehazing_model_list:
+        weight_path = '../models/RIDCP_dehazing/pretrained_models/pretrained_RIDCP.pth'
+        model = VQWeightDehazeNet(codebook_params=[[64, 1024, 512]], \
+                                     LQ_stage=True, use_weight=False, weight_alpha=-21.25).to(device)
+        model.load_state_dict(torch.load(weight_path)['params'], strict=False)
+
     else: return -1
 
     return model
@@ -79,6 +89,10 @@ def infer(model, model_name, data, device):
             prd = model.forward(img)
             result = prd['out'] # prd['out'].shape is [1, 19, 224, 224]
             # result = visualize_seg(img, prd)  # shape is [3, 244,244], but if overlay processed at server, will consume hundress ms @ server
+        elif model_name in dehazing_model_list:
+            img = data.to(device)
+            pred,_ = model.test(img)
+            result = pred[0]
 
         if device == 'cpu':
             latency = (time.time() - start) * 1000  # metrics in ms
@@ -181,7 +195,8 @@ def work(ip,port):
                         image = image.convert("RGB")  # if gray imange , change to RGB (3 channels)
                     if type(image_size) is not tuple: image_size =(image_size,image_size)
                     data = image  # input data in type of PIL.image
-                    if model_name in cnn_model_list or model_name in deeplab_model_list:
+                    if model_name in cnn_model_list or model_name in deeplab_model_list\
+                            or model_name in dehazing_model_list:
                         data = transform(image, image_size)
                         data = torch.unsqueeze(data, dim=0)  # add a batch_size dimension
                     else: # yolo
@@ -224,7 +239,9 @@ def work(ip,port):
                 col = ['work_start', 'infer_model_name', 'train_model_name', 'image_size', 'device', 'file_name', 'latency']
                 data_in_row = [work_start, model_name, args['train_model_name'], args['image_size'], device, args['file_name'], latency]
                 logger_prefix = 'azure-multi-infer_log_server_' + str(args['request_rate']) + 'rps_' +' train_'+args['train_model_name']+'+infer_'+model_name+'_'
-                log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt, sub_folder)
+                # log_dir = os.path.join(os.environ['HOME'], r'./Documents/profile_train_infer/result/log/infer_server', dt, sub_folder)
+                log_dir = os.path.join(r'../result/log/infer_server', dt, sub_folder)
+
                 if not os.path.exists(log_dir): os.makedirs(log_dir)
                 logger_by_date(col, data_in_row, log_dir, logger_prefix)
 
@@ -233,7 +250,8 @@ def work(ip,port):
         reply = conn.recv(1024).decode()  # to recieve notice when client starts a new task
 
 if __name__ =='__main__':
-    ip, port = '192.168.85.71', 54100  ## high speed switch
+    ip, port = '127.0.0.1', 54100
+    # ip, port = '192.168.85.71', 54100  ## high speed switch
     # ip , port = '128.226.119.71', 51400
-    ip, port = '0.0.0.0', 5400
+    # ip, port = '0.0.0.0', 5400
     work(ip, port)
