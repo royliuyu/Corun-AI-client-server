@@ -9,8 +9,8 @@ import multiprocessing as mp
 def cpu_freq():
     dev=json.load(open(r'./device.json','r'))
     cpu_freq_dict ={}
-    for i in range(os.cpu_count()):
-
+    for i in range(16):
+    # for i in range(os.cpu_count()):
         cpu_name = 'cpu'+str(i)
         arg = dev['cpu'][cpu_name]['freq_now']
         cpu_freq_dict[cpu_name+'_freq']= subprocess.check_output(['cat', arg]).decode('utf-8').strip()

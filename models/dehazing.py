@@ -3,8 +3,6 @@ from torch.utils.data import DataLoader
 import time
 import multiprocessing as mp
 import os
-dehazing_model_list = ['RIDCP_dehazing']
-root = os.environ['HOME']
 import sys
 sys.path.append('./RIDCP_dehazing')
 sys.path.append('../datasets')
@@ -15,7 +13,8 @@ import numpy as np
 import dehaze
 from basicsr.utils import img2tensor, tensor2img
 
-
+dehazing_model_list = ['RIDCP_dehazing']
+root = os.environ['HOME']
 def work_infer(config, pipe, queue):
     queue.put(dict(process= 'dehazing'))  # for queue exception of this process
     con_yolo_a,con_yolo_b = pipe

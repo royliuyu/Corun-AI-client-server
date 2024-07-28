@@ -65,7 +65,7 @@ def main():
     ## train_model_list = ['none', 'resnet152_8', 'efficientnet_v2_l_2', mobilenet_v3_small_128]
     train_model_name = 'resnet50' ## 'none' #'resnet50_16' ## add this manually from: ## train_model_list = ['none', 'resnet152_8', 'efficientnet_v2_l_2', mobilenet_v3_small_128]
     request_rate_list = [10]  ## in ms, [10, 20, 40, 60] 0 =AZURE Traces
-    client_num_list = [3] ## [4,3,2] means deploy 4,3,2 combinations of concurrently running inference tasks
+    client_num_list = [1] ## [4,3,2] means deploy 4,3,2 combinations of concurrently running inference tasks
     #####################################set parameters above !#####################################################
 
     for client_num in client_num_list:

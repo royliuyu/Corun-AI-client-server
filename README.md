@@ -1,17 +1,16 @@
 # Measuring the throughput and tail Latency of Concurrent Model Training and Inferences
 
-##  Concurrently run multiple CNN models inference and training on edge server, where requests are
-##  sent from client. Server sends inference results back to client.
+##  Concurrently run multiple CNN models inference and training on edge server, where requests are sent from client. Server sends inference results back to client.
    - We are now supprting the models of:
      - cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \
                     'googlenet', 'inception_v3', 'mnasnet0_5', 'mobilenet_v2', 'mobilenet_v3_small', \
                     'regnet_y_400mf', 'resnet18', 'resnet50', 'resnet152', 'shufflenet_v2_x1_0', \
                     'squeezenet1_0', 'squeezenet1_1', 'vgg11', 'vgg16', 'vgg19', 'vit_b_16']
-      yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
-      deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
-      dehazing_model_list = ['RIDCP_dehazing']
+     - yolo_model_list = ['yolov5n', 'yolov5s', 'yolov5m', 'yolov5l', 'yolov5x']
+     - deeplab_model_list = ['deeplabv3_resnet50', 'deeplabv3_resnet101', 'deeplabv3_mobilenet_v3_large']
+     - dehazing_model_list = ['RIDCP_dehazing']
 
-## "src" folder:
+## In "src" folder:
  - main.py
    - implement single training and single inference tasks to run concurrently
    - set training and inference co-running configure in config.json
@@ -25,12 +24,12 @@
  - client.py, client_asysnc.py, server.py
    - act as sub-functions called by above programs 
    - client.py spawn client in synchronized mode, while client_asysnc.py is in an asynchronized mode
-## "datasets" folder:
+## In "datasets" folder:
  - dataset and dataloader generators 
-## "models" folder:
+## In "models" folder:
  - build DNN models
-## "result" folder:
- - save results
+## In "result" folder:
+ - save logs including infomation of model names, timestamps, latencis, etc.
 
 ## Dataset（in client side)：
    - chck root directory in work() of client.py:
@@ -67,8 +66,8 @@
  - Option 2. Corun single training and single inference on server, client send inference request
    - Run server.py on server
    - Run client.py on client
- - Option 3. Corun single train and single inference on one machine (profiler will be run concurrently as well) on server:  
-   - Setup models in config.json
-   - Run main.py
-   - Associated model's program in model folder will be called
+ - Option 3. Profile CPU and GPU on server side, with main.py and profiler.py
+   - Setup models in config.json (Decide if use any training or inference model run during profiling. Set "None" if not need.)
+   - Setup profile number (1 instance/second) with variable profiling_num in main.py
+   - Result will be saved in folder of result/log/$datatime
 

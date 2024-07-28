@@ -1,12 +1,8 @@
 {
   "train": [
     {
-      "arch": "resnet50",
-      "workers": 1,
-      "epochs": 50,
-      "batch_size": 8,
-      "image_size": 224,
-      "device": "cuda"
+      "arch": "None"
+
     }
   ],
   "infer": [{
