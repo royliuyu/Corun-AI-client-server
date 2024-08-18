@@ -1,5 +1,19 @@
 # Measuring the throughput and tail Latency of Concurrent Model Training and Inferences
 
+## Bibtex
+    This is the official code for paper "Corun: Concurrent Inference and Continuous Training at the Edge for Cost-Efficient AI-Based Mobile Image Sensing"
+    Welcome to explore based on it and cite with:
+    @article{liu2024corun,
+      title={Corun: Concurrent Inference and Continuous Training at the Edge for Cost-Efficient AI-Based Mobile Image Sensing},
+      author={Liu, Yu and Andhare, Anurag and Kang, Kyoung-Don},
+      journal={Sensors},
+      volume={24},
+      number={16},
+      pages={5262},
+      year={2024},
+      publisher={MDPI}
+    }
+
 ##  Concurrently run multiple CNN models inference and training on edge server, where requests are sent from client. Server sends inference results back to client.
    - We are now supprting the models of:
      - cnn_model_list = ['alexnet', 'convnext_base', 'densenet121', 'densenet201', 'efficientnet_v2_l', \

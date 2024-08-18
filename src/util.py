@@ -47,15 +47,19 @@ def dict2str(dictionary, seperator = ','):
         string += seperator
     return string [:-1]
 
-def str2dict(string, seperator = ','):
-    assert len(seperator) == 1, "Seperator must be type of character"
-    arg ={}
-    arg_list = string.split(seperator)
-    arg_list
+def str2dict(string, separator=','):
+    assert len(separator) == 1, "Separator must be a single character"
+    arg = {}
+    # Split the string by the separator, but keep tuples together
+    arg_list = re.split(r',(?![^()]*\))', string)
+
     for s in arg_list:
         key, val = s.split(':')
-        if re.match(r'.[0-9]+',val) : val = int(val)  # if is integer, then convert
-        arg[key]=val
+        if re.match(r'\(.*\)', val):
+            val = tuple(map(int, re.findall(r'\d+', val)))  # Convert to tuple of integers
+        elif re.match(r'^[0-9]+$', val):
+            val = int(val)
+        arg[key] = val
     return arg
 
 
